@@ -1,0 +1,827 @@
+{
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\auth\\data\\local\\auth_local_data_source.dart": {
+    "mtime": 1794031231.7396264,
+    "ast_hash": "a1685604a514540ed4b1df8cc0a4b94d",
+    "semantic_hash": "a1685604a514540ed4b1df8cc0a4b94d"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\auth\\data\\models\\auth_user_model.dart": {
+    "mtime": 1793972866.2649784,
+    "ast_hash": "68c12ce92cc3417de49dc942650d5381",
+    "semantic_hash": "68c12ce92cc3417de49dc942650d5381"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\auth\\data\\repositories\\auth_repository_impl.dart": {
+    "mtime": 1794120618.598242,
+    "ast_hash": "61d5fbbeaa7f88e8915b7a52d298b43e",
+    "semantic_hash": "61d5fbbeaa7f88e8915b7a52d298b43e"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\auth\\domain\\entities\\auth_user_entity.dart": {
+    "mtime": 1793972853.061272,
+    "ast_hash": "ce2f6b7d32a87d7df21fafbd1a98d0b4",
+    "semantic_hash": "ce2f6b7d32a87d7df21fafbd1a98d0b4"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\auth\\domain\\repositories\\auth_repository.dart": {
+    "mtime": 1794113414.955,
+    "ast_hash": "30a8d35cfec341ae421caa36f08f2367",
+    "semantic_hash": "30a8d35cfec341ae421caa36f08f2367"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\auth\\domain\\usecases\\auth_usecases.dart": {
+    "mtime": 1794113542.531,
+    "ast_hash": "9486758c5565fddb5d85c6b98b3fe167",
+    "semantic_hash": "9486758c5565fddb5d85c6b98b3fe167"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\auth\\presentation\\bloc\\auth_bloc.dart": {
+    "mtime": 1794113573.772,
+    "ast_hash": "42a38aba96440fd13113e7d45bf03079",
+    "semantic_hash": "42a38aba96440fd13113e7d45bf03079"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\auth\\presentation\\bloc\\auth_event.dart": {
+    "mtime": 1794113555.221,
+    "ast_hash": "fcb9c6b9fc3819c36ce15237ebebcf34",
+    "semantic_hash": "fcb9c6b9fc3819c36ce15237ebebcf34"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\auth\\presentation\\bloc\\auth_state.dart": {
+    "mtime": 1793771895.7425582,
+    "ast_hash": "6bad2d092a852dcc2d8f61edeeb37288",
+    "semantic_hash": "6bad2d092a852dcc2d8f61edeeb37288"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\auth\\presentation\\pages\\sign_in_page.dart": {
+    "mtime": 1794665201.1081033,
+    "ast_hash": "431b486d632a8de7a891298f82261644",
+    "semantic_hash": "431b486d632a8de7a891298f82261644"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\auth\\presentation\\pages\\under18_page.dart": {
+    "mtime": 1794665201.1081033,
+    "ast_hash": "1693b33440cff5e6f70f380869b14e95",
+    "semantic_hash": "1693b33440cff5e6f70f380869b14e95"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\auth\\presentation\\routes\\auth_routes.dart": {
+    "mtime": 1794113912.718,
+    "ast_hash": "57ed8e4a41459fbca3ab56ecc8a74702",
+    "semantic_hash": "57ed8e4a41459fbca3ab56ecc8a74702"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\dev\\presentation\\pages\\component_gallery_page.dart": {
+    "mtime": 1794665201.1109335,
+    "ast_hash": "e100d23e25721c45bf4aeb342b2ff27b",
+    "semantic_hash": "e100d23e25721c45bf4aeb342b2ff27b"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\dev\\presentation\\routes\\dev_routes.dart": {
+    "mtime": 1794295440.32566,
+    "ast_hash": "64fb1f45e8696f59281b8781c71f07cd",
+    "semantic_hash": "64fb1f45e8696f59281b8781c71f07cd"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\food\\data\\local\\food_local_data_source.dart": {
+    "mtime": 1794285606.1136093,
+    "ast_hash": "970e20a76eb0b86a9ac1729e78dd941d",
+    "semantic_hash": "970e20a76eb0b86a9ac1729e78dd941d"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\food\\data\\models\\nutrient_snapshot_model.dart": {
+    "mtime": 1794209585.6257522,
+    "ast_hash": "dfff4adebbb149ae712cd78cfbe79727",
+    "semantic_hash": "dfff4adebbb149ae712cd78cfbe79727"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\food\\data\\network\\food_remote_data_source.dart": {
+    "mtime": 1794116800.08,
+    "ast_hash": "53c9757c954ea908aabeda29e9ccbce7",
+    "semantic_hash": "53c9757c954ea908aabeda29e9ccbce7"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\food\\data\\repositories\\food_repository_impl.dart": {
+    "mtime": 1794229145.1059606,
+    "ast_hash": "05eb5b355e1a80bd4ae6fe285af9ce30",
+    "semantic_hash": "05eb5b355e1a80bd4ae6fe285af9ce30"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\food\\domain\\entities\\barcode_product_entity.dart": {
+    "mtime": 1793771898.290687,
+    "ast_hash": "f9e3d62ae151320c01f4887fd0f5a0b1",
+    "semantic_hash": "f9e3d62ae151320c01f4887fd0f5a0b1"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\food\\domain\\entities\\favourite_food_entity.dart": {
+    "mtime": 1794209609.1313772,
+    "ast_hash": "54acb056967b31793ce2587365ec25ba",
+    "semantic_hash": "54acb056967b31793ce2587365ec25ba"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\food\\domain\\entities\\food_diary_state_entity.dart": {
+    "mtime": 1793976746.0032501,
+    "ast_hash": "1f095fc0cb9c861e5bf97b5cbe65bad7",
+    "semantic_hash": "1f095fc0cb9c861e5bf97b5cbe65bad7"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\food\\domain\\entities\\food_search_result_entity.dart": {
+    "mtime": 1793771898.7677712,
+    "ast_hash": "8248b60a1d4f12973e0b2c3854f43bdc",
+    "semantic_hash": "8248b60a1d4f12973e0b2c3854f43bdc"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\food\\domain\\entities\\nutrient_snapshot_entity.dart": {
+    "mtime": 1793771899.10628,
+    "ast_hash": "683e496ffaaa2659cf286a4e97dbf5a6",
+    "semantic_hash": "683e496ffaaa2659cf286a4e97dbf5a6"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\food\\domain\\entities\\scanned_food_item_entity.dart": {
+    "mtime": 1793771899.397221,
+    "ast_hash": "cda56870a2e2df02608677889df6a81f",
+    "semantic_hash": "cda56870a2e2df02608677889df6a81f"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\food\\domain\\repositories\\food_repository.dart": {
+    "mtime": 1794229027.2676558,
+    "ast_hash": "21d24021a37cf05a598347714fe46fa8",
+    "semantic_hash": "21d24021a37cf05a598347714fe46fa8"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\food\\domain\\usecases\\food_usecases.dart": {
+    "mtime": 1793772825.8259132,
+    "ast_hash": "15f992cc43fae19fe405f2b7c77ed860",
+    "semantic_hash": "15f992cc43fae19fe405f2b7c77ed860"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\food\\presentation\\bloc\\food_bloc.dart": {
+    "mtime": 1794145016.7608519,
+    "ast_hash": "07b0d2505707ce99824f7e63439c612b",
+    "semantic_hash": "07b0d2505707ce99824f7e63439c612b"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\food\\presentation\\bloc\\food_event.dart": {
+    "mtime": 1793773368.0272076,
+    "ast_hash": "6610092aa0fea081d9bc518feae5de19",
+    "semantic_hash": "6610092aa0fea081d9bc518feae5de19"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\food\\presentation\\bloc\\food_state.dart": {
+    "mtime": 1793771900.8424678,
+    "ast_hash": "a1a1acf2f8cb2ad79ed4b8b5e5b653bb",
+    "semantic_hash": "a1a1acf2f8cb2ad79ed4b8b5e5b653bb"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\food\\presentation\\pages\\add_food_hub_page.dart": {
+    "mtime": 1794665201.1129427,
+    "ast_hash": "4124f32969cbaacffd7e954b0fc8e21b",
+    "semantic_hash": "4124f32969cbaacffd7e954b0fc8e21b"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\food\\presentation\\pages\\barcode_scan_page.dart": {
+    "mtime": 1794665201.1129427,
+    "ast_hash": "d4dbc25721d545abd8ca339169fde951",
+    "semantic_hash": "d4dbc25721d545abd8ca339169fde951"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\food\\presentation\\pages\\camera_capture_page.dart": {
+    "mtime": 1794665201.114952,
+    "ast_hash": "6670f90606083a40c8381242b182b84e",
+    "semantic_hash": "6670f90606083a40c8381242b182b84e"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\food\\presentation\\pages\\custom_food_recipe_page.dart": {
+    "mtime": 1794665201.114952,
+    "ast_hash": "4eabee0de23b32702241dd7fe932656b",
+    "semantic_hash": "4eabee0de23b32702241dd7fe932656b"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\food\\presentation\\pages\\daily_nutrition_detail_page.dart": {
+    "mtime": 1794665201.1169608,
+    "ast_hash": "c2286328c0a59c69e6d7f356763a7d08",
+    "semantic_hash": "c2286328c0a59c69e6d7f356763a7d08"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\food\\presentation\\pages\\favourites_recent_page.dart": {
+    "mtime": 1794665201.1169608,
+    "ast_hash": "472ff2440b73b5d7a3defe09ead15052",
+    "semantic_hash": "472ff2440b73b5d7a3defe09ead15052"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\food\\presentation\\pages\\food_detail_page.dart": {
+    "mtime": 1794665201.118968,
+    "ast_hash": "c5ef7ba88ccfaf79e2fa8b4af7c8f5ca",
+    "semantic_hash": "c5ef7ba88ccfaf79e2fa8b4af7c8f5ca"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\food\\presentation\\pages\\food_diary_page.dart": {
+    "mtime": 1794665201.118968,
+    "ast_hash": "33f2be61c36141444ef1471a7e6b0433",
+    "semantic_hash": "33f2be61c36141444ef1471a7e6b0433"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\food\\presentation\\pages\\food_search_page.dart": {
+    "mtime": 1794665201.120976,
+    "ast_hash": "ce35f28fd3b4d4879cb72cc908285291",
+    "semantic_hash": "ce35f28fd3b4d4879cb72cc908285291"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\food\\presentation\\pages\\photo_analysing_page.dart": {
+    "mtime": 1794665201.121982,
+    "ast_hash": "be56fc4e78148c357b841b1d180dcb1f",
+    "semantic_hash": "be56fc4e78148c357b841b1d180dcb1f"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\food\\presentation\\pages\\scan_result_review_page.dart": {
+    "mtime": 1794665201.121982,
+    "ast_hash": "649a509bf490b24b04b77cadc7c21088",
+    "semantic_hash": "649a509bf490b24b04b77cadc7c21088"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\food\\presentation\\pages\\water_tracker_page.dart": {
+    "mtime": 1794665201.121982,
+    "ast_hash": "732af8c2f5e09ec8155a651d4dacb298",
+    "semantic_hash": "732af8c2f5e09ec8155a651d4dacb298"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\food\\presentation\\routes\\food_routes.dart": {
+    "mtime": 1794212400.994089,
+    "ast_hash": "793e25d4e72589b1fc6b3846b9e07865",
+    "semantic_hash": "793e25d4e72589b1fc6b3846b9e07865"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\health\\data\\local\\health_local_data_source.dart": {
+    "mtime": 1794284880.1260521,
+    "ast_hash": "aa0faf4277378d0f95d9dc8b04307371",
+    "semantic_hash": "aa0faf4277378d0f95d9dc8b04307371"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\health\\data\\network\\health_remote_data_source.dart": {
+    "mtime": 1793871906.985577,
+    "ast_hash": "e867c49584cafcf88a9b04676a5a9a1b",
+    "semantic_hash": "e867c49584cafcf88a9b04676a5a9a1b"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\health\\data\\repositories\\health_repository_impl.dart": {
+    "mtime": 1794284954.9503748,
+    "ast_hash": "ea26221bf2539370081a39b13d1aec42",
+    "semantic_hash": "ea26221bf2539370081a39b13d1aec42"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\health\\domain\\entities\\health_overview_entity.dart": {
+    "mtime": 1793979292.2286615,
+    "ast_hash": "78a4dd7e0a425d5c52e9c3eb60231b92",
+    "semantic_hash": "78a4dd7e0a425d5c52e9c3eb60231b92"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\health\\domain\\repositories\\health_repository.dart": {
+    "mtime": 1794284899.1992545,
+    "ast_hash": "51bf3d40f57d5d79a84c286cf2817382",
+    "semantic_hash": "51bf3d40f57d5d79a84c286cf2817382"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\health\\domain\\usecases\\health_usecases.dart": {
+    "mtime": 1793773430.705229,
+    "ast_hash": "7919eeadc0fa2d9fa285ce9c4167ecec",
+    "semantic_hash": "7919eeadc0fa2d9fa285ce9c4167ecec"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\health\\presentation\\bloc\\health_bloc.dart": {
+    "mtime": 1793773486.3910263,
+    "ast_hash": "7b3a004bf9fe53e408429c44569c3397",
+    "semantic_hash": "7b3a004bf9fe53e408429c44569c3397"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\health\\presentation\\bloc\\health_event.dart": {
+    "mtime": 1793771907.061998,
+    "ast_hash": "145d7d0b62d7f0d30f6da9dc551ce9ce",
+    "semantic_hash": "145d7d0b62d7f0d30f6da9dc551ce9ce"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\health\\presentation\\bloc\\health_state.dart": {
+    "mtime": 1793771907.836782,
+    "ast_hash": "e1516d27ab796f6308404f872040a848",
+    "semantic_hash": "e1516d27ab796f6308404f872040a848"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\health\\presentation\\pages\\devices_watch_page.dart": {
+    "mtime": 1794665201.1251643,
+    "ast_hash": "0c03355bf13479830f5c227dbc5dbd1f",
+    "semantic_hash": "0c03355bf13479830f5c227dbc5dbd1f"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\health\\presentation\\pages\\health_overview_page.dart": {
+    "mtime": 1795161970.6034205,
+    "ast_hash": "6650285a393a304e3f1b93aabbd13c15",
+    "semantic_hash": "6650285a393a304e3f1b93aabbd13c15"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\health\\presentation\\pages\\manual_body_values_page.dart": {
+    "mtime": 1794665201.1272478,
+    "ast_hash": "14c467c2deb34808ee1fef24041398c3",
+    "semantic_hash": "14c467c2deb34808ee1fef24041398c3"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\health\\presentation\\pages\\metric_detail_page.dart": {
+    "mtime": 1795162331.9823034,
+    "ast_hash": "35051fc8d746e4a6e1920d63ebb15e2e",
+    "semantic_hash": "35051fc8d746e4a6e1920d63ebb15e2e"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\health\\presentation\\pages\\sleep_detail_page.dart": {
+    "mtime": 1794665201.129743,
+    "ast_hash": "a090581d295a239d42034c1fe591629e",
+    "semantic_hash": "a090581d295a239d42034c1fe591629e"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\health\\presentation\\pages\\weight_body_page.dart": {
+    "mtime": 1794665201.129743,
+    "ast_hash": "1b5eb0548c98a8fa17a58284876de241",
+    "semantic_hash": "1b5eb0548c98a8fa17a58284876de241"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\health\\presentation\\pages\\workout_editor_page.dart": {
+    "mtime": 1795162331.974295,
+    "ast_hash": "71cb811705b508d7af2f6a5ce7c89290",
+    "semantic_hash": "71cb811705b508d7af2f6a5ce7c89290"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\health\\presentation\\pages\\workout_log_page.dart": {
+    "mtime": 1795162331.966571,
+    "ast_hash": "776284457fffd33b4a4ce492c8a84baf",
+    "semantic_hash": "776284457fffd33b4a4ce492c8a84baf"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\health\\presentation\\routes\\health_routes.dart": {
+    "mtime": 1794212386.9301498,
+    "ast_hash": "217e57b8afc81af40b73019ed4f12ffc",
+    "semantic_hash": "217e57b8afc81af40b73019ed4f12ffc"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\health\\presentation\\widgets\\calories_in_out_card.dart": {
+    "mtime": 1794665201.133273,
+    "ast_hash": "9381c0c5ecf68fbc6fb872c9b2c9a7f9",
+    "semantic_hash": "9381c0c5ecf68fbc6fb872c9b2c9a7f9"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\health\\presentation\\widgets\\workout_editor_dialog.dart": {
+    "mtime": 1795161826.7123103,
+    "ast_hash": "ce623f56595e2c7ef42e627c5f5c6637",
+    "semantic_hash": "ce623f56595e2c7ef42e627c5f5c6637"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\home\\data\\local\\home_local_data_source.dart": {
+    "mtime": 1794120504.7072968,
+    "ast_hash": "c82c26a9a0877abbd7c79868e4423044",
+    "semantic_hash": "c82c26a9a0877abbd7c79868e4423044"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\home\\data\\repositories\\home_repository_impl.dart": {
+    "mtime": 1794209534.5263157,
+    "ast_hash": "465f00f425e5300c1d952098d7cab8c9",
+    "semantic_hash": "465f00f425e5300c1d952098d7cab8c9"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\home\\domain\\entities\\home_dashboard_entity.dart": {
+    "mtime": 1793771914.3461413,
+    "ast_hash": "9dc599cb13adf9c80f310934c19d56bc",
+    "semantic_hash": "9dc599cb13adf9c80f310934c19d56bc"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\home\\domain\\repositories\\home_repository.dart": {
+    "mtime": 1794120514.693641,
+    "ast_hash": "4088090d8d687c52f7ee1cbb3aa6c07a",
+    "semantic_hash": "4088090d8d687c52f7ee1cbb3aa6c07a"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\home\\domain\\usecases\\home_usecases.dart": {
+    "mtime": 1793774214.2974172,
+    "ast_hash": "7817054f9799cd3456337f52a4a4876a",
+    "semantic_hash": "7817054f9799cd3456337f52a4a4876a"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\home\\presentation\\bloc\\home_dashboard_bloc.dart": {
+    "mtime": 1793773508.0756953,
+    "ast_hash": "219fd63ba050e277d0da86e0b9101a3a",
+    "semantic_hash": "219fd63ba050e277d0da86e0b9101a3a"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\home\\presentation\\bloc\\home_dashboard_event.dart": {
+    "mtime": 1793771915.7052946,
+    "ast_hash": "af2c23e88b9945885859e6709b8f4c42",
+    "semantic_hash": "af2c23e88b9945885859e6709b8f4c42"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\home\\presentation\\bloc\\home_dashboard_state.dart": {
+    "mtime": 1793771915.876396,
+    "ast_hash": "91c437d5acc48c86ced39c52fd3a7c92",
+    "semantic_hash": "91c437d5acc48c86ced39c52fd3a7c92"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\home\\presentation\\pages\\home_dashboard_page.dart": {
+    "mtime": 1795161759.2760217,
+    "ast_hash": "b7e72d8ce5966c6c8d1a6674fb5ce73b",
+    "semantic_hash": "b7e72d8ce5966c6c8d1a6674fb5ce73b"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\home\\presentation\\routes\\home_routes.dart": {
+    "mtime": 1795161691.6075346,
+    "ast_hash": "abbe80b2f0af9956af498d6a0883c79d",
+    "semantic_hash": "abbe80b2f0af9956af498d6a0883c79d"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\home\\presentation\\widgets\\quick_add_sheet.dart": {
+    "mtime": 1794665201.1393428,
+    "ast_hash": "5797b42ccf8c112afae4734bffff71f1",
+    "semantic_hash": "5797b42ccf8c112afae4734bffff71f1"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\insights\\data\\local\\insights_local_data_source.dart": {
+    "mtime": 1794031903.3621917,
+    "ast_hash": "bbbcfcf3da2618f623056b90e697bdc9",
+    "semantic_hash": "bbbcfcf3da2618f623056b90e697bdc9"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\insights\\data\\repositories\\insights_repository_impl.dart": {
+    "mtime": 1795161691.6193433,
+    "ast_hash": "2c3ee8bb8c3d324217916e06a01268e5",
+    "semantic_hash": "2c3ee8bb8c3d324217916e06a01268e5"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\insights\\domain\\entities\\insights_entity.dart": {
+    "mtime": 1793771917.951577,
+    "ast_hash": "d8aa4fc486a2b6302752117cda520e17",
+    "semantic_hash": "d8aa4fc486a2b6302752117cda520e17"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\insights\\domain\\repositories\\insights_repository.dart": {
+    "mtime": 1794028152.280434,
+    "ast_hash": "8a809b375ba08133ea1ed52c20e02835",
+    "semantic_hash": "8a809b375ba08133ea1ed52c20e02835"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\insights\\domain\\usecases\\insights_usecases.dart": {
+    "mtime": 1793771918.2088077,
+    "ast_hash": "2fd77847e3569cceeee0b7d7e27c7b29",
+    "semantic_hash": "2fd77847e3569cceeee0b7d7e27c7b29"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\insights\\presentation\\bloc\\insights_bloc.dart": {
+    "mtime": 1793771918.4369862,
+    "ast_hash": "d2301b2a391ca4e055bd82bee42f5746",
+    "semantic_hash": "d2301b2a391ca4e055bd82bee42f5746"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\insights\\presentation\\bloc\\insights_event.dart": {
+    "mtime": 1793771917.7920835,
+    "ast_hash": "eb04783eb647021d5e545dca01e87ae5",
+    "semantic_hash": "eb04783eb647021d5e545dca01e87ae5"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\insights\\presentation\\bloc\\insights_state.dart": {
+    "mtime": 1793771919.364531,
+    "ast_hash": "d1f243b1fc8d7930ceb545809a022131",
+    "semantic_hash": "d1f243b1fc8d7930ceb545809a022131"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\insights\\presentation\\pages\\streaks_badges_page.dart": {
+    "mtime": 1794665201.1393428,
+    "ast_hash": "ac5e29abc6e96a780f929399640da264",
+    "semantic_hash": "ac5e29abc6e96a780f929399640da264"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\insights\\presentation\\pages\\weekly_report_page.dart": {
+    "mtime": 1794665201.1413567,
+    "ast_hash": "106f78cea6bd645a5313c9d4186383e0",
+    "semantic_hash": "106f78cea6bd645a5313c9d4186383e0"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\insights\\presentation\\routes\\insights_routes.dart": {
+    "mtime": 1793956568.2324276,
+    "ast_hash": "744e0ec1158150e0cdee95d94509f614",
+    "semantic_hash": "744e0ec1158150e0cdee95d94509f614"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\onboarding\\data\\local\\onboarding_local_data_source.dart": {
+    "mtime": 1795163786.9287803,
+    "ast_hash": "d00d469e9288136ffe4c8aa4d244c559",
+    "semantic_hash": "d00d469e9288136ffe4c8aa4d244c559"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\onboarding\\data\\repositories\\onboarding_repository_impl.dart": {
+    "mtime": 1794024827.2836723,
+    "ast_hash": "5eb73908cdc2442ce2260f1e2f66ff89",
+    "semantic_hash": "5eb73908cdc2442ce2260f1e2f66ff89"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\onboarding\\domain\\entities\\onboarding_profile_entity.dart": {
+    "mtime": 1795163736.4582345,
+    "ast_hash": "579e528d770648433bc9c7e10f643fb9",
+    "semantic_hash": "579e528d770648433bc9c7e10f643fb9"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\onboarding\\domain\\repositories\\onboarding_repository.dart": {
+    "mtime": 1793861872.1350548,
+    "ast_hash": "fecdb708f9b6dd865848ad255c61b6b7",
+    "semantic_hash": "fecdb708f9b6dd865848ad255c61b6b7"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\onboarding\\domain\\usecases\\onboarding_usecases.dart": {
+    "mtime": 1793774214.5203433,
+    "ast_hash": "0893511814084b6952ae479f48c0a5e8",
+    "semantic_hash": "0893511814084b6952ae479f48c0a5e8"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\onboarding\\presentation\\bloc\\onboarding_bloc.dart": {
+    "mtime": 1795163736.4689944,
+    "ast_hash": "be7718641452e8f399a050ba7ab7ccd7",
+    "semantic_hash": "be7718641452e8f399a050ba7ab7ccd7"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\onboarding\\presentation\\bloc\\onboarding_event.dart": {
+    "mtime": 1795163736.462085,
+    "ast_hash": "782e56acd090139871c5f8c7147b4802",
+    "semantic_hash": "782e56acd090139871c5f8c7147b4802"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\onboarding\\presentation\\bloc\\onboarding_state.dart": {
+    "mtime": 1793771924.9702232,
+    "ast_hash": "f8feb69b786c2687f484d74ccf155bc5",
+    "semantic_hash": "f8feb69b786c2687f484d74ccf155bc5"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\onboarding\\presentation\\pages\\about_you_page.dart": {
+    "mtime": 1795163736.4830403,
+    "ast_hash": "03de8421c21ef335962e9708fb205080",
+    "semantic_hash": "03de8421c21ef335962e9708fb205080"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\onboarding\\presentation\\pages\\body_metrics_page.dart": {
+    "mtime": 1795163985.0102782,
+    "ast_hash": "b63cbfd7ff8ddd93f843742c91bbc22e",
+    "semantic_hash": "b63cbfd7ff8ddd93f843742c91bbc22e"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\onboarding\\presentation\\pages\\goal_selection_page.dart": {
+    "mtime": 1794665665.5729597,
+    "ast_hash": "cb138252c32ebbb48661ea374d63935e",
+    "semantic_hash": "cb138252c32ebbb48661ea374d63935e"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\onboarding\\presentation\\pages\\intro_slides_page.dart": {
+    "mtime": 1794665693.2734458,
+    "ast_hash": "ed309b6d3497835d258d7f2e848fd99a",
+    "semantic_hash": "ed309b6d3497835d258d7f2e848fd99a"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\onboarding\\presentation\\pages\\lifestyle_page.dart": {
+    "mtime": 1794665665.5842278,
+    "ast_hash": "98486a183841ff2f998891e7aee3d0a6",
+    "semantic_hash": "98486a183841ff2f998891e7aee3d0a6"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\onboarding\\presentation\\pages\\onboarding_flow_page.dart": {
+    "mtime": 1795163736.4992743,
+    "ast_hash": "f6e5e2a62bd3bd90084f53f06d4b8fa4",
+    "semantic_hash": "f6e5e2a62bd3bd90084f53f06d4b8fa4"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\onboarding\\presentation\\pages\\onboarding_language_page.dart": {
+    "mtime": 1794665665.5993578,
+    "ast_hash": "f499db94861e7fd2434f230c0971ce14",
+    "semantic_hash": "f499db94861e7fd2434f230c0971ce14"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\onboarding\\presentation\\pages\\permissions_page.dart": {
+    "mtime": 1795162368.02847,
+    "ast_hash": "700e3a644b54f65a10b2b359499ad049",
+    "semantic_hash": "700e3a644b54f65a10b2b359499ad049"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\onboarding\\presentation\\pages\\plan_ready_page.dart": {
+    "mtime": 1795164095.2770746,
+    "ast_hash": "7973bba8bcac24db62285ed5c7a40b20",
+    "semantic_hash": "7973bba8bcac24db62285ed5c7a40b20"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\onboarding\\presentation\\routes\\onboarding_routes.dart": {
+    "mtime": 1794230619.337585,
+    "ast_hash": "fe1e098d193325ba752fa84a7ff4a0f5",
+    "semantic_hash": "fe1e098d193325ba752fa84a7ff4a0f5"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\plan\\data\\local\\plan_local_data_source.dart": {
+    "mtime": 1794120608.8829534,
+    "ast_hash": "b4ef8e46d79ef614be4b020ea608b5c8",
+    "semantic_hash": "b4ef8e46d79ef614be4b020ea608b5c8"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\plan\\data\\repositories\\plan_repository_impl.dart": {
+    "mtime": 1793979408.4535456,
+    "ast_hash": "ce6b5a855c16094690af8a269b2812fe",
+    "semantic_hash": "ce6b5a855c16094690af8a269b2812fe"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\plan\\domain\\entities\\daily_plan_entity.dart": {
+    "mtime": 1793771928.671134,
+    "ast_hash": "c516bc72489769177734262e71559fc8",
+    "semantic_hash": "c516bc72489769177734262e71559fc8"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\plan\\domain\\entities\\meal_suggestion_entity.dart": {
+    "mtime": 1793771928.9566429,
+    "ast_hash": "9f92d0d486413b41ac1a28a648a59e84",
+    "semantic_hash": "9f92d0d486413b41ac1a28a648a59e84"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\plan\\domain\\repositories\\plan_repository.dart": {
+    "mtime": 1793979394.5535185,
+    "ast_hash": "8127379b975fd32055dfd9326be6c85e",
+    "semantic_hash": "8127379b975fd32055dfd9326be6c85e"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\plan\\domain\\usecases\\plan_usecases.dart": {
+    "mtime": 1793773538.194211,
+    "ast_hash": "4fcc9d3eb10a9dce4053b6f1be0a2312",
+    "semantic_hash": "4fcc9d3eb10a9dce4053b6f1be0a2312"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\plan\\presentation\\bloc\\plan_bloc.dart": {
+    "mtime": 1793771929.9099636,
+    "ast_hash": "69719c17d94f7c1143f6b756b69bd068",
+    "semantic_hash": "69719c17d94f7c1143f6b756b69bd068"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\plan\\presentation\\bloc\\plan_event.dart": {
+    "mtime": 1793771930.1738894,
+    "ast_hash": "58925c99848237c143e0e73854dc9e39",
+    "semantic_hash": "58925c99848237c143e0e73854dc9e39"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\plan\\presentation\\bloc\\plan_state.dart": {
+    "mtime": 1793771930.2650154,
+    "ast_hash": "437b94dcaf16d171231223320ed8ce1a",
+    "semantic_hash": "437b94dcaf16d171231223320ed8ce1a"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\plan\\presentation\\pages\\daily_plan_page.dart": {
+    "mtime": 1794665201.1514065,
+    "ast_hash": "f3517f2ff1c852aa4f982de79f6ce4fd",
+    "semantic_hash": "f3517f2ff1c852aa4f982de79f6ce4fd"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\plan\\presentation\\pages\\goals_targets_page.dart": {
+    "mtime": 1794665201.153418,
+    "ast_hash": "2a3409b0271698e48a06ea87c7fdd180",
+    "semantic_hash": "2a3409b0271698e48a06ea87c7fdd180"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\plan\\presentation\\pages\\meal_suggestion_detail_page.dart": {
+    "mtime": 1794665201.1539245,
+    "ast_hash": "fadc24717f015e5bd2cca4395ff98030",
+    "semantic_hash": "fadc24717f015e5bd2cca4395ff98030"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\plan\\presentation\\pages\\weekly_plan_page.dart": {
+    "mtime": 1794665201.1539245,
+    "ast_hash": "f8aef6845970252af8cfe2970289a8f9",
+    "semantic_hash": "f8aef6845970252af8cfe2970289a8f9"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\plan\\presentation\\routes\\plan_routes.dart": {
+    "mtime": 1793955151.3513827,
+    "ast_hash": "785e967261987ad1f941709af2d336a3",
+    "semantic_hash": "785e967261987ad1f941709af2d336a3"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\profile\\data\\local\\profile_local_data_source.dart": {
+    "mtime": 1794205728.2496624,
+    "ast_hash": "4d53a87445a5cbfd5a247a7bfb8f48d4",
+    "semantic_hash": "4d53a87445a5cbfd5a247a7bfb8f48d4"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\profile\\data\\repositories\\profile_repository_impl.dart": {
+    "mtime": 1794205786.8307815,
+    "ast_hash": "8de7a8c7d5062796a6e9ba058982097f",
+    "semantic_hash": "8de7a8c7d5062796a6e9ba058982097f"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\profile\\domain\\entities\\profile_entity.dart": {
+    "mtime": 1793771933.195584,
+    "ast_hash": "c0af9c77291a09929bc86bc0dc4f0ac0",
+    "semantic_hash": "c0af9c77291a09929bc86bc0dc4f0ac0"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\profile\\domain\\repositories\\profile_repository.dart": {
+    "mtime": 1794205682.785042,
+    "ast_hash": "19b741b4ba3d658277c09c28d5828280",
+    "semantic_hash": "19b741b4ba3d658277c09c28d5828280"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\profile\\domain\\usecases\\profile_usecases.dart": {
+    "mtime": 1793771933.7471294,
+    "ast_hash": "51858ad4da11389addc56c36a8c92f30",
+    "semantic_hash": "51858ad4da11389addc56c36a8c92f30"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\profile\\presentation\\bloc\\profile_bloc.dart": {
+    "mtime": 1793773469.6946115,
+    "ast_hash": "10870ebd517ebb828fad20b93a1752ee",
+    "semantic_hash": "10870ebd517ebb828fad20b93a1752ee"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\profile\\presentation\\bloc\\profile_event.dart": {
+    "mtime": 1793771934.6761913,
+    "ast_hash": "3431aca6b4c30af7ba557439121149b2",
+    "semantic_hash": "3431aca6b4c30af7ba557439121149b2"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\profile\\presentation\\bloc\\profile_state.dart": {
+    "mtime": 1793771935.2227316,
+    "ast_hash": "5cc8749d1373471f2c89bc8102fe023e",
+    "semantic_hash": "5cc8749d1373471f2c89bc8102fe023e"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\profile\\presentation\\pages\\edit_profile_page.dart": {
+    "mtime": 1794665201.1559336,
+    "ast_hash": "693a174b57d7600757b9235c0675a6f0",
+    "semantic_hash": "693a174b57d7600757b9235c0675a6f0"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\profile\\presentation\\pages\\profile_page.dart": {
+    "mtime": 1794665201.1559336,
+    "ast_hash": "ff3a62b04c12b252767b49309365267c",
+    "semantic_hash": "ff3a62b04c12b252767b49309365267c"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\profile\\presentation\\routes\\profile_routes.dart": {
+    "mtime": 1793955498.9151022,
+    "ast_hash": "46ed65275daf5f222445c0187abb6825",
+    "semantic_hash": "46ed65275daf5f222445c0187abb6825"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\settings\\data\\local\\settings_local_data_source.dart": {
+    "mtime": 1795161691.7009535,
+    "ast_hash": "b0ecc979c31c42ca083a5824a4c193da",
+    "semantic_hash": "b0ecc979c31c42ca083a5824a4c193da"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\settings\\data\\repositories\\settings_repository_impl.dart": {
+    "mtime": 1795161691.719378,
+    "ast_hash": "c70a370e91378f5a377e37b281a97518",
+    "semantic_hash": "c70a370e91378f5a377e37b281a97518"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\settings\\domain\\repositories\\settings_repository.dart": {
+    "mtime": 1795161691.7302585,
+    "ast_hash": "e95f5fb3d3ba96addca82e3c6f0f9f88",
+    "semantic_hash": "e95f5fb3d3ba96addca82e3c6f0f9f88"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\settings\\domain\\usecases\\settings_usecases.dart": {
+    "mtime": 1795161691.7424574,
+    "ast_hash": "ee1bd958863db045da218beffda6126a",
+    "semantic_hash": "ee1bd958863db045da218beffda6126a"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\settings\\presentation\\bloc\\settings_bloc.dart": {
+    "mtime": 1795161691.75803,
+    "ast_hash": "ed414bfdc1d834011ae09a57429d5d07",
+    "semantic_hash": "ed414bfdc1d834011ae09a57429d5d07"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\settings\\presentation\\bloc\\settings_event.dart": {
+    "mtime": 1795161691.760361,
+    "ast_hash": "99a880e6d3399ee832cf8c5a937a30ce",
+    "semantic_hash": "99a880e6d3399ee832cf8c5a937a30ce"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\settings\\presentation\\bloc\\settings_state.dart": {
+    "mtime": 1795161691.7626967,
+    "ast_hash": "c34fe5f1ece046af0ab56c5665c88466",
+    "semantic_hash": "c34fe5f1ece046af0ab56c5665c88466"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\settings\\presentation\\pages\\about_help_page.dart": {
+    "mtime": 1794665201.1559336,
+    "ast_hash": "8d2ba4f69d5efc180a75fffa1c0a47dd",
+    "semantic_hash": "8d2ba4f69d5efc180a75fffa1c0a47dd"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\settings\\presentation\\pages\\delete_account_page.dart": {
+    "mtime": 1794665201.1559336,
+    "ast_hash": "a41ad399acc9bd6a3ba1398f26364e7b",
+    "semantic_hash": "a41ad399acc9bd6a3ba1398f26364e7b"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\settings\\presentation\\pages\\language_page.dart": {
+    "mtime": 1794665201.1559336,
+    "ast_hash": "95ae7a38d6de3ca9a6de70abfe021520",
+    "semantic_hash": "95ae7a38d6de3ca9a6de70abfe021520"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\settings\\presentation\\pages\\premium_paywall_page.dart": {
+    "mtime": 1794665201.1619556,
+    "ast_hash": "b692cf06ba69d3f8bd6786ce82710732",
+    "semantic_hash": "b692cf06ba69d3f8bd6786ce82710732"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\settings\\presentation\\pages\\privacy_policy_page.dart": {
+    "mtime": 1794665201.1619556,
+    "ast_hash": "770ee5b064163a6cc138c1b12bf0eee9",
+    "semantic_hash": "770ee5b064163a6cc138c1b12bf0eee9"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\settings\\presentation\\pages\\settings_page.dart": {
+    "mtime": 1795161691.7808444,
+    "ast_hash": "5fbc4bc1eabc3b4e16170b4aa60711bb",
+    "semantic_hash": "5fbc4bc1eabc3b4e16170b4aa60711bb"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\settings\\presentation\\pages\\terms_conditions_page.dart": {
+    "mtime": 1794665201.1661308,
+    "ast_hash": "52ec0a55b1d9fc0c5555f1774ed3b955",
+    "semantic_hash": "52ec0a55b1d9fc0c5555f1774ed3b955"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\settings\\presentation\\pages\\theme_settings_page.dart": {
+    "mtime": 1794665201.1661308,
+    "ast_hash": "ce2ad2ce939f385f56cdf2e1bd28cbfe",
+    "semantic_hash": "ce2ad2ce939f385f56cdf2e1bd28cbfe"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\settings\\presentation\\pages\\units_language_page.dart": {
+    "mtime": 1794207973.019462,
+    "ast_hash": "21e486ccbe6666f527f2c016d8936fbf",
+    "semantic_hash": "21e486ccbe6666f527f2c016d8936fbf"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\settings\\presentation\\pages\\units_page.dart": {
+    "mtime": 1794665201.1680539,
+    "ast_hash": "b93745e4c629a5d7b3abb9ae2bc6b9bd",
+    "semantic_hash": "b93745e4c629a5d7b3abb9ae2bc6b9bd"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\settings\\presentation\\pages\\wear_os_page.dart": {
+    "mtime": 1794665201.1680539,
+    "ast_hash": "2764a5dce86f01b8b32fc11d1c3f8cf8",
+    "semantic_hash": "2764a5dce86f01b8b32fc11d1c3f8cf8"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\settings\\presentation\\pages\\widgets_page.dart": {
+    "mtime": 1794665201.1680539,
+    "ast_hash": "dcbc7e9aa3420e667aa8cc9c747f53d2",
+    "semantic_hash": "dcbc7e9aa3420e667aa8cc9c747f53d2"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\settings\\presentation\\pages\\widgets_wearos_page.dart": {
+    "mtime": 1794032486.6655912,
+    "ast_hash": "92e49e9e6465b7d291a8c7a9f5511870",
+    "semantic_hash": "92e49e9e6465b7d291a8c7a9f5511870"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\settings\\presentation\\routes\\settings_routes.dart": {
+    "mtime": 1795161691.7958326,
+    "ast_hash": "46ae75deabeb18c482c33edce13eeaac",
+    "semantic_hash": "46ae75deabeb18c482c33edce13eeaac"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\splash\\presentation\\bloc\\splash_bloc.dart": {
+    "mtime": 1794113842.888,
+    "ast_hash": "0c8bc7ba45feb919346e73adc3b82c7b",
+    "semantic_hash": "0c8bc7ba45feb919346e73adc3b82c7b"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\splash\\presentation\\bloc\\splash_event.dart": {
+    "mtime": 1793771944.4058397,
+    "ast_hash": "bbe3de4cb3e8204f2300f799c1fd437c",
+    "semantic_hash": "bbe3de4cb3e8204f2300f799c1fd437c"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\splash\\presentation\\bloc\\splash_state.dart": {
+    "mtime": 1793771944.8002427,
+    "ast_hash": "4d4f96f2a7a65df05aa55863edd8086a",
+    "semantic_hash": "4d4f96f2a7a65df05aa55863edd8086a"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\splash\\presentation\\pages\\splash_page.dart": {
+    "mtime": 1794665201.1718554,
+    "ast_hash": "b92b0ae7b277111b880f4e216f981685",
+    "semantic_hash": "b92b0ae7b277111b880f4e216f981685"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\splash\\presentation\\routes\\splash_routes.dart": {
+    "mtime": 1793776400.4054544,
+    "ast_hash": "356b1234cbed79e609d8e97525444e57",
+    "semantic_hash": "356b1234cbed79e609d8e97525444e57"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\surroundings\\data\\local\\surroundings_local_data_source.dart": {
+    "mtime": 1793771946.3694851,
+    "ast_hash": "82c85ff4f47b3bb3cde52b84570504d6",
+    "semantic_hash": "82c85ff4f47b3bb3cde52b84570504d6"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\surroundings\\data\\network\\location_naming_service.dart": {
+    "mtime": 1793973637.3217533,
+    "ast_hash": "ed7dc0e2d704ebb13d923f57c1bd3fd6",
+    "semantic_hash": "ed7dc0e2d704ebb13d923f57c1bd3fd6"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\surroundings\\data\\network\\surroundings_remote_data_source.dart": {
+    "mtime": 1793973124.2387156,
+    "ast_hash": "d92d797c8c5ed0886d90310f5fde7ab5",
+    "semantic_hash": "d92d797c8c5ed0886d90310f5fde7ab5"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\surroundings\\data\\repositories\\surroundings_repository_impl.dart": {
+    "mtime": 1794024827.7430592,
+    "ast_hash": "948d8ec8caa591857a65405b58097576",
+    "semantic_hash": "948d8ec8caa591857a65405b58097576"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\surroundings\\domain\\entities\\surroundings_entity.dart": {
+    "mtime": 1794208297.741492,
+    "ast_hash": "3dbc96262fd095b3277787ac3f82d45b",
+    "semantic_hash": "3dbc96262fd095b3277787ac3f82d45b"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\surroundings\\domain\\repositories\\surroundings_repository.dart": {
+    "mtime": 1794024798.2344532,
+    "ast_hash": "8cca4f36716f6b02d36154515ca1974c",
+    "semantic_hash": "8cca4f36716f6b02d36154515ca1974c"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\surroundings\\domain\\usecases\\surroundings_usecases.dart": {
+    "mtime": 1794025889.1081533,
+    "ast_hash": "7131feb57d555c7fdcaee62368a40c63",
+    "semantic_hash": "7131feb57d555c7fdcaee62368a40c63"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\surroundings\\presentation\\bloc\\surroundings_bloc.dart": {
+    "mtime": 1794025937.3348536,
+    "ast_hash": "0f94d8a6d054dbb6686891f1e809a481",
+    "semantic_hash": "0f94d8a6d054dbb6686891f1e809a481"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\surroundings\\presentation\\bloc\\surroundings_event.dart": {
+    "mtime": 1793771948.4772148,
+    "ast_hash": "612e9a6486e19ac867a48120ff0e34f1",
+    "semantic_hash": "612e9a6486e19ac867a48120ff0e34f1"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\surroundings\\presentation\\bloc\\surroundings_state.dart": {
+    "mtime": 1794025903.4759226,
+    "ast_hash": "ceb892b1e2ddd07b5beee4e06b411843",
+    "semantic_hash": "ceb892b1e2ddd07b5beee4e06b411843"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\surroundings\\presentation\\pages\\surroundings_page.dart": {
+    "mtime": 1794665201.1718554,
+    "ast_hash": "3127c34f27f88a73e8005f271097816c",
+    "semantic_hash": "3127c34f27f88a73e8005f271097816c"
+  },
+  "C:\\Users\\techn\\Desktop\\Bloomi\\lib\\features\\surroundings\\presentation\\routes\\surroundings_routes.dart": {
+    "mtime": 1793776400.437678,
+    "ast_hash": "f356b298009ee6bc986567ecfeb72e5a",
+    "semantic_hash": "f356b298009ee6bc986567ecfeb72e5a"
+  }
+}

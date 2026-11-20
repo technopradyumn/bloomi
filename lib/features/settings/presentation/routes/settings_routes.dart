@@ -3,7 +3,6 @@ import 'package:bloomi/features/settings/presentation/pages/about_help_page.dart
 import 'package:bloomi/features/settings/presentation/pages/language_page.dart';
 import 'package:bloomi/features/settings/presentation/pages/premium_paywall_page.dart';
 import 'package:bloomi/features/settings/presentation/pages/privacy_policy_page.dart';
-import 'package:bloomi/features/settings/presentation/pages/reminders_settings_page.dart';
 import 'package:bloomi/features/settings/presentation/pages/settings_page.dart';
 import 'package:bloomi/features/settings/presentation/pages/terms_conditions_page.dart';
 import 'package:bloomi/features/settings/presentation/pages/theme_settings_page.dart';
@@ -18,17 +17,10 @@ final List<RouteBase> settingsRoutes = [
     builder: (context, state) => const SettingsPage(),
     routes: [
       GoRoute(
-        path: 'reminders',
-        builder: (context, state) => const RemindersSettingsPage(),
-      ),
-      GoRoute(
         path: 'permissions',
         builder: (context, state) => const PermissionsPage(isStandalone: true),
       ),
-      GoRoute(
-        path: 'units',
-        builder: (context, state) => const UnitsPage(),
-      ),
+      GoRoute(path: 'units', builder: (context, state) => const UnitsPage()),
       GoRoute(
         path: 'language',
         builder: (context, state) => const LanguagePage(),
@@ -65,10 +57,7 @@ final List<RouteBase> settingsRoutes = [
         path: 'theme',
         builder: (context, state) => const ThemeSettingsPage(),
       ),
-      GoRoute(
-        path: 'wear-os',
-        builder: (context, state) => const WearOsPage(),
-      ),
+      GoRoute(path: 'wear-os', builder: (context, state) => const WearOsPage()),
     ],
   ),
 ];

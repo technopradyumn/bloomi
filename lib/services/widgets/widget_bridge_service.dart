@@ -11,7 +11,6 @@ class WidgetSyncPayload {
   final int steps;
   final int targetSteps;
   final int streakCount;
-  final String nextReminder;
   final DateTime lastUpdated;
 
   const WidgetSyncPayload({
@@ -22,21 +21,19 @@ class WidgetSyncPayload {
     required this.steps,
     required this.targetSteps,
     required this.streakCount,
-    required this.nextReminder,
     required this.lastUpdated,
   });
 
   Map<String, dynamic> toMap() => {
-        'remainingCalories': remainingCalories,
-        'targetCalories': targetCalories,
-        'waterLoggedMl': waterLoggedMl,
-        'targetWaterMl': targetWaterMl,
-        'steps': steps,
-        'targetSteps': targetSteps,
-        'streakCount': streakCount,
-        'nextReminder': nextReminder,
-        'lastUpdated': lastUpdated.toIso8601String(),
-      };
+    'remainingCalories': remainingCalories,
+    'targetCalories': targetCalories,
+    'waterLoggedMl': waterLoggedMl,
+    'targetWaterMl': targetWaterMl,
+    'steps': steps,
+    'targetSteps': targetSteps,
+    'streakCount': streakCount,
+    'lastUpdated': lastUpdated.toIso8601String(),
+  };
 
   factory WidgetSyncPayload.fromMap(Map<String, dynamic> map) {
     return WidgetSyncPayload(
@@ -47,7 +44,6 @@ class WidgetSyncPayload {
       steps: (map['steps'] as num?)?.toInt() ?? 0,
       targetSteps: (map['targetSteps'] as num?)?.toInt() ?? 10000,
       streakCount: (map['streakCount'] as num?)?.toInt() ?? 0,
-      nextReminder: map['nextReminder'] as String? ?? 'Dinner at 8:00 PM',
       lastUpdated: map['lastUpdated'] != null
           ? DateTime.parse(map['lastUpdated'] as String)
           : DateTime.now(),
@@ -61,8 +57,9 @@ class WidgetSyncPayload {
 }
 
 class WidgetBridgeService {
-  static const MethodChannel _channel =
-      MethodChannel('com.bloomi.app/widget_bridge');
+  static const MethodChannel _channel = MethodChannel(
+    'com.bloomi.app/widget_bridge',
+  );
 
   static const String _prefKey = 'bloomi_widget_payload';
 
@@ -77,7 +74,9 @@ class WidgetBridgeService {
         await _channel.invokeMethod('updateWidgetData', payload.toMap());
       } on MissingPluginException {
         // Expected when running on Desktop or during automated tests
-        debugPrint('WidgetBridge: Native channel not present on this platform/test');
+        debugPrint(
+          'WidgetBridge: Native channel not present on this platform/test',
+        );
       } catch (e) {
         debugPrint('WidgetBridge channel error: $e');
       }
@@ -97,4 +96,3 @@ class WidgetBridgeService {
     return null;
   }
 }
-

@@ -11,11 +11,7 @@ enum HealthConnectAvailability {
   unsupportedPlatform,
 }
 
-enum HealthDeviceType {
-  watch,
-  phone,
-  unknown,
-}
+enum HealthDeviceType { watch, phone, unknown }
 
 class DeduplicationResult {
   final double totalValue;
@@ -225,9 +221,14 @@ class HealthService {
       final permissions = List.filled(readTypes.length, HealthDataAccess.READ);
       bool res = false;
       try {
-        res = await _health.requestAuthorization(readTypes, permissions: permissions);
+        res = await _health.requestAuthorization(
+          readTypes,
+          permissions: permissions,
+        );
       } catch (e) {
-        debugPrint('HealthService: requestAuthorization failed for full list: $e. Retrying core types...');
+        debugPrint(
+          'HealthService: requestAuthorization failed for full list: $e. Retrying core types...',
+        );
         try {
           final core = [
             HealthDataType.STEPS,
@@ -249,8 +250,12 @@ class HealthService {
     }
   }
 
-  static const MethodChannel _settingsChannel = MethodChannel('com.bloomi.app/settings');
-  static const MethodChannel _sensorChannel = MethodChannel('com.bloomi.app/sensors');
+  static const MethodChannel _settingsChannel = MethodChannel(
+    'com.bloomi.app/settings',
+  );
+  static const MethodChannel _sensorChannel = MethodChannel(
+    'com.bloomi.app/sensors',
+  );
 
   Future<int> getHardwareSensorSteps() async {
     if (kIsWeb || !Platform.isAndroid) return 0;
@@ -266,7 +271,9 @@ class HealthService {
   Future<bool> isHardwareStepSensorAvailable() async {
     if (kIsWeb || !Platform.isAndroid) return false;
     try {
-      final avail = await _sensorChannel.invokeMethod<bool>('isStepSensorAvailable');
+      final avail = await _sensorChannel.invokeMethod<bool>(
+        'isStepSensorAvailable',
+      );
       return avail ?? false;
     } catch (_) {
       return false;
@@ -275,7 +282,9 @@ class HealthService {
 
   Future<bool> openHealthConnectSettings() async {
     try {
-      final res = await _settingsChannel.invokeMethod<bool>('openHealthConnectSettings');
+      final res = await _settingsChannel.invokeMethod<bool>(
+        'openHealthConnectSettings',
+      );
       return res ?? false;
     } catch (e) {
       debugPrint('HealthService: openHealthConnectSettings failed: $e');
@@ -326,25 +335,38 @@ class HealthService {
     return HealthDeviceType.unknown;
   }
 
-  static String formatSourceDisplayName(String rawName, HealthDeviceType deviceType) {
+  static String formatSourceDisplayName(
+    String rawName,
+    HealthDeviceType deviceType,
+  ) {
     final lower = rawName.toLowerCase();
-    if (lower.contains('shealth') || lower.contains('samsung') || lower.contains('galaxy')) {
-      return deviceType == HealthDeviceType.watch ? 'Galaxy Watch' : 'Samsung Health';
+    if (lower.contains('shealth') ||
+        lower.contains('samsung') ||
+        lower.contains('galaxy')) {
+      return deviceType == HealthDeviceType.watch
+          ? 'Galaxy Watch'
+          : 'Samsung Health';
     }
-    if (lower.contains('pixel') && (lower.contains('watch') || deviceType == HealthDeviceType.watch)) {
+    if (lower.contains('pixel') &&
+        (lower.contains('watch') || deviceType == HealthDeviceType.watch)) {
       return 'Pixel Watch';
     }
     if (lower.contains('apple') || lower.contains('healthkit')) {
-      return deviceType == HealthDeviceType.watch ? 'Apple Watch' : 'Apple Health';
+      return deviceType == HealthDeviceType.watch
+          ? 'Apple Watch'
+          : 'Apple Health';
     }
     if (lower.contains('fitbit')) return 'Fitbit';
     if (lower.contains('garmin')) return 'Garmin';
     if (lower.contains('polar')) return 'Polar';
-    if (lower.contains('amazfit') || lower.contains('zepp')) return 'Amazfit Watch';
+    if (lower.contains('amazfit') || lower.contains('zepp'))
+      return 'Amazfit Watch';
     if (lower.contains('whoop')) return 'WHOOP';
     if (lower.contains('oura')) return 'Oura Ring';
     if (lower.contains('fitness') || lower.contains('google fit')) {
-      return deviceType == HealthDeviceType.watch ? 'Wear OS Watch' : 'Google Fit';
+      return deviceType == HealthDeviceType.watch
+          ? 'Wear OS Watch'
+          : 'Google Fit';
     }
     if (deviceType == HealthDeviceType.watch) {
       return 'Smartwatch';
@@ -405,7 +427,8 @@ class HealthService {
         bool overlapsWithWatch = false;
         for (final watchP in watchPoints) {
           // Overlap condition: startA < endB && endA > startB
-          if (phoneP.dateFrom.isBefore(watchP.dateTo) && phoneP.dateTo.isAfter(watchP.dateFrom)) {
+          if (phoneP.dateFrom.isBefore(watchP.dateTo) &&
+              phoneP.dateTo.isAfter(watchP.dateFrom)) {
             overlapsWithWatch = true;
             break;
           }
@@ -415,7 +438,8 @@ class HealthService {
         // Ensure multiple phone apps recording the same window do not double-count
         bool overlapsWithSelectedPhone = false;
         for (final sel in nonOverlappingPhone) {
-          if (phoneP.dateFrom.isBefore(sel.dateTo) && phoneP.dateTo.isAfter(sel.dateFrom)) {
+          if (phoneP.dateFrom.isBefore(sel.dateTo) &&
+              phoneP.dateTo.isAfter(sel.dateFrom)) {
             overlapsWithSelectedPhone = true;
             break;
           }
@@ -469,16 +493,22 @@ class HealthService {
       final startOfDay = DateTime(now.year, now.month, now.day);
 
       int steps = 0;
-      String stepsSourceLabel = (!kIsWeb && Platform.isIOS) ? 'Apple Health' : 'Health Connect';
+      String stepsSourceLabel = (!kIsWeb && Platform.isIOS)
+          ? 'Apple Health'
+          : 'Health Connect';
       double latestHeartRate = 0;
       double minHeartRate = double.infinity;
       double maxHeartRate = 0;
       double heartRateSum = 0;
       int heartRateCount = 0;
       double calories = 0;
-      String caloriesSourceLabel = (!kIsWeb && Platform.isIOS) ? 'Apple Health' : 'Health Connect';
+      String caloriesSourceLabel = (!kIsWeb && Platform.isIOS)
+          ? 'Apple Health'
+          : 'Health Connect';
       double distance = 0;
-      String distanceSourceLabel = (!kIsWeb && Platform.isIOS) ? 'Apple Health' : 'Health Connect';
+      String distanceSourceLabel = (!kIsWeb && Platform.isIOS)
+          ? 'Apple Health'
+          : 'Health Connect';
       double spo2 = 0;
       double? weight;
       double? systolic;
@@ -488,7 +518,9 @@ class HealthService {
       DateTime? wakeTime;
       final Map<String, Duration> stages = {};
       final List<HealthDataPoint> collectedPoints = [];
-      String primarySource = (!kIsWeb && Platform.isIOS) ? 'Apple HealthKit' : 'Health Connect';
+      String primarySource = (!kIsWeb && Platform.isIOS)
+          ? 'Apple HealthKit'
+          : 'Health Connect';
 
       // 1. STEPS (Honoring user's preferred data source without data clashing or double counting):
       final prefLower = preferredSource.toLowerCase();
@@ -519,8 +551,8 @@ class HealthService {
                 preferredSource: 'phone',
                 metricName: 'Steps',
               );
-              if (dedup.totalValue.toInt() > 0) {
-                steps = dedup.totalValue.toInt();
+              if (dedup.totalValue > 0) {
+                steps = dedup.totalValue.round();
                 stepsSourceLabel = dedup.sourceLabel;
               }
             }
@@ -542,8 +574,8 @@ class HealthService {
               preferredSource: 'watch',
               metricName: 'Steps',
             );
-            if (dedup.totalValue.toInt() > 0) {
-              steps = dedup.totalValue.toInt();
+            if (dedup.totalValue > 0) {
+              steps = dedup.totalValue.round();
             }
             stepsSourceLabel = dedup.sourceLabel;
           }
@@ -551,17 +583,8 @@ class HealthService {
           debugPrint('HealthService: watch steps query exception: $e');
         }
       } else {
-        // Preferred source: Auto (Recommended) - seamlessly prioritize smartwatch with non-overlapping phone fallback
-        try {
-          final totalSteps = await _health.getTotalStepsInInterval(startOfDay, now);
-          if (totalSteps != null && totalSteps > 0) {
-            steps = totalSteps;
-            stepsSourceLabel = (!kIsWeb && Platform.isIOS) ? 'Apple HealthKit' : 'Health Connect';
-          }
-        } catch (e) {
-          debugPrint('HealthService: getTotalStepsInInterval exception: $e');
-        }
-
+        // Use the same de-duplicated records as the source-specific modes so all
+        // app surfaces receive one consistent count.
         try {
           final stepPoints = await _health.getHealthDataFromTypes(
             types: [HealthDataType.STEPS],
@@ -576,15 +599,18 @@ class HealthService {
               preferredSource: preferredSource,
               metricName: 'Steps',
             );
-            if (steps == 0 && dedup.totalValue.toInt() > 0) {
-              steps = dedup.totalValue.toInt();
+            if (dedup.totalValue > 0) {
+              steps = dedup.totalValue.round();
             }
-            if (dedup.sourceLabel.isNotEmpty && dedup.sourceLabel != 'Health Connect') {
+            if (dedup.sourceLabel.isNotEmpty &&
+                dedup.sourceLabel != 'Health Connect') {
               stepsSourceLabel = dedup.sourceLabel;
             }
           }
         } catch (e) {
-          debugPrint('HealthService: getHealthDataFromTypes(STEPS) exception: $e');
+          debugPrint(
+            'HealthService: getHealthDataFromTypes(STEPS) exception: $e',
+          );
         }
 
         // Hardware sensor fallback if Health Connect has no steps yet today
@@ -619,12 +645,19 @@ class HealthService {
             heartRateSum += val;
             heartRateCount++;
           }
-          if (p.sourceName.isNotEmpty && (primarySource == 'Health Connect' || primarySource == 'Apple HealthKit')) {
-            primarySource = formatSourceDisplayName(p.sourceName, classifyDevice(p));
+          if (p.sourceName.isNotEmpty &&
+              (primarySource == 'Health Connect' ||
+                  primarySource == 'Apple HealthKit')) {
+            primarySource = formatSourceDisplayName(
+              p.sourceName,
+              classifyDevice(p),
+            );
           }
         }
       } catch (e) {
-        debugPrint('HealthService: getHealthDataFromTypes(HEART_RATE) exception: $e');
+        debugPrint(
+          'HealthService: getHealthDataFromTypes(HEART_RATE) exception: $e',
+        );
       }
 
       // 3. DISTANCE: Deduplicated cumulative metric
@@ -646,7 +679,9 @@ class HealthService {
           distanceSourceLabel = dedup.sourceLabel;
         }
       } catch (e) {
-        debugPrint('HealthService: getHealthDataFromTypes(DISTANCE) exception: $e');
+        debugPrint(
+          'HealthService: getHealthDataFromTypes(DISTANCE) exception: $e',
+        );
       }
       if (distance == 0 && steps > 0) {
         distance = steps * 0.762; // Standard average stride: ~0.762 meters/step
@@ -672,7 +707,9 @@ class HealthService {
           caloriesSourceLabel = dedup.sourceLabel;
         }
       } catch (e) {
-        debugPrint('HealthService: getHealthDataFromTypes(CALORIES) exception: $e');
+        debugPrint(
+          'HealthService: getHealthDataFromTypes(CALORIES) exception: $e',
+        );
       }
       if (calories == 0 && steps > 0) {
         calories = (steps * 0.04).roundToDouble(); // ~0.04 kcal per step
@@ -706,23 +743,32 @@ class HealthService {
               }
               break;
             case HealthDataType.SLEEP_DEEP:
-              stages['deep'] = (stages['deep'] ?? Duration.zero) + p.dateTo.difference(p.dateFrom);
+              stages['deep'] =
+                  (stages['deep'] ?? Duration.zero) +
+                  p.dateTo.difference(p.dateFrom);
               break;
             case HealthDataType.SLEEP_REM:
-              stages['rem'] = (stages['rem'] ?? Duration.zero) + p.dateTo.difference(p.dateFrom);
+              stages['rem'] =
+                  (stages['rem'] ?? Duration.zero) +
+                  p.dateTo.difference(p.dateFrom);
               break;
             case HealthDataType.SLEEP_ASLEEP:
-              stages['light'] = (stages['light'] ?? Duration.zero) + p.dateTo.difference(p.dateFrom);
+              stages['light'] =
+                  (stages['light'] ?? Duration.zero) +
+                  p.dateTo.difference(p.dateFrom);
               break;
             case HealthDataType.SLEEP_AWAKE:
-              stages['awake'] = (stages['awake'] ?? Duration.zero) + p.dateTo.difference(p.dateFrom);
+              stages['awake'] =
+                  (stages['awake'] ?? Duration.zero) +
+                  p.dateTo.difference(p.dateFrom);
               break;
             default:
               break;
           }
         }
         if (sleepDuration == Duration.zero && stages.isNotEmpty) {
-          final totalMins = (stages['deep']?.inMinutes ?? 0) +
+          final totalMins =
+              (stages['deep']?.inMinutes ?? 0) +
               (stages['rem']?.inMinutes ?? 0) +
               (stages['light']?.inMinutes ?? 0);
           if (totalMins > 0) {
@@ -772,14 +818,17 @@ class HealthService {
         debugPrint('HealthService: vitals query exception: $e');
       }
 
-      if (stepsSourceLabel != 'Health Connect' && stepsSourceLabel != 'Apple Health') {
+      if (stepsSourceLabel != 'Health Connect' &&
+          stepsSourceLabel != 'Apple Health') {
         primarySource = stepsSourceLabel;
       }
 
       return HealthDataBundle(
         steps: steps,
         heartRate: latestHeartRate,
-        restingHeartRate: heartRateCount > 0 ? (heartRateSum / heartRateCount) : 0,
+        restingHeartRate: heartRateCount > 0
+            ? (heartRateSum / heartRateCount)
+            : 0,
         minHeartRate: minHeartRate == double.infinity ? 0 : minHeartRate,
         maxHeartRate: maxHeartRate,
         activeCalories: calories,
@@ -807,7 +856,11 @@ class HealthService {
   }
 
   /// Fetches historical points for a given type over a date range
-  Future<List<HealthDataPoint>> fetchHistory(HealthDataType type, DateTime start, DateTime end) async {
+  Future<List<HealthDataPoint>> fetchHistory(
+    HealthDataType type,
+    DateTime start,
+    DateTime end,
+  ) async {
     try {
       await _ensureConfigured();
       final points = await _health.getHealthDataFromTypes(
@@ -831,7 +884,9 @@ class HealthService {
                 sourcePlatform: _health.platformType,
                 sourceDeviceId: _health.deviceId,
                 sourceId: 'bloomi_steps_aggregate',
-                sourceName: (!kIsWeb && Platform.isIOS) ? 'Apple HealthKit' : 'Health Connect',
+                sourceName: (!kIsWeb && Platform.isIOS)
+                    ? 'Apple HealthKit'
+                    : 'Health Connect',
               ),
             ];
           }
@@ -843,4 +898,3 @@ class HealthService {
     }
   }
 }
-

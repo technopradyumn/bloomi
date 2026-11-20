@@ -6,7 +6,6 @@ import 'package:bloomi/features/insights/data/local/insights_local_data_source.d
 import 'package:bloomi/features/insights/domain/entities/insights_entity.dart';
 import 'package:bloomi/features/insights/domain/repositories/insights_repository.dart';
 import 'package:bloomi/features/plan/domain/repositories/plan_repository.dart';
-import 'package:bloomi/services/notifications/notification_service.dart';
 import 'package:drift/drift.dart' as drift;
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
@@ -18,14 +17,29 @@ class InsightsRepositoryImpl implements InsightsRepository {
   InsightsRepositoryImpl({
     required InsightsLocalDataSource localDataSource,
     required PlanRepository planRepo,
-  })  : _localDataSource = localDataSource,
-        _planRepo = planRepo;
+  }) : _localDataSource = localDataSource,
+       _planRepo = planRepo;
 
   static const List<(String, String, String, String)> standardBadges = [
-    ('first_log', 'First Blossom', 'Log your very first meal or glass of water', '🌱'),
+    (
+      'first_log',
+      'First Blossom',
+      'Log your very first meal or glass of water',
+      '🌱',
+    ),
     ('hydration_hero', 'Hydration Hero', 'Log water 3 days in a row', '💧'),
-    ('balanced_plate', 'Balanced Plate', 'Reach your daily protein and fiber balance', '🥗'),
-    ('seven_days', '7-Day Blooming', 'Log consistently for 7 days in a row', '🌸'),
+    (
+      'balanced_plate',
+      'Balanced Plate',
+      'Reach your daily protein and fiber balance',
+      '🥗',
+    ),
+    (
+      'seven_days',
+      '7-Day Blooming',
+      'Log consistently for 7 days in a row',
+      '🌸',
+    ),
     ('rested_mind', 'Mindful Rest', 'Maintain mindful bedtime habits', '🌙'),
   ];
 
@@ -70,28 +84,7 @@ class InsightsRepositoryImpl implements InsightsRepository {
 
   @override
   Future<void> unlockBadge(String badgeId) async {
-    final achievements = await _localDataSource.getAchievements();
-    final existing = achievements.where((b) => b.badgeId == badgeId).firstOrNull;
-    final isAlreadyUnlocked = existing?.unlockedAt != null;
-
     await _localDataSource.unlockBadge(badgeId, DateTime.now());
-
-    if (!isAlreadyUnlocked) {
-      final badgeDef = standardBadges.where((b) => b.$1 == badgeId).firstOrNull;
-      if (badgeDef != null) {
-        try {
-          if (sl.isRegistered<NotificationService>()) {
-            final notifService = sl<NotificationService>();
-            await notifService.showMilestoneNotification(
-              id: badgeId.hashCode,
-              title: 'Milestone Unlocked! ${badgeDef.$4} ${badgeDef.$2}',
-              body: badgeDef.$3,
-              payload: '/insights/streaks',
-            );
-          }
-        } catch (_) {}
-      }
-    }
   }
 
   @override
@@ -99,7 +92,11 @@ class InsightsRepositoryImpl implements InsightsRepository {
     final targets = await _planRepo.getTargets();
     final now = DateTime.now();
     final sevenDaysAgo = now.subtract(const Duration(days: 6));
-    final since = DateTime(sevenDaysAgo.year, sevenDaysAgo.month, sevenDaysAgo.day);
+    final since = DateTime(
+      sevenDaysAgo.year,
+      sevenDaysAgo.month,
+      sevenDaysAgo.day,
+    );
 
     final mealLogs = await _localDataSource.getMealLogsSince(since);
     final waterLogs = await _localDataSource.getWaterLogsSince(since);
@@ -121,21 +118,30 @@ class InsightsRepositoryImpl implements InsightsRepository {
     for (int i = 0; i < 7; i++) {
       final curDate = sevenDaysAgo.add(Duration(days: i));
       final dayName = DateFormat('EEEE').format(curDate);
-      final isToday = curDate.year == now.year && curDate.month == now.month && curDate.day == now.day;
+      final isToday =
+          curDate.year == now.year &&
+          curDate.month == now.month &&
+          curDate.day == now.day;
 
-      final dayMeals = mealLogs.where((m) =>
-          m.date.year == curDate.year &&
-          m.date.month == curDate.month &&
-          m.date.day == curDate.day);
+      final dayMeals = mealLogs.where(
+        (m) =>
+            m.date.year == curDate.year &&
+            m.date.month == curDate.month &&
+            m.date.day == curDate.day,
+      );
 
-      final dayWater = waterLogs.where((w) =>
-          w.date.year == curDate.year &&
-          w.date.month == curDate.month &&
-          w.date.day == curDate.day);
+      final dayWater = waterLogs.where(
+        (w) =>
+            w.date.year == curDate.year &&
+            w.date.month == curDate.month &&
+            w.date.day == curDate.day,
+      );
 
       double dayKcal = 0;
       for (final m in dayMeals) {
-        final snap = NutrientSnapshotModel.fromJson(m.computedNutrientsSnapshot);
+        final snap = NutrientSnapshotModel.fromJson(
+          m.computedNutrientsSnapshot,
+        );
         dayKcal += snap.calories;
       }
 
@@ -148,10 +154,12 @@ class InsightsRepositoryImpl implements InsightsRepository {
       if (isToday && todayLiveSteps > 0) {
         daySteps = todayLiveSteps;
       } else {
-        final dayStepRecs = stepRecords.where((s) =>
-            s.startTime.year == curDate.year &&
-            s.startTime.month == curDate.month &&
-            s.startTime.day == curDate.day);
+        final dayStepRecs = stepRecords.where(
+          (s) =>
+              s.startTime.year == curDate.year &&
+              s.startTime.month == curDate.month &&
+              s.startTime.day == curDate.day,
+        );
         for (final rec in dayStepRecs) {
           daySteps += rec.value.toInt();
         }
@@ -188,7 +196,9 @@ class InsightsRepositoryImpl implements InsightsRepository {
           calories: dayKcal,
           waterMl: dayMl,
           steps: daySteps,
-          isTargetMet: (dayKcal >= targets.calories * 0.8 && dayKcal <= targets.calories * 1.25) ||
+          isTargetMet:
+              (dayKcal >= targets.calories * 0.8 &&
+                  dayKcal <= targets.calories * 1.25) ||
               (dayWater.isNotEmpty && daySteps >= targets.steps * 0.75),
         ),
       );
@@ -198,9 +208,11 @@ class InsightsRepositoryImpl implements InsightsRepository {
     final avgWater = (totalWater / 7).round();
     final avgSteps = (totalSteps / 7).round();
 
-    String commentary = 'You did a wonderful job staying mindful and nourishing your body this week! Keep blooming at your own gentle pace.';
+    String commentary =
+        'You did a wonderful job staying mindful and nourishing your body this week! Keep blooming at your own gentle pace.';
     if (avgKcal >= targets.calories * 0.9) {
-      commentary = 'Splendid nourishment! You stayed very close to your daily calorie target with consistent balanced energy.';
+      commentary =
+          'Splendid nourishment! You stayed very close to your daily calorie target with consistent balanced energy.';
     }
 
     return WeeklyReportDataEntity(
@@ -243,7 +255,8 @@ class InsightsRepositoryImpl implements InsightsRepository {
         '${yesterday.year}-${yesterday.month.toString().padLeft(2, '0')}-${yesterday.day.toString().padLeft(2, '0')}';
 
     // If no activity today and no activity yesterday, streak is broken
-    if (!activeDates.contains(todayStr) && !activeDates.contains(yesterdayStr)) {
+    if (!activeDates.contains(todayStr) &&
+        !activeDates.contains(yesterdayStr)) {
       return 0;
     }
 
@@ -295,7 +308,9 @@ class InsightsRepositoryImpl implements InsightsRepository {
     // 4. balanced_plate: At least 1 meal has protein and balanced calories
     for (final m in mealLogs) {
       try {
-        final snap = NutrientSnapshotModel.fromJson(m.computedNutrientsSnapshot);
+        final snap = NutrientSnapshotModel.fromJson(
+          m.computedNutrientsSnapshot,
+        );
         if (snap.calories >= 250 && snap.protein >= 15) {
           await unlockBadge('balanced_plate');
           break;
@@ -309,4 +324,3 @@ class InsightsRepositoryImpl implements InsightsRepository {
     }
   }
 }
-

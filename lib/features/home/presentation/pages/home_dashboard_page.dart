@@ -43,12 +43,15 @@ class _HomeDashboardPageState extends State<HomeDashboardPage>
   bool _hasHealthPermission = true;
   StreamSubscription<bool>? _premiumSub;
   late final Stream<HealthOverviewEntity> _healthOverviewStream;
+  late final PageController _healthMetricPageController;
+  int _selectedHealthMetricPage = 0;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     _healthOverviewStream = sl<HealthRepository>().watchHealthOverview();
+    _healthMetricPageController = PageController(viewportFraction: 0.94);
     _checkPremium();
     _checkHealthPermission();
     _premiumSub = sl<BillingService>().onPremiumChanged.listen((val) {
@@ -95,6 +98,7 @@ class _HomeDashboardPageState extends State<HomeDashboardPage>
   @override
   void dispose() {
     _premiumSub?.cancel();
+    _healthMetricPageController.dispose();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
@@ -192,7 +196,7 @@ class _HomeDashboardPageState extends State<HomeDashboardPage>
                       ],
                       const SizedBox(height: AppSpacing.md),
                       _buildStatusRow(context),
-                      const SizedBox(height: AppSpacing.md),     
+                      const SizedBox(height: AppSpacing.md),
                       _buildHeroCalorieCard(context, data),
                       const SizedBox(height: AppSpacing.lg),
                       _buildWaterSection(context, data),
@@ -200,7 +204,8 @@ class _HomeDashboardPageState extends State<HomeDashboardPage>
                       _buildHealthMetrics(context),
                       const SizedBox(height: AppSpacing.lg),
                       CaloriesInOutCard(
-                        onBurnedTap: () => context.push('/health/metric-detail?type=calories'),
+                        onBurnedTap: () =>
+                            context.push('/health/metric-detail?type=calories'),
                         onIntakeTap: () => context.go('/food'),
                       ),
                       const SizedBox(height: AppSpacing.lg),
@@ -226,7 +231,9 @@ class _HomeDashboardPageState extends State<HomeDashboardPage>
       decoration: BoxDecoration(
         color: isDark ? const Color(0xFF3F1D1D) : const Color(0xFFFEF2F2),
         borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
-        border: Border.all(color: isDark ? const Color(0xFF991B1B) : const Color(0xFFFCA5A5)),
+        border: Border.all(
+          color: isDark ? const Color(0xFF991B1B) : const Color(0xFFFCA5A5),
+        ),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -254,7 +261,9 @@ class _HomeDashboardPageState extends State<HomeDashboardPage>
                     fontFamily: 'Baloo 2',
                     fontWeight: FontWeight.w700,
                     fontSize: 14,
-                    color: isDark ? const Color(0xFFFCA5A5) : const Color(0xFF991B1B),
+                    color: isDark
+                        ? const Color(0xFFFCA5A5)
+                        : const Color(0xFF991B1B),
                   ),
                 ),
                 const SizedBox(height: 2),
@@ -262,7 +271,9 @@ class _HomeDashboardPageState extends State<HomeDashboardPage>
                   context.tr('home_health_permission_desc'),
                   style: TextStyle(
                     fontSize: 11,
-                    color: isDark ? const Color(0xFFFEE2E2) : const Color(0xFF7F1D1D),
+                    color: isDark
+                        ? const Color(0xFFFEE2E2)
+                        : const Color(0xFF7F1D1D),
                     height: 1.3,
                   ),
                 ),
@@ -275,21 +286,35 @@ class _HomeDashboardPageState extends State<HomeDashboardPage>
                       foregroundColor: Theme.of(context).colorScheme.onError,
                       elevation: 0,
                       padding: const EdgeInsets.symmetric(horizontal: 14),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
                     ),
                     onPressed: () async {
-                      final granted = await sl<HealthService>().requestPermissions();
+                      final granted = await sl<HealthService>()
+                          .requestPermissions();
                       if (granted) {
                         if (!context.mounted) return;
-                        BloomiToast.show(context, message: 'Health Connect connected! ✨');
-                        await sl<HealthRepository>().getLatestBundle(forceRefresh: true);
+                        BloomiToast.show(
+                          context,
+                          message: 'Health Connect connected! ✨',
+                        );
+                        await sl<HealthRepository>().getLatestBundle(
+                          forceRefresh: true,
+                        );
                         await sl<WidgetSyncService>().syncToNativeWidgets();
                         await _checkHealthPermission();
                       } else {
                         await AppSettingsHelper.openHealthConnectSettings();
                       }
                     },
-                    child: Text(context.tr('home_allow_health'), style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700)),
+                    child: Text(
+                      context.tr('home_allow_health'),
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -334,31 +359,9 @@ class _HomeDashboardPageState extends State<HomeDashboardPage>
               shape: BoxShape.circle,
               boxShadow: context.appCardShadow,
             ),
-            child: Icon(
-              CupertinoIcons.add,
-              color: context.appInk,
-              size: 22,
-            ),
+            child: Icon(CupertinoIcons.add, color: context.appInk, size: 22),
           ),
           tooltip: context.tr('home_quick_add'),
-        ),
-        const SizedBox(width: AppSpacing.xs),
-        IconButton(
-          onPressed: () => context.push('/notifications'),
-          icon: Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: context.appSurface,
-              shape: BoxShape.circle,
-              boxShadow: context.appCardShadow,
-            ),
-            child: Icon(
-              CupertinoIcons.bell,
-              color: context.appInk,
-              size: 22,
-            ),
-          ),
-          tooltip: context.tr('notifications'),
         ),
       ],
     );
@@ -383,7 +386,11 @@ class _HomeDashboardPageState extends State<HomeDashboardPage>
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(CupertinoIcons.location_fill, size: 14, color: context.appInk),
+                Icon(
+                  CupertinoIcons.location_fill,
+                  size: 14,
+                  color: context.appInk,
+                ),
                 const SizedBox(width: 5),
                 Text(
                   context.tr('home_live_gps'),
@@ -441,7 +448,9 @@ class _HomeDashboardPageState extends State<HomeDashboardPage>
                         Container(
                           padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
-                            color: AppColors.butter.withAlpha(context.isDarkMode ? 80 : 255),
+                            color: AppColors.butter.withAlpha(
+                              context.isDarkMode ? 80 : 255,
+                            ),
                             shape: BoxShape.circle,
                           ),
                           child: Icon(
@@ -496,7 +505,8 @@ class _HomeDashboardPageState extends State<HomeDashboardPage>
                       children: [
                         _infoChip(
                           icon: CupertinoIcons.thermometer,
-                          text: 'Feels like ${surroundings.feelsLikeC.round()}°C',
+                          text:
+                              'Feels like ${surroundings.feelsLikeC.round()}°C',
                           color: context.appSlate,
                         ),
                         _infoChip(
@@ -510,7 +520,9 @@ class _HomeDashboardPageState extends State<HomeDashboardPage>
                             vertical: 6,
                           ),
                           decoration: BoxDecoration(
-                            color: surroundings.aqiColor.withAlpha(context.isDarkMode ? 65 : 45),
+                            color: surroundings.aqiColor.withAlpha(
+                              context.isDarkMode ? 65 : 45,
+                            ),
                             borderRadius: BorderRadius.circular(12),
                             border: Border.all(
                               color: surroundings.aqiColor.withAlpha(120),
@@ -550,7 +562,9 @@ class _HomeDashboardPageState extends State<HomeDashboardPage>
                         vertical: 10,
                       ),
                       decoration: BoxDecoration(
-                        color: AppColors.sky.withAlpha(context.isDarkMode ? 60 : 30),
+                        color: AppColors.sky.withAlpha(
+                          context.isDarkMode ? 60 : 30,
+                        ),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Row(
@@ -641,7 +655,10 @@ class _HomeDashboardPageState extends State<HomeDashboardPage>
                   children: [
                     Row(
                       children: [
-                        const HealthMetricAnimation(metricType: 'calories', size: 18),
+                        const HealthMetricAnimation(
+                          metricType: 'calories',
+                          size: 18,
+                        ),
                         const SizedBox(width: 6),
                         Text(
                           context.tr('home_calories_remaining_label'),
@@ -661,7 +678,9 @@ class _HomeDashboardPageState extends State<HomeDashboardPage>
                       textBaseline: TextBaseline.alphabetic,
                       children: [
                         Text(
-                          data.caloriesRemaining.toInt().toString(),
+                          HealthCalculators.formatCalories(
+                            data.caloriesRemaining,
+                          ),
                           style: TextStyle(
                             fontFamily: 'Baloo 2',
                             fontSize: 40,
@@ -683,11 +702,15 @@ class _HomeDashboardPageState extends State<HomeDashboardPage>
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      context.tr('home_eaten_target', {'consumed': data.consumedCalories.toInt(), 'target': data.targetCalories.toInt()}),
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: context.appSlate,
-                      ),
+                      context.tr('home_eaten_target', {
+                        'consumed': HealthCalculators.formatCalories(
+                          data.consumedCalories,
+                        ),
+                        'target': HealthCalculators.formatCalories(
+                          data.targetCalories,
+                        ),
+                      }),
+                      style: TextStyle(fontSize: 12, color: context.appSlate),
                     ),
                   ],
                 ),
@@ -723,8 +746,9 @@ class _HomeDashboardPageState extends State<HomeDashboardPage>
   Widget _buildWaterSection(BuildContext context, HomeDashboardEntity data) {
     final progress = data.waterProgress.clamp(0.0, 1.0);
     final percent = (progress * 100).round();
-    final remainingMl =
-    (data.targetWaterMl - data.consumedWaterMl).clamp(0, data.targetWaterMl).toInt();
+    final remainingMl = (data.targetWaterMl - data.consumedWaterMl)
+        .clamp(0, data.targetWaterMl)
+        .toInt();
     final goalReached = remainingMl == 0;
 
     return Material(
@@ -789,7 +813,10 @@ class _HomeDashboardPageState extends State<HomeDashboardPage>
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
                       color: AppColors.sky.withAlpha(45),
                       borderRadius: BorderRadius.circular(12),
@@ -845,14 +872,20 @@ class _HomeDashboardPageState extends State<HomeDashboardPage>
                 child: LinearProgressIndicator(
                   value: progress,
                   backgroundColor: AppColors.sky.withAlpha(50),
-                  valueColor: const AlwaysStoppedAnimation<Color>(AppColors.sky),
+                  valueColor: const AlwaysStoppedAnimation<Color>(
+                    AppColors.sky,
+                  ),
                   minHeight: 12,
                 ),
               ),
 
               const SizedBox(height: AppSpacing.sm),
               Text(
-                goalReached ? context.tr('home_water_goal_reached') : context.tr('home_water_to_daily_goal', {'remaining': remainingMl}),
+                goalReached
+                    ? context.tr('home_water_goal_reached')
+                    : context.tr('home_water_to_daily_goal', {
+                        'remaining': remainingMl,
+                      }),
                 softWrap: true,
                 style: TextStyle(
                   fontSize: 13,
@@ -929,22 +962,36 @@ class _HomeDashboardPageState extends State<HomeDashboardPage>
         final stepsStr = (bundle != null && bundle.steps > 0)
             ? '${bundle.steps}'
             : '--';
-        final double distanceMeters = (bundle != null && bundle.distanceMeters > 0)
+        final double distanceMeters =
+            (bundle != null && bundle.distanceMeters > 0)
             ? bundle.distanceMeters
             : ((bundle?.steps ?? 0) * 0.762);
         final stepsTrend = (bundle != null && bundle.steps > 0)
             ? HealthCalculators.formatDistance(distanceMeters)
             : 'Tap to sync';
 
-        final workoutBurned = overview?.todayWorkouts.fold<double>(0.0, (acc, w) => acc + w.calories) ?? 0.0;
-        final manualWorkoutBurned = overview?.todayWorkouts
-            .where((w) => !w.source.toLowerCase().contains('health connect'))
-            .fold<double>(0.0, (acc, w) => acc + w.calories) ?? 0.0;
+        final workoutBurned =
+            overview?.todayWorkouts.fold<double>(
+              0.0,
+              (acc, w) => acc + w.calories,
+            ) ??
+            0.0;
+        final manualWorkoutBurned =
+            overview?.todayWorkouts
+                .where(
+                  (w) => !w.source.toLowerCase().contains('health connect'),
+                )
+                .fold<double>(0.0, (acc, w) => acc + w.calories) ??
+            0.0;
         final activityBurned = bundle?.activeCalories ?? 0.0;
         final totalBurned = activityBurned + manualWorkoutBurned;
-        final burnedStr = totalBurned > 0 ? '${totalBurned.toInt()}' : '--';
+        final burnedStr = totalBurned > 0
+            ? HealthCalculators.formatCalories(totalBurned)
+            : '--';
         final burnedTrend = totalBurned > 0
-            ? (workoutBurned > 0 ? '${workoutBurned.toInt()} kcal wkt' : 'Active energy')
+            ? (workoutBurned > 0
+                  ? '${HealthCalculators.formatCalories(workoutBurned)} kcal wkt'
+                  : 'Active energy')
             : 'No activity';
 
         final hrStr = (bundle != null && bundle.heartRate > 0)
@@ -962,6 +1009,64 @@ class _HomeDashboardPageState extends State<HomeDashboardPage>
             (bundle != null && bundle.sleepDuration.inMinutes > 0)
             ? 'Tracked'
             : 'No data';
+
+        final metricCards = <Widget>[
+          PastelStatCard(
+            backgroundColor: AppColors.mint.withAlpha(130),
+            icon: CupertinoIcons.compass,
+            animationMetricType: 'steps',
+            label: 'Steps',
+            value: stepsStr,
+            unit: '/ ${_formatNumber(targetSteps)}',
+            trend: stepsTrend,
+            onTap: () async {
+              if (bundle == null || bundle.steps == 0) {
+                final hasPerm = await sl<HealthRepository>().hasPermissions();
+                if (!hasPerm) {
+                  await sl<HealthRepository>().requestPermissions();
+                }
+                await sl<HealthRepository>().getLatestBundle(
+                  forceRefresh: true,
+                );
+                if (!mounted) return;
+                setState(() {});
+              }
+              if (context.mounted) {
+                await context.push('/health/metric-detail?type=steps');
+              }
+            },
+          ),
+          PastelStatCard(
+            backgroundColor: AppColors.butter.withAlpha(130),
+            icon: CupertinoIcons.flame_fill,
+            animationMetricType: 'burned',
+            label: 'Burned',
+            value: burnedStr,
+            unit: totalBurned > 0 ? 'kcal' : '',
+            trend: burnedTrend,
+            onTap: () => context.push('/health/metric-detail?type=calories'),
+          ),
+          PastelStatCard(
+            backgroundColor: AppColors.peach.withAlpha(130),
+            icon: CupertinoIcons.heart_fill,
+            animationMetricType: 'heart_rate',
+            label: 'Heart Rate',
+            value: hrStr,
+            unit: 'bpm',
+            trend: hrTrend,
+            onTap: () => context.push('/health/metric-detail?type=heart_rate'),
+          ),
+          PastelStatCard(
+            backgroundColor: AppColors.lilac.withAlpha(130),
+            icon: CupertinoIcons.moon_fill,
+            animationMetricType: 'sleep',
+            label: 'Sleep',
+            value: sleepHours,
+            unit: 'hrs',
+            trend: sleepTrend,
+            onTap: () => context.push('/health/sleep'),
+          ),
+        ];
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -1000,81 +1105,38 @@ class _HomeDashboardPageState extends State<HomeDashboardPage>
               ],
             ),
             const SizedBox(height: AppSpacing.sm),
-            Row(
-              children: [
-                Expanded(
-                  child: PastelStatCard(
-                    backgroundColor: AppColors.mint.withAlpha(130),
-                    icon: CupertinoIcons.compass,
-                    animationMetricType: 'steps',
-                    label: 'Steps',
-                    value: stepsStr,
-                    unit: '/ ${_formatNumber(targetSteps)}',
-                    trend: stepsTrend,
-                    onTap: () async {
-                      if (bundle == null || bundle.steps == 0) {
-                        final hasPerm = await sl<HealthRepository>()
-                            .hasPermissions();
-                        if (!hasPerm) {
-                          await sl<HealthRepository>().requestPermissions();
-                        }
-                        await sl<HealthRepository>().getLatestBundle(
-                          forceRefresh: true,
-                        );
-                        if (!mounted) return;
-                        setState(() {});
-                      }
-                      if (context.mounted) {
-                        await context.push('/health/metric-detail?type=steps');
-                      }
-                    },
-                  ),
+            SizedBox(
+              height: 154,
+              child: PageView.builder(
+                controller: _healthMetricPageController,
+                itemCount: metricCards.length,
+                onPageChanged: (index) {
+                  setState(() => _selectedHealthMetricPage = index);
+                },
+                itemBuilder: (context, index) => Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  child: metricCards[index],
                 ),
-                const SizedBox(width: AppSpacing.sm),
-                Expanded(
-                  child: PastelStatCard(
-                    backgroundColor: AppColors.butter.withAlpha(130),
-                    icon: CupertinoIcons.flame_fill,
-                    animationMetricType: 'burned',
-                    label: 'Burned',
-                    value: burnedStr,
-                    unit: totalBurned > 0 ? 'kcal' : '',
-                    trend: burnedTrend,
-                    onTap: () => context.push('/health/metric-detail?type=calories'),
-                  ),
-                ),
-              ],
+              ),
             ),
-            const SizedBox(height: AppSpacing.sm),
+            const SizedBox(height: AppSpacing.xs),
             Row(
-              children: [
-                Expanded(
-                  child: PastelStatCard(
-                    backgroundColor: AppColors.peach.withAlpha(130),
-                    icon: CupertinoIcons.heart_fill,
-                    animationMetricType: 'heart_rate',
-                    label: 'Heart Rate',
-                    value: hrStr,
-                    unit: 'bpm',
-                    trend: hrTrend,
-                    onTap: () =>
-                        context.push('/health/metric-detail?type=heart_rate'),
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List<Widget>.generate(
+                metricCards.length,
+                (index) => AnimatedContainer(
+                  duration: const Duration(milliseconds: 180),
+                  width: _selectedHealthMetricPage == index ? 18 : 6,
+                  height: 6,
+                  margin: const EdgeInsets.symmetric(horizontal: 3),
+                  decoration: BoxDecoration(
+                    color: _selectedHealthMetricPage == index
+                        ? AppColors.mint
+                        : context.appSlate.withAlpha(90),
+                    borderRadius: BorderRadius.circular(4),
                   ),
                 ),
-                const SizedBox(width: AppSpacing.sm),
-                Expanded(
-                  child: PastelStatCard(
-                    backgroundColor: AppColors.lilac.withAlpha(130),
-                    icon: CupertinoIcons.moon_fill,
-                    animationMetricType: 'sleep',
-                    label: 'Sleep',
-                    value: sleepHours,
-                    unit: 'hrs',
-                    trend: sleepTrend,
-                    onTap: () => context.push('/health/sleep'),
-                  ),
-                ),
-              ],
+              ),
             ),
           ],
         );
@@ -1122,17 +1184,13 @@ class _HomeDashboardPageState extends State<HomeDashboardPage>
                   ),
                 ),
                 Text(
-                  '${data.targetCalories.toInt()} kcal · ${data.targetWaterMl.toInt()} ml water · Tap to view full plan',
+                  '${HealthCalculators.formatCalories(data.targetCalories)} kcal · ${data.targetWaterMl.toInt()} ml water · Tap to view full plan',
                   style: TextStyle(fontSize: 12, color: context.appSlate),
                 ),
               ],
             ),
           ),
-          Icon(
-            CupertinoIcons.chevron_forward,
-            size: 16,
-            color: context.appInk,
-          ),
+          Icon(CupertinoIcons.chevron_forward, size: 16, color: context.appInk),
         ],
       ),
     );
@@ -1163,16 +1221,26 @@ class _HomeDashboardPageState extends State<HomeDashboardPage>
           onTap: () => context.push('/settings/premium'),
           borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: 12),
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.md,
+              vertical: 12,
+            ),
             child: Row(
               children: [
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: Color.alphaBlend(AppColors.softOrange.withAlpha(38), context.appSurface),
+                    color: Color.alphaBlend(
+                      AppColors.softOrange.withAlpha(38),
+                      context.appSurface,
+                    ),
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(CupertinoIcons.lock_fill, color: AppColors.softOrange, size: 20),
+                  child: const Icon(
+                    CupertinoIcons.lock_fill,
+                    color: AppColors.softOrange,
+                    size: 20,
+                  ),
                 ),
                 const SizedBox(width: AppSpacing.sm),
                 Expanded(
@@ -1191,7 +1259,11 @@ class _HomeDashboardPageState extends State<HomeDashboardPage>
                       ),
                       Text(
                         context.tr('home_upgrade_plan_desc'),
-                        style: TextStyle(fontSize: 11, color: context.appSlate, fontWeight: FontWeight.w600),
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: context.appSlate,
+                          fontWeight: FontWeight.w600,
+                        ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -1199,7 +1271,10 @@ class _HomeDashboardPageState extends State<HomeDashboardPage>
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 6,
+                  ),
                   decoration: BoxDecoration(
                     color: context.appInk,
                     borderRadius: BorderRadius.circular(20),

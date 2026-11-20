@@ -140,7 +140,7 @@ class _OnboardingFlowPageState extends State<OnboardingFlowPage> {
               Expanded(
                 child: MediaQuery.removePadding(
                   context: context,
-                  removeTop: _currentIndex > 0,
+                  removeTop: _currentIndex > 0 && _currentIndex < _maxPageCount - 1,
                   child: PageView(
                   controller: _pageController,
                   // Prevent accidental swiping across steps; user advances with explicit buttons

@@ -1,17 +1,11 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../domain/entities/reminder_entity.dart';
 import '../../domain/usecases/settings_usecases.dart';
 
 part 'settings_event.dart';
 part 'settings_state.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
-  final GetRemindersUseCase getRemindersUseCase;
-  final WatchRemindersUseCase watchRemindersUseCase;
-  final ToggleReminderUseCase toggleReminderUseCase;
-  final UpdateReminderTimeUseCase updateReminderTimeUseCase;
-  final SeedDefaultRemindersUseCase seedDefaultRemindersUseCase;
   final GetUnitsAndLanguageUseCase getUnitsAndLanguageUseCase;
   final UpdateUnitsUseCase updateUnitsUseCase;
   final UpdateLanguageUseCase updateLanguageUseCase;
@@ -23,11 +17,6 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   final SyncWidgetsUseCase syncWidgetsUseCase;
 
   SettingsBloc({
-    required this.getRemindersUseCase,
-    required this.watchRemindersUseCase,
-    required this.toggleReminderUseCase,
-    required this.updateReminderTimeUseCase,
-    required this.seedDefaultRemindersUseCase,
     required this.getUnitsAndLanguageUseCase,
     required this.updateUnitsUseCase,
     required this.updateLanguageUseCase,
@@ -39,8 +28,6 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     required this.syncWidgetsUseCase,
   }) : super(const SettingsInitial()) {
     on<LoadSettingsEvent>(_onLoadSettings);
-    on<ToggleReminderEvent>(_onToggleReminder);
-    on<UpdateReminderTimeEvent>(_onUpdateReminderTime);
     on<UpdateUnitsEvent>(_onUpdateUnits);
     on<UpdateLanguageEvent>(_onUpdateLanguage);
     on<ExportDataEvent>(_onExportData);
@@ -56,51 +43,18 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   ) async {
     emit(const SettingsLoading());
     try {
-      await seedDefaultRemindersUseCase();
-      final reminders = await getRemindersUseCase();
       final unitsAndLang = await getUnitsAndLanguageUseCase();
       final isPrem = await checkPremiumUseCase();
 
-      emit(SettingsLoaded(
-        reminders: reminders,
-        units: unitsAndLang['units'] ?? 'metric',
-        language: unitsAndLang['language'] ?? 'en',
-        isPremium: isPrem,
-      ));
+      emit(
+        SettingsLoaded(
+          units: unitsAndLang['units'] ?? 'metric',
+          language: unitsAndLang['language'] ?? 'en',
+          isPremium: isPrem,
+        ),
+      );
     } catch (e) {
       emit(SettingsError(e.toString()));
-    }
-  }
-
-  Future<void> _onToggleReminder(
-    ToggleReminderEvent event,
-    Emitter<SettingsState> emit,
-  ) async {
-    final current = state;
-    if (current is SettingsLoaded) {
-      try {
-        await toggleReminderUseCase(event.id, event.enabled);
-        final updated = await getRemindersUseCase();
-        emit(current.copyWith(reminders: updated));
-      } catch (e) {
-        emit(SettingsError(e.toString()));
-      }
-    }
-  }
-
-  Future<void> _onUpdateReminderTime(
-    UpdateReminderTimeEvent event,
-    Emitter<SettingsState> emit,
-  ) async {
-    final current = state;
-    if (current is SettingsLoaded) {
-      try {
-        await updateReminderTimeUseCase(event.id, event.newTime);
-        final updated = await getRemindersUseCase();
-        emit(current.copyWith(reminders: updated));
-      } catch (e) {
-        emit(SettingsError(e.toString()));
-      }
     }
   }
 
@@ -142,7 +96,12 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     if (current is SettingsLoaded) {
       try {
         final json = await exportDataUseCase();
-        emit(current.copyWith(exportJson: json, message: 'Data exported successfully!'));
+        emit(
+          current.copyWith(
+            exportJson: json,
+            message: 'Data exported successfully!',
+          ),
+        );
       } catch (e) {
         emit(SettingsError(e.toString()));
       }
@@ -207,4 +166,3 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     }
   }
 }
-

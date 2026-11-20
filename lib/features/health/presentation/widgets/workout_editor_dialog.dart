@@ -3,6 +3,7 @@ import 'package:bloomi/app/di/injection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:bloomi/core/constants/app_colors.dart';
 import 'package:bloomi/core/constants/app_spacing.dart';
+import 'package:bloomi/core/utils/health_calculators.dart';
 import 'package:bloomi/core/database/app_database.dart';
 import 'package:bloomi/core/widgets/bloomi_overlays.dart';
 import 'package:bloomi/features/health/domain/repositories/health_repository.dart';
@@ -13,11 +14,7 @@ class WorkoutEditorDialog extends StatefulWidget {
   final WorkoutLog? existingWorkout;
   final VoidCallback? onSaved;
 
-  const WorkoutEditorDialog({
-    super.key,
-    this.existingWorkout,
-    this.onSaved,
-  });
+  const WorkoutEditorDialog({super.key, this.existingWorkout, this.onSaved});
 
   @override
   State<WorkoutEditorDialog> createState() => _WorkoutEditorDialogState();
@@ -53,8 +50,12 @@ class _WorkoutEditorDialogState extends State<WorkoutEditorDialog> {
     super.initState();
     final w = widget.existingWorkout;
     _activityCtrl = TextEditingController(text: w?.type ?? 'Walking');
-    _durationCtrl = TextEditingController(text: w != null ? w.durationMinutes.toString() : '30');
-    _caloriesCtrl = TextEditingController(text: w != null ? w.calories.toInt().toString() : '140');
+    _durationCtrl = TextEditingController(
+      text: w != null ? w.durationMinutes.toString() : '30',
+    );
+    _caloriesCtrl = TextEditingController(
+      text: w != null ? HealthCalculators.formatCalories(w.calories) : '140',
+    );
   }
 
   @override
@@ -128,7 +129,11 @@ class _WorkoutEditorDialogState extends State<WorkoutEditorDialog> {
             children: [
               Text(
                 'Activity Type',
-                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 13, color: context.appInk),
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 13,
+                  color: context.appInk,
+                ),
               ),
               const SizedBox(height: 4),
               Text(
@@ -142,7 +147,8 @@ class _WorkoutEditorDialogState extends State<WorkoutEditorDialog> {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: _presets.map((preset) {
-                    final isSelected = currentActivity.toLowerCase() == preset.toLowerCase();
+                    final isSelected =
+                        currentActivity.toLowerCase() == preset.toLowerCase();
                     return Padding(
                       padding: const EdgeInsets.only(right: 6),
                       child: ChoiceChip(
@@ -152,11 +158,19 @@ class _WorkoutEditorDialogState extends State<WorkoutEditorDialog> {
                         backgroundColor: context.appSurface,
                         labelStyle: TextStyle(
                           fontSize: 12,
-                          fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
-                          color: isSelected ? Theme.of(context).colorScheme.onPrimary : context.appSlate,
+                          fontWeight: isSelected
+                              ? FontWeight.w700
+                              : FontWeight.w600,
+                          color: isSelected
+                              ? Theme.of(context).colorScheme.onPrimary
+                              : context.appSlate,
                         ),
                         side: BorderSide(
-                          color: isSelected ? (context.isDarkMode ? AppColors.darkMint : AppColors.mintDark) : context.appBorderColor,
+                          color: isSelected
+                              ? (context.isDarkMode
+                                    ? AppColors.darkMint
+                                    : AppColors.mintDark)
+                              : context.appBorderColor,
                         ),
                         onSelected: (_) => _onPresetSelected(preset),
                       ),
@@ -169,19 +183,35 @@ class _WorkoutEditorDialogState extends State<WorkoutEditorDialog> {
               // Custom Input Field for Activity Type
               TextField(
                 controller: _activityCtrl,
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14, color: context.appInk),
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 14,
+                  color: context.appInk,
+                ),
                 decoration: InputDecoration(
                   labelText: 'Activity Name / Type',
                   hintText: 'e.g. Morning Walk, Zumba, CrossFit...',
-                  prefixIcon: Icon(CupertinoIcons.bolt_fill, color: context.isDarkMode ? AppColors.darkMint : AppColors.mintDark, size: 20),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                  prefixIcon: Icon(
+                    CupertinoIcons.bolt_fill,
+                    color: context.isDarkMode
+                        ? AppColors.darkMint
+                        : AppColors.mintDark,
+                    size: 20,
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 12,
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                     borderSide: BorderSide(color: context.appBorderColor),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: AppColors.mint, width: 2),
+                    borderSide: const BorderSide(
+                      color: AppColors.mint,
+                      width: 2,
+                    ),
                   ),
                 ),
                 onChanged: (_) => setState(() {}),
@@ -191,17 +221,32 @@ class _WorkoutEditorDialogState extends State<WorkoutEditorDialog> {
               // Duration Field
               Text(
                 'Duration (minutes)',
-                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 13, color: context.appInk),
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 13,
+                  color: context.appInk,
+                ),
               ),
               const SizedBox(height: 6),
               TextField(
                 controller: _durationCtrl,
                 keyboardType: TextInputType.number,
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14, color: context.appInk),
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 14,
+                  color: context.appInk,
+                ),
                 decoration: InputDecoration(
-                  prefixIcon: Icon(CupertinoIcons.timer, color: context.appSlate, size: 20),
+                  prefixIcon: Icon(
+                    CupertinoIcons.timer,
+                    color: context.appSlate,
+                    size: 20,
+                  ),
                   suffixText: 'mins',
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 12,
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                     borderSide: BorderSide(color: context.appBorderColor),
@@ -213,17 +258,32 @@ class _WorkoutEditorDialogState extends State<WorkoutEditorDialog> {
               // Calories Field
               Text(
                 'Estimated Calories Burned (kcal)',
-                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 13, color: context.appInk),
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 13,
+                  color: context.appInk,
+                ),
               ),
               const SizedBox(height: 6),
               TextField(
                 controller: _caloriesCtrl,
                 keyboardType: TextInputType.number,
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14, color: context.appInk),
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 14,
+                  color: context.appInk,
+                ),
                 decoration: InputDecoration(
-                  prefixIcon: const Icon(CupertinoIcons.flame_fill, color: AppColors.softOrange, size: 20),
+                  prefixIcon: const Icon(
+                    CupertinoIcons.flame_fill,
+                    color: AppColors.softOrange,
+                    size: 20,
+                  ),
                   suffixText: 'kcal',
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 12,
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                     borderSide: BorderSide(color: context.appBorderColor),
@@ -237,7 +297,10 @@ class _WorkoutEditorDialogState extends State<WorkoutEditorDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: Text(context.tr('cancel'), style: TextStyle(color: context.appSlate)),
+          child: Text(
+            context.tr('cancel'),
+            style: TextStyle(color: context.appSlate),
+          ),
         ),
         ElevatedButton(
           style: ElevatedButton.styleFrom(
@@ -250,12 +313,16 @@ class _WorkoutEditorDialogState extends State<WorkoutEditorDialog> {
           onPressed: () async {
             final type = _activityCtrl.text.trim();
             if (type.isEmpty) {
-              BloomiToast.show(context, message: 'Please enter an activity name.');
+              BloomiToast.show(
+                context,
+                message: 'Please enter an activity name.',
+              );
               return;
             }
 
             final duration = int.tryParse(_durationCtrl.text.trim()) ?? 30;
-            final calories = double.tryParse(_caloriesCtrl.text.trim()) ?? 140.0;
+            final calories =
+                double.tryParse(_caloriesCtrl.text.trim()) ?? 140.0;
             final repo = sl<HealthRepository>();
 
             if (isEditing) {
@@ -301,10 +368,8 @@ Future<void> showWorkoutEditorDialog(
 }) {
   return Navigator.of(context).push<void>(
     CupertinoPageRoute<void>(
-      builder: (_) => WorkoutEditorPage(
-        existingWorkout: workout,
-        onSaved: onSaved,
-      ),
+      builder: (_) =>
+          WorkoutEditorPage(existingWorkout: workout, onSaved: onSaved),
     ),
   );
 }
@@ -322,7 +387,11 @@ Future<void> confirmAndDeleteWorkout(
       ),
       title: const Text(
         'Delete Workout?',
-        style: TextStyle(fontFamily: 'Baloo 2', fontWeight: FontWeight.w700, fontSize: 18),
+        style: TextStyle(
+          fontFamily: 'Baloo 2',
+          fontWeight: FontWeight.w700,
+          fontSize: 18,
+        ),
       ),
       content: Text(
         'Are you sure you want to remove "${workout.type}" (${workout.durationMinutes} mins)?',
@@ -331,7 +400,10 @@ Future<void> confirmAndDeleteWorkout(
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(ctx, false),
-          child: Text(context.tr('cancel'), style: TextStyle(color: context.appSlate)),
+          child: Text(
+            context.tr('cancel'),
+            style: TextStyle(color: context.appSlate),
+          ),
         ),
         ElevatedButton(
           style: ElevatedButton.styleFrom(
@@ -341,8 +413,10 @@ Future<void> confirmAndDeleteWorkout(
             shape: const StadiumBorder(),
           ),
           onPressed: () => Navigator.pop(ctx, true),
-          child: Text(context.tr('delete'), 
-          style: const TextStyle(fontWeight: FontWeight.w700)),
+          child: Text(
+            context.tr('delete'),
+            style: const TextStyle(fontWeight: FontWeight.w700),
+          ),
         ),
       ],
     ),
@@ -356,4 +430,3 @@ Future<void> confirmAndDeleteWorkout(
     onDeleted?.call();
   }
 }
-

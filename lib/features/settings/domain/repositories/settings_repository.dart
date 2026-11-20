@@ -1,12 +1,4 @@
-import '../entities/reminder_entity.dart';
-
 abstract class SettingsRepository {
-  Stream<List<ReminderEntity>> watchReminders();
-  Future<List<ReminderEntity>> getReminders();
-  Future<void> seedDefaultReminders();
-  Future<void> rescheduleAllReminders();
-  Future<void> toggleReminder(String id, bool enabled);
-  Future<void> updateReminderTime(String id, String newTime);
   Future<Map<String, String>> getUnitsAndLanguage();
   Future<void> updateUnits(String units);
   Future<void> updateLanguage(String language);
@@ -17,4 +9,3 @@ abstract class SettingsRepository {
   Future<bool> restorePurchases();
   Future<void> syncWidgets();
 }
-

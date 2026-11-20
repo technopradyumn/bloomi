@@ -1,4 +1,3 @@
-import 'package:bloomi/app/di/injection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:bloomi/core/constants/app_colors.dart';
 import 'package:bloomi/core/constants/app_spacing.dart';
@@ -9,12 +8,13 @@ import 'package:bloomi/core/widgets/mascot/mascot_widget.dart';
 import 'package:bloomi/core/widgets/metric_animations/floating_onboarding_illustration.dart';
 import 'package:bloomi/core/widgets/pastel_stat_card.dart';
 import 'package:bloomi/core/widgets/pill_button.dart';
+import 'package:bloomi/core/widgets/step_target_sheet.dart';
 import 'package:bloomi/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bloomi/features/onboarding/presentation/bloc/onboarding_bloc.dart';
-import 'package:bloomi/services/health/health_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 class PlanReadyPage extends StatefulWidget {
   const PlanReadyPage({super.key, this.onBack});
@@ -28,7 +28,19 @@ class PlanReadyPage extends StatefulWidget {
 class _PlanReadyPageState extends State<PlanReadyPage> {
   bool _isSaving = false;
 
-  void _onStartJourney(BuildContext context, OnboardingState state) async {
+  Future<void> _changeStepTarget() async {
+    final bloc = context.read<OnboardingBloc>();
+    await showStepTargetModal(
+      context,
+      currentTarget: bloc.state.profile.stepTarget,
+      onTargetSaved: (newTarget) async {
+        bloc.add(OnboardingStepTargetUpdated(newTarget));
+      },
+    );
+  }
+
+  void _onStartJourney(BuildContext context, OnboardingState state) {
+    if (_isSaving) return;
     if (!state.profile.isDisclaimerAccepted) {
       BloomiToast.show(
         context,
@@ -38,37 +50,22 @@ class _PlanReadyPageState extends State<PlanReadyPage> {
       return;
     }
 
-    // Mandatory Health Connect check
-    final healthService = sl<HealthService>();
-    final healthAvail = await healthService.checkHealthConnectAvailability();
-    if (healthAvail != HealthConnectAvailability.unsupportedPlatform) {
-      final hasHealth = await healthService.hasPermissions();
-      if (!hasHealth) {
-        if (!context.mounted) return;
-        BloomiToast.show(
-          context,
-          message: 'Google Health Connect permission is mandatory to finish onboarding.',
-          icon: CupertinoIcons.lock_fill,
-        );
-        final granted = await healthService.requestPermissions();
-        if (!granted) {
-          if (!context.mounted) return;
-          if (widget.onBack != null) {
-            widget.onBack!();
-          } else {
-            context.go('/onboarding/permissions');
-          }
-          return;
-        }
-      }
-    }
-
-    if (!context.mounted) return;
     setState(() => _isSaving = true);
-    final authUser = context.read<AuthBloc>().state.user;
-    context.read<OnboardingBloc>().add(
-          OnboardingSaveAndCompleteRequested(authUser?.id),
-        );
+    try {
+      final authUser = context.read<AuthBloc>().state.user;
+      context.read<OnboardingBloc>().add(
+            OnboardingSaveAndCompleteRequested(authUser?.id),
+          );
+    } catch (error) {
+      if (!context.mounted) return;
+      setState(() => _isSaving = false);
+      debugPrint('Failed to finish onboarding: $error');
+      BloomiToast.show(
+        context,
+        message: 'Unable to verify permissions or save your plan. Please try again.',
+        icon: CupertinoIcons.exclamationmark_circle,
+      );
+    }
   }
 
   @override
@@ -89,7 +86,9 @@ class _PlanReadyPageState extends State<PlanReadyPage> {
           setState(() => _isSaving = false);
           context.go('/home');
         } else if (state is OnboardingFailureState) {
+          if (!mounted) return;
           setState(() => _isSaving = false);
+          debugPrint('Failed to save onboarding profile: ${state.errorMessage}');
           BloomiToast.show(
             context,
             message: 'Error saving your plan. Please try again.',
@@ -194,13 +193,17 @@ class _PlanReadyPageState extends State<PlanReadyPage> {
                                     children: [
                                       const Icon(CupertinoIcons.flame_fill, color: AppColors.softOrange),
                                       const SizedBox(width: AppSpacing.sm),
-                                      Text(
-                                        'Daily Calorie Target',
-                                        style: TextStyle(
-                                          fontFamily: 'Nunito',
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 16,
-                                          color: context.appInk,
+                                      Expanded(
+                                        child: Text(
+                                          'Daily Calorie Target',
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            fontFamily: 'Nunito',
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 16,
+                                            color: context.appInk,
+                                          ),
                                         ),
                                       ),
                                     ],
@@ -268,13 +271,14 @@ class _PlanReadyPageState extends State<PlanReadyPage> {
                                 ),
                               ),
                               const SizedBox(width: AppSpacing.sm),
-                              const Expanded(
+                              Expanded(
                                 child: PastelStatCard(
                                   backgroundColor: AppColors.butter,
-                                  icon: CupertinoIcons.compass,
+                                  icon: CupertinoIcons.pencil,
                                   label: 'Daily Steps',
-                                  value: '8,000',
+                                  value: NumberFormat.decimalPattern().format(profile.stepTarget),
                                   unit: 'steps',
+                                  onTap: _changeStepTarget,
                                 ),
                               ),
                             ],

@@ -2,6 +2,7 @@ import 'package:bloomi/app/di/injection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:bloomi/core/constants/app_colors.dart';
 import 'package:bloomi/core/constants/app_spacing.dart';
+import 'package:bloomi/core/utils/health_calculators.dart';
 import 'package:bloomi/core/widgets/metric_animations/health_metric_animations.dart';
 import 'package:bloomi/core/widgets/step_target_sheet.dart';
 import 'package:bloomi/features/health/domain/entities/health_overview_entity.dart';
@@ -12,10 +13,7 @@ import 'package:flutter/material.dart';
 class MetricDetailPage extends StatefulWidget {
   final String metricType;
 
-  const MetricDetailPage({
-    super.key,
-    this.metricType = 'steps',
-  });
+  const MetricDetailPage({super.key, this.metricType = 'steps'});
 
   @override
   State<MetricDetailPage> createState() => _MetricDetailPageState();
@@ -41,7 +39,9 @@ class _MetricDetailPageState extends State<MetricDetailPage>
     try {
       final b = await sl<HealthRepository>().getLatestBundle();
       final target = await sl<HealthRepository>().getStepTarget();
-      final workouts = await sl<HealthRepository>().getWorkoutLogsForDate(DateTime.now());
+      final workouts = await sl<HealthRepository>().getWorkoutLogsForDate(
+        DateTime.now(),
+      );
       final workoutKcal = workouts
           .where((w) => !w.source.toLowerCase().contains('health connect'))
           .fold<double>(0.0, (acc, w) => acc + w.calories);
@@ -146,14 +146,16 @@ class _MetricDetailPageState extends State<MetricDetailPage>
           'total': totalKcal,
           'chartType': 'bar',
           'description':
-              'Active calories reflect total energy burned during daily movement, steps ($activeKcal kcal) and logged workouts ($_workoutCalories kcal).',
+              'Active calories reflect total energy burned during daily movement, steps (${HealthCalculators.formatCalories(activeKcal)} kcal) and logged workouts (${HealthCalculators.formatCalories(_workoutCalories)} kcal).',
         };
       case 'distance':
         final double distMeters = (b != null && b.distanceMeters > 0)
             ? b.distanceMeters
             : ((b?.steps ?? 0) * 0.762);
         final isMeters = distMeters < 1000.0;
-        final distVal = isMeters ? distMeters.roundToDouble() : (distMeters / 1000.0);
+        final distVal = isMeters
+            ? distMeters.roundToDouble()
+            : (distMeters / 1000.0);
         final unitStr = isMeters ? 'm' : 'km';
         return {
           'title': 'Distance Walked',
@@ -215,7 +217,9 @@ class _MetricDetailPageState extends State<MetricDetailPage>
       return Scaffold(
         backgroundColor: context.appBackground,
         appBar: AppBar(backgroundColor: Colors.transparent, elevation: 0),
-        body: const Center(child: CircularProgressIndicator(color: AppColors.mint)),
+        body: const Center(
+          child: CircularProgressIndicator(color: AppColors.mint),
+        ),
       );
     }
 
@@ -266,7 +270,10 @@ class _MetricDetailPageState extends State<MetricDetailPage>
               indicatorSize: TabBarIndicatorSize.tab,
               labelColor: context.appInk,
               unselectedLabelColor: context.appSlate,
-              labelStyle: const TextStyle(fontWeight: FontWeight.w700, fontSize: 13),
+              labelStyle: const TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: 13,
+              ),
               tabs: _ranges.map((r) => Tab(text: r)).toList(),
             ),
           ),
@@ -274,10 +281,15 @@ class _MetricDetailPageState extends State<MetricDetailPage>
 
           if (widget.metricType.toLowerCase() == 'steps') ...[
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: 12),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.md,
+                vertical: 12,
+              ),
               decoration: BoxDecoration(
                 color: context.appSurface,
-                borderRadius: const BorderRadius.all(Radius.circular(AppSpacing.cardRadius)),
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(AppSpacing.cardRadius),
+                ),
                 boxShadow: context.appCardShadow,
               ),
               child: Row(
@@ -288,7 +300,11 @@ class _MetricDetailPageState extends State<MetricDetailPage>
                       color: AppColors.mint.withAlpha(120),
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(CupertinoIcons.flag_fill, color: context.appInk, size: 20),
+                    child: Icon(
+                      CupertinoIcons.flag_fill,
+                      color: context.appInk,
+                      size: 20,
+                    ),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
@@ -319,7 +335,10 @@ class _MetricDetailPageState extends State<MetricDetailPage>
                     onTap: _openStepTargetModal,
                     borderRadius: BorderRadius.circular(16),
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 6,
+                      ),
                       decoration: BoxDecoration(
                         color: AppColors.mint,
                         borderRadius: BorderRadius.circular(16),
@@ -327,7 +346,11 @@ class _MetricDetailPageState extends State<MetricDetailPage>
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(CupertinoIcons.pencil, size: 14, color: context.appInk),
+                          Icon(
+                            CupertinoIcons.pencil,
+                            size: 14,
+                            color: context.appInk,
+                          ),
                           const SizedBox(width: 4),
                           Text(
                             'Change Goal',
@@ -352,7 +375,9 @@ class _MetricDetailPageState extends State<MetricDetailPage>
             padding: const EdgeInsets.all(AppSpacing.md),
             decoration: BoxDecoration(
               color: context.appSurface,
-              borderRadius: const BorderRadius.all(Radius.circular(AppSpacing.cardRadius)),
+              borderRadius: const BorderRadius.all(
+                Radius.circular(AppSpacing.cardRadius),
+              ),
               boxShadow: context.appCardShadow,
             ),
             child: Column(
@@ -362,7 +387,10 @@ class _MetricDetailPageState extends State<MetricDetailPage>
                   children: [
                     Container(
                       padding: const EdgeInsets.all(6),
-                      decoration: BoxDecoration(color: color.withAlpha(80), shape: BoxShape.circle),
+                      decoration: BoxDecoration(
+                        color: color.withAlpha(80),
+                        shape: BoxShape.circle,
+                      ),
                       child: HealthMetricAnimation(
                         metricType: widget.metricType,
                         size: 26,
@@ -376,10 +404,18 @@ class _MetricDetailPageState extends State<MetricDetailPage>
                         children: [
                           Text(
                             'Average ($unit)',
-                            style: TextStyle(fontSize: 12, color: context.appSlate, fontWeight: FontWeight.w600),
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: context.appSlate,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                           Text(
-                            avgVal % 1 == 0 ? avgVal.toInt().toString() : avgVal.toStringAsFixed(1),
+                            widget.metricType.toLowerCase() == 'calories'
+                                ? HealthCalculators.formatCalories(avgVal)
+                                : avgVal % 1 == 0
+                                ? avgVal.toInt().toString()
+                                : avgVal.toStringAsFixed(1),
                             style: TextStyle(
                               fontFamily: 'Baloo 2',
                               fontWeight: FontWeight.w800,
@@ -391,10 +427,15 @@ class _MetricDetailPageState extends State<MetricDetailPage>
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 5,
+                      ),
                       decoration: BoxDecoration(
                         color: context.appBackground,
-                        borderRadius: const BorderRadius.all(Radius.circular(12)),
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(12),
+                        ),
                         border: Border.all(color: context.appBorderColor),
                       ),
                       child: Row(
@@ -403,7 +444,9 @@ class _MetricDetailPageState extends State<MetricDetailPage>
                           Icon(
                             CupertinoIcons.radiowaves_right,
                             size: 14,
-                            color: context.isDarkMode ? const Color(0xFF14B8A6) : const Color(0xFF0F766E),
+                            color: context.isDarkMode
+                                ? const Color(0xFF14B8A6)
+                                : const Color(0xFF0F766E),
                           ),
                           const SizedBox(width: 4),
                           Text(
@@ -426,7 +469,13 @@ class _MetricDetailPageState extends State<MetricDetailPage>
                   height: 190,
                   child: chartType == 'bar'
                       ? _buildBarChart(context, color, todayVal)
-                      : _buildLineChart(context, color, minVal, maxVal, todayVal),
+                      : _buildLineChart(
+                          context,
+                          color,
+                          minVal,
+                          maxVal,
+                          todayVal,
+                        ),
                 ),
               ],
             ),
@@ -440,7 +489,11 @@ class _MetricDetailPageState extends State<MetricDetailPage>
                 child: _buildSummaryBox(
                   context,
                   'Minimum',
-                  minVal % 1 == 0 ? minVal.toInt().toString() : minVal.toStringAsFixed(1),
+                  widget.metricType.toLowerCase() == 'calories'
+                      ? HealthCalculators.formatCalories(minVal)
+                      : minVal % 1 == 0
+                      ? minVal.toInt().toString()
+                      : minVal.toStringAsFixed(1),
                   unit,
                   AppColors.sky,
                 ),
@@ -450,7 +503,11 @@ class _MetricDetailPageState extends State<MetricDetailPage>
                 child: _buildSummaryBox(
                   context,
                   'Average',
-                  avgVal % 1 == 0 ? avgVal.toInt().toString() : avgVal.toStringAsFixed(1),
+                  widget.metricType.toLowerCase() == 'calories'
+                      ? HealthCalculators.formatCalories(avgVal)
+                      : avgVal % 1 == 0
+                      ? avgVal.toInt().toString()
+                      : avgVal.toStringAsFixed(1),
                   unit,
                   AppColors.mint,
                 ),
@@ -460,7 +517,11 @@ class _MetricDetailPageState extends State<MetricDetailPage>
                 child: _buildSummaryBox(
                   context,
                   'Maximum',
-                  maxVal % 1 == 0 ? maxVal.toInt().toString() : maxVal.toStringAsFixed(1),
+                  widget.metricType.toLowerCase() == 'calories'
+                      ? HealthCalculators.formatCalories(maxVal)
+                      : maxVal % 1 == 0
+                      ? maxVal.toInt().toString()
+                      : maxVal.toStringAsFixed(1),
                   unit,
                   AppColors.peach,
                 ),
@@ -471,7 +532,11 @@ class _MetricDetailPageState extends State<MetricDetailPage>
                   child: _buildSummaryBox(
                     context,
                     'Total',
-                    totalVal % 1 == 0 ? totalVal.toInt().toString() : totalVal.toStringAsFixed(0),
+                    widget.metricType.toLowerCase() == 'calories'
+                        ? HealthCalculators.formatCalories(totalVal)
+                        : totalVal % 1 == 0
+                        ? totalVal.toInt().toString()
+                        : totalVal.toStringAsFixed(0),
                     unit,
                     AppColors.butter,
                   ),
@@ -486,7 +551,9 @@ class _MetricDetailPageState extends State<MetricDetailPage>
             padding: const EdgeInsets.all(AppSpacing.md),
             decoration: BoxDecoration(
               color: context.appSurface,
-              borderRadius: const BorderRadius.all(Radius.circular(AppSpacing.cardRadius)),
+              borderRadius: const BorderRadius.all(
+                Radius.circular(AppSpacing.cardRadius),
+              ),
               boxShadow: context.appCardShadow,
             ),
             child: Row(
@@ -494,7 +561,9 @@ class _MetricDetailPageState extends State<MetricDetailPage>
                 Icon(
                   CupertinoIcons.device_desktop,
                   size: 22,
-                  color: context.isDarkMode ? const Color(0xFF14B8A6) : const Color(0xFF0F766E),
+                  color: context.isDarkMode
+                      ? const Color(0xFF14B8A6)
+                      : const Color(0xFF0F766E),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
@@ -503,11 +572,19 @@ class _MetricDetailPageState extends State<MetricDetailPage>
                     children: [
                       Text(
                         'Data Source',
-                        style: TextStyle(fontSize: 12, color: context.appSlate, fontWeight: FontWeight.w600),
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: context.appSlate,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                       Text(
                         'Samsung Galaxy Watch via Health Connect',
-                        style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: context.appInk),
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w700,
+                          color: context.appInk,
+                        ),
                       ),
                     ],
                   ),
@@ -517,7 +594,9 @@ class _MetricDetailPageState extends State<MetricDetailPage>
                   style: TextStyle(
                     fontSize: 11,
                     fontWeight: FontWeight.w700,
-                    color: context.isDarkMode ? const Color(0xFF14B8A6) : const Color(0xFF0F766E),
+                    color: context.isDarkMode
+                        ? const Color(0xFF14B8A6)
+                        : const Color(0xFF0F766E),
                   ),
                 ),
               ],
@@ -530,7 +609,9 @@ class _MetricDetailPageState extends State<MetricDetailPage>
             padding: const EdgeInsets.all(AppSpacing.md),
             decoration: BoxDecoration(
               color: context.appBackground,
-              borderRadius: const BorderRadius.all(Radius.circular(AppSpacing.cardRadius)),
+              borderRadius: const BorderRadius.all(
+                Radius.circular(AppSpacing.cardRadius),
+              ),
               border: Border.all(color: context.appBorderColor),
             ),
             child: Column(
@@ -538,18 +619,30 @@ class _MetricDetailPageState extends State<MetricDetailPage>
               children: [
                 Row(
                   children: [
-                    Icon(CupertinoIcons.lightbulb, size: 18, color: context.appSlate),
+                    Icon(
+                      CupertinoIcons.lightbulb,
+                      size: 18,
+                      color: context.appSlate,
+                    ),
                     const SizedBox(width: 6),
                     Text(
                       'About this metric',
-                      style: TextStyle(fontWeight: FontWeight.w700, fontSize: 13, color: context.appInk),
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 13,
+                        color: context.appInk,
+                      ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 6),
                 Text(
                   description,
-                  style: TextStyle(fontSize: 12, color: context.appSlate, height: 1.4),
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: context.appSlate,
+                    height: 1.4,
+                  ),
                 ),
               ],
             ),
@@ -560,12 +653,20 @@ class _MetricDetailPageState extends State<MetricDetailPage>
     );
   }
 
-  Widget _buildSummaryBox(BuildContext context, String label, String value, String unit, Color color) {
+  Widget _buildSummaryBox(
+    BuildContext context,
+    String label,
+    String value,
+    String unit,
+    Color color,
+  ) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
       decoration: BoxDecoration(
         color: context.appSurface,
-        borderRadius: const BorderRadius.all(Radius.circular(AppSpacing.cardRadius)),
+        borderRadius: const BorderRadius.all(
+          Radius.circular(AppSpacing.cardRadius),
+        ),
         border: Border.all(color: color.withAlpha(120)),
         boxShadow: context.appCardShadow,
       ),
@@ -573,12 +674,20 @@ class _MetricDetailPageState extends State<MetricDetailPage>
         children: [
           Text(
             label,
-            style: TextStyle(fontSize: 10, color: context.appSlate, fontWeight: FontWeight.w600),
+            style: TextStyle(
+              fontSize: 10,
+              color: context.appSlate,
+              fontWeight: FontWeight.w600,
+            ),
           ),
           const SizedBox(height: 2),
           Text(
             value,
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: context.appInk),
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w800,
+              color: context.appInk,
+            ),
           ),
           Text(
             unit,
@@ -600,7 +709,11 @@ class _MetricDetailPageState extends State<MetricDetailPage>
             const SizedBox(height: 8),
             Text(
               'No activity points recorded today yet.',
-              style: TextStyle(color: context.appSlate, fontSize: 13, fontWeight: FontWeight.w600),
+              style: TextStyle(
+                color: context.appSlate,
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+              ),
             ),
             const SizedBox(height: 4),
             Text(
@@ -625,7 +738,11 @@ class _MetricDetailPageState extends State<MetricDetailPage>
           touchTooltipData: BarTouchTooltipData(
             getTooltipItem: (group, groupIndex, rod, rodIndex) {
               return BarTooltipItem(
-                rod.toY % 1 == 0 ? '${rod.toY.toInt()}' : rod.toY.toStringAsFixed(1),
+                widget.metricType.toLowerCase() == 'calories'
+                    ? HealthCalculators.formatCalories(rod.toY)
+                    : rod.toY % 1 == 0
+                        ? '${rod.toY.toInt()}'
+                        : rod.toY.toStringAsFixed(1),
                 TextStyle(color: context.appInk, fontWeight: FontWeight.bold),
               );
             },
@@ -641,16 +758,25 @@ class _MetricDetailPageState extends State<MetricDetailPage>
                 if (idx >= 0 && idx < days.length) {
                   return Padding(
                     padding: const EdgeInsets.only(top: 6),
-                    child: Text(days[idx], style: TextStyle(fontSize: 11, color: context.appSlate)),
+                    child: Text(
+                      days[idx],
+                      style: TextStyle(fontSize: 11, color: context.appSlate),
+                    ),
                   );
                 }
                 return const SizedBox();
               },
             ),
           ),
-          leftTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          leftTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
+          topTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
+          rightTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
         ),
         gridData: const FlGridData(show: false),
         borderData: FlBorderData(show: false),
@@ -663,7 +789,9 @@ class _MetricDetailPageState extends State<MetricDetailPage>
                 toY: values[i],
                 color: isToday ? color : color.withAlpha(80),
                 width: 18,
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(8)),
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(8),
+                ),
               ),
             ],
           );
@@ -672,17 +800,31 @@ class _MetricDetailPageState extends State<MetricDetailPage>
     );
   }
 
-  Widget _buildLineChart(BuildContext context, Color color, double min, double max, double todayVal) {
+  Widget _buildLineChart(
+    BuildContext context,
+    Color color,
+    double min,
+    double max,
+    double todayVal,
+  ) {
     if (todayVal == 0) {
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(CupertinoIcons.waveform_path_ecg, size: 36, color: color.withAlpha(160)),
+            Icon(
+              CupertinoIcons.waveform_path_ecg,
+              size: 36,
+              color: color.withAlpha(160),
+            ),
             const SizedBox(height: 8),
             Text(
               'No vitals data recorded today yet.',
-              style: TextStyle(color: context.appSlate, fontSize: 13, fontWeight: FontWeight.w600),
+              style: TextStyle(
+                color: context.appSlate,
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+              ),
             ),
             const SizedBox(height: 4),
             Text(
@@ -719,10 +861,7 @@ class _MetricDetailPageState extends State<MetricDetailPage>
             barWidth: 3.5,
             isStrokeCapRound: true,
             dotData: const FlDotData(show: true),
-            belowBarData: BarAreaData(
-              show: true,
-              color: color.withAlpha(45),
-            ),
+            belowBarData: BarAreaData(show: true, color: color.withAlpha(45)),
           ),
         ],
       ),

@@ -76,8 +76,8 @@ class WidgetSyncService {
       _dashboardSub = sl<HomeRepository>()
           .watchDashboardData(userName: 'Friend')
           .listen((_) {
-        scheduleSync();
-      });
+            scheduleSync();
+          });
     } catch (_) {}
   }
 
@@ -107,9 +107,11 @@ class WidgetSyncService {
     double fibre = 0;
 
     try {
-      final homeData = await sl<HomeRepository>().getDashboardData(userName: 'Friend');
-      consumedKcal = homeData.consumedCalories.toInt();
-      targetKcal = homeData.targetCalories.toInt();
+      final homeData = await sl<HomeRepository>().getDashboardData(
+        userName: 'Friend',
+      );
+      consumedKcal = homeData.consumedCalories.round();
+      targetKcal = homeData.targetCalories.round();
       waterMl = homeData.consumedWaterMl;
       targetWaterMl = homeData.targetWaterMl.toInt();
       streakDays = homeData.streakDays;
@@ -120,7 +122,7 @@ class WidgetSyncService {
     } catch (_) {
       try {
         final targets = await sl<PlanRepository>().getTargets();
-        targetKcal = targets.calories.toInt();
+        targetKcal = targets.calories.round();
         targetWaterMl = targets.waterMl.toInt();
       } catch (_) {}
     }
@@ -163,11 +165,14 @@ class WidgetSyncService {
     int aqi = 42;
     int uvIndex = 3;
     try {
-      final surroundings = await sl<SurroundingsRepository>().getSurroundingsData();
+      final surroundings = await sl<SurroundingsRepository>()
+          .getSurroundingsData();
       if (surroundings != null) {
         location = surroundings.locationDisplayName;
         weatherTemp = '${surroundings.temperatureC.toInt()}°C';
-        weatherCondition = surroundings.aqiLabel.isNotEmpty ? surroundings.aqiLabel : 'Pleasant';
+        weatherCondition = surroundings.aqiLabel.isNotEmpty
+            ? surroundings.aqiLabel
+            : 'Pleasant';
         aqi = surroundings.aqi;
         uvIndex = surroundings.uvIndex.toInt();
       }
@@ -211,11 +216,17 @@ class WidgetSyncService {
       final data = await fetchRealWidgetData();
       _lastSyncTime = DateTime.now();
       final caloriesStr = '${data.remainingKcal} kcal';
-      final caloriesSub = data.remainingKcal > 0 ? 'remaining today' : 'goal reached! ✨';
+      final caloriesSub = data.remainingKcal > 0
+          ? 'remaining today'
+          : 'goal reached! ✨';
       final waterStr = '💧 ${data.waterMl} ml';
-      final distanceFormatted = HealthCalculators.formatDistance(data.distanceMeters);
+      final distanceFormatted = HealthCalculators.formatDistance(
+        data.distanceMeters,
+      );
       final stepsKmStr = '👟 $distanceFormatted';
-      final streakStr = data.streakDays > 0 ? '🔥 ${data.streakDays} days' : '🌱 Day 1';
+      final streakStr = data.streakDays > 0
+          ? '🔥 ${data.streakDays} days'
+          : '🌱 Day 1';
       final stepsRawStr = '${data.steps} steps';
       final distanceRawStr = '$distanceFormatted walked';
       final carbsStr = '🍞 ${data.carbs.toInt()}g';
@@ -223,8 +234,13 @@ class WidgetSyncService {
       final fatStr = '🥑 ${data.fat.toInt()}g';
       final bpmStr = '💓 ${data.heartRate} bpm';
       final waterTargetStr = '/ ${data.targetWaterMl} ml';
-      final waterRemainingMl = (data.targetWaterMl - data.waterMl).clamp(0, 99999);
-      final waterRemainingStr = waterRemainingMl > 0 ? '$waterRemainingMl ml remaining' : 'target reached! ✨';
+      final waterRemainingMl = (data.targetWaterMl - data.waterMl).clamp(
+        0,
+        99999,
+      );
+      final waterRemainingStr = waterRemainingMl > 0
+          ? '$waterRemainingMl ml remaining'
+          : 'target reached! ✨';
       final activeBurnedStr = '🔥 ${data.consumedKcal} kcal consumed';
 
       // Computed metrics matching preview UI
@@ -253,9 +269,14 @@ class WidgetSyncService {
           final themeState = sl<ThemeCubit>().state;
           themeModeStr = themeState.themeMode.name;
           appBackgroundStr = themeState.backgroundOption.name;
-          isDarkMode = themeState.themeMode == AppThemeMode.dark ||
+          isDarkMode =
+              themeState.themeMode == AppThemeMode.dark ||
               (themeState.themeMode == AppThemeMode.system &&
-                  WidgetsBinding.instance.platformDispatcher.platformBrightness == Brightness.dark);
+                  WidgetsBinding
+                          .instance
+                          .platformDispatcher
+                          .platformBrightness ==
+                      Brightness.dark);
         }
       } catch (_) {}
 
@@ -295,7 +316,9 @@ class WidgetSyncService {
         'water_percent': '$waterPercent%',
         'water_progress': waterPercent,
         'water_glasses': '🥛 $waterGlasses / $waterTargetGlasses glasses',
-        'water_remaining': waterRemainingMl == 0 ? 'Goal met! ✨' : '$waterRemainingMl ml left',
+        'water_remaining': waterRemainingMl == 0
+            ? 'Goal met! ✨'
+            : '$waterRemainingMl ml left',
 
         // All-in-One Daily Hub Widget keys (exact UI matching)
         'weather_temp_cond': '${data.weatherTemp} · ${data.weatherCondition}',

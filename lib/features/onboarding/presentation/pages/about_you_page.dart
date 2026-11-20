@@ -174,7 +174,7 @@ class _AboutYouPageState extends State<AboutYouPage> {
           },
           child: Scaffold(
             backgroundColor: context.appBackground,
-            resizeToAvoidBottomInset: false,
+            resizeToAvoidBottomInset: true,
             appBar: AppBar(
               backgroundColor: Colors.transparent,
               elevation: 0,
@@ -268,6 +268,7 @@ class _AboutYouPageState extends State<AboutYouPage> {
                             const SizedBox(height: AppSpacing.sm),
                             TextField(
                               controller: _nameController,
+                              scrollPadding: const EdgeInsets.only(bottom: AppSpacing.lg),
                               textCapitalization: TextCapitalization.words,
                               textInputAction: TextInputAction.done,
                               onSubmitted: (_) => FocusManager.instance.primaryFocus?.unfocus(),

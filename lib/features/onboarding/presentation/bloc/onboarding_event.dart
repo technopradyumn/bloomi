@@ -71,6 +71,14 @@ class OnboardingTargetWeightUpdated extends OnboardingEvent {
   List<Object?> get props => [targetWeightKg];
 }
 
+class OnboardingStepTargetUpdated extends OnboardingEvent {
+  const OnboardingStepTargetUpdated(this.stepTarget);
+  final int stepTarget;
+
+  @override
+  List<Object?> get props => [stepTarget];
+}
+
 class OnboardingUnitsUpdated extends OnboardingEvent {
   const OnboardingUnitsUpdated(this.isMetric);
   final bool isMetric;

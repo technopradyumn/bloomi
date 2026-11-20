@@ -2,6 +2,7 @@ import 'package:bloomi/core/localization/app_localizations.dart';
 import 'package:bloomi/app/di/injection.dart';
 import 'package:bloomi/core/constants/app_colors.dart';
 import 'package:bloomi/core/constants/app_spacing.dart';
+import 'package:bloomi/core/utils/health_calculators.dart';
 import 'package:bloomi/core/database/app_database.dart';
 import 'package:bloomi/core/widgets/bloomi_overlays.dart';
 import 'package:bloomi/features/health/domain/repositories/health_repository.dart';
@@ -82,7 +83,7 @@ class _WorkoutEditorPageState extends State<WorkoutEditorPage> {
       text: w != null ? w.durationMinutes.toString() : '30',
     );
     _caloriesCtrl = TextEditingController(
-      text: w != null ? w.calories.toInt().toString() : '120',
+      text: w != null ? HealthCalculators.formatCalories(w.calories) : '120',
     );
     _notesCtrl = TextEditingController();
     _selectedDateTime = w?.recordedAt ?? DateTime.now();

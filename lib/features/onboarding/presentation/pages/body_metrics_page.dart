@@ -198,7 +198,7 @@ class _BodyMetricsPageState extends State<BodyMetricsPage> {
           },
           child: Scaffold(
             backgroundColor: context.appBackground,
-            resizeToAvoidBottomInset: false,
+            resizeToAvoidBottomInset: true,
             appBar: AppBar(
               backgroundColor: Colors.transparent,
               elevation: 0,
@@ -244,225 +244,208 @@ class _BodyMetricsPageState extends State<BodyMetricsPage> {
             ),
             body: SafeArea(
               top: widget.isStandalone,
-              child: Column(
-                children: [
-                  // Scrollable input fields
-                  Expanded(
-                    child: SingleChildScrollView(
-                      physics: const BouncingScrollPhysics(),
-                      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: AppSpacing.screenSide,
-                        vertical: AppSpacing.xs,
-                      ),
-                      child: ConstrainedBox(
-                        constraints: const BoxConstraints(maxWidth: 440),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            if (!widget.isStandalone) ...[
-                              Text(
-                                'STEP 3 OF 6',
-                                style: TextStyle(
-                                  fontFamily: 'Nunito',
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 12,
-                                  letterSpacing: 1.2,
-                                  color: context.appSlate,
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                padding: const EdgeInsets.fromLTRB(
+                  AppSpacing.screenSide,
+                  AppSpacing.xs,
+                  AppSpacing.screenSide,
+                  AppSpacing.md,
+                ),
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 440),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        if (!widget.isStandalone) ...[
+                          Text(
+                            'STEP 3 OF 6',
+                            style: TextStyle(
+                              fontFamily: 'Nunito',
+                              fontWeight: FontWeight.w700,
+                              fontSize: 12,
+                              letterSpacing: 1.2,
+                              color: context.appSlate,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Your body numbers',
+                                      style: TextStyle(
+                                        fontFamily: 'Baloo 2',
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 26,
+                                        color: context.appInk,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 2),
+                                    Text(
+                                      'Type in the box or tap + / – to adjust your numbers easily.',
+                                      style: TextStyle(
+                                        fontFamily: 'Nunito',
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 13,
+                                        color: context.appSlate,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              const SizedBox(height: 4),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'Your body numbers',
-                                          style: TextStyle(
-                                            fontFamily: 'Baloo 2',
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 26,
-                                            color: context.appInk,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 2),
-                                        Text(
-                                          'Type in the box or tap + / – to adjust your numbers easily.',
-                                          style: TextStyle(
-                                            fontFamily: 'Nunito',
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 13,
-                                            color: context.appSlate,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  const SizedBox(width: 8),
-                                  const FloatingIllustration(
-                                    child: HealthMetricAnimation(
-                                      metricType: 'weight',
-                                      size: 38,
-                                    ),
-                                  ),
-                                ],
+                              const SizedBox(width: 8),
+                              const FloatingIllustration(
+                                child: HealthMetricAnimation(
+                                  metricType: 'weight',
+                                  size: 38,
+                                ),
                               ),
-                              const SizedBox(height: AppSpacing.sm),
                             ],
+                          ),
+                          const SizedBox(height: AppSpacing.sm),
+                        ],
 
-                            // 1. Height Card (NO SLIDER)
-                            _buildStepperInputCard(
-                              title: 'Height',
-                              unit: 'cm',
-                              controller: _heightController,
-                              currentValue: profile.heightCm,
-                              step: 1.0,
-                              min: 100.0,
-                              max: 240.0,
-                              color: AppColors.mint,
-                              onStepperChanged: _updateHeightFromStepper,
-                              onKeyboardChanged: _updateHeightFromKeyboard,
-                            ),
-                            const SizedBox(height: AppSpacing.md),
-
-                            // 2. Current Weight Card (NO SLIDER)
-                            _buildStepperInputCard(
-                              title: 'Current Weight',
-                              unit: 'kg',
-                              controller: _weightController,
-                              currentValue: profile.weightKg,
-                              step: 0.5,
-                              min: 30.0,
-                              max: 250.0,
-                              color: AppColors.sky,
-                              onStepperChanged: _updateWeightFromStepper,
-                              onKeyboardChanged: _updateWeightFromKeyboard,
-                            ),
-                            const SizedBox(height: AppSpacing.md),
-
-                            // 3. Target Weight Card (NO SLIDER)
-                            _buildStepperInputCard(
-                              title: 'Target Weight',
-                              unit: 'kg',
-                              controller: _targetWeightController,
-                              currentValue: profile.targetWeightKg,
-                              step: 0.5,
-                              min: 30.0,
-                              max: 250.0,
-                              color: AppColors.butter,
-                              onStepperChanged: _updateTargetWeightFromStepper,
-                              onKeyboardChanged: _updateTargetWeightFromKeyboard,
-                            ),
-                            const SizedBox(height: AppSpacing.md),
-                          ],
+                        _buildStepperInputCard(
+                          title: 'Height',
+                          unit: 'cm',
+                          controller: _heightController,
+                          currentValue: profile.heightCm,
+                          step: 1.0,
+                          min: 100.0,
+                          max: 240.0,
+                          color: AppColors.mint,
+                          onStepperChanged: _updateHeightFromStepper,
+                          onKeyboardChanged: _updateHeightFromKeyboard,
                         ),
-                      ),
-                    ),
-                  ),
-
-                  // PINNED NON-SCROLLABLE BOTTOM SECTION (BMI Card + Action Button)
-                  Container(
-                    padding: const EdgeInsets.fromLTRB(
-                      AppSpacing.screenSide,
-                      AppSpacing.sm,
-                      AppSpacing.screenSide,
-                      AppSpacing.md,
-                    ),
-                    decoration: BoxDecoration(
-                      color: context.appBackground,
-                      boxShadow: context.appCardShadow,
-                    ),
-                    child: ConstrainedBox(
-                      constraints: const BoxConstraints(maxWidth: 440),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          // Non-scrollable BMI Card directly above button
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: AppSpacing.md,
-                              vertical: 10,
-                            ),
-                            decoration: BoxDecoration(
-                              color: context.appSurface,
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(AppSpacing.cardRadius),
-                              ),
-                              boxShadow: context.appCardShadow,
-                            ),
-                            child: Row(
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 12,
-                                    vertical: 6,
-                                  ),
-                                  decoration: const BoxDecoration(
-                                    color: AppColors.lilac,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(16)),
-                                  ),
-                                  child: Text(
-                                    bmi.toStringAsFixed(1),
-                                    style: TextStyle(
-                                      fontFamily: 'Baloo 2',
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 16,
-                                      color: context.appInk,
-                                    ),
-                                  ),
+                        const SizedBox(height: AppSpacing.md),
+                        _buildStepperInputCard(
+                          title: 'Current Weight',
+                          unit: 'kg',
+                          controller: _weightController,
+                          currentValue: profile.weightKg,
+                          step: 0.5,
+                          min: 30.0,
+                          max: 250.0,
+                          color: AppColors.sky,
+                          onStepperChanged: _updateWeightFromStepper,
+                          onKeyboardChanged: _updateWeightFromKeyboard,
+                        ),
+                        const SizedBox(height: AppSpacing.md),
+                        _buildStepperInputCard(
+                          title: 'Target Weight',
+                          unit: 'kg',
+                          controller: _targetWeightController,
+                          currentValue: profile.targetWeightKg,
+                          step: 0.5,
+                          min: 30.0,
+                          max: 250.0,
+                          color: AppColors.butter,
+                          onStepperChanged: _updateTargetWeightFromStepper,
+                          onKeyboardChanged: _updateTargetWeightFromKeyboard,
+                        ),
+                        const SizedBox(height: AppSpacing.md),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: AppSpacing.sm,
+                          ),
+                          decoration: BoxDecoration(
+                            color: context.appBackground,
+                            boxShadow: context.appCardShadow,
+                          ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: AppSpacing.md,
+                                  vertical: 10,
                                 ),
-                                const SizedBox(width: AppSpacing.sm),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Estimated Body Mass Index (BMI)',
+                                decoration: BoxDecoration(
+                                  color: context.appSurface,
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(AppSpacing.cardRadius),
+                                  ),
+                                  boxShadow: context.appCardShadow,
+                                ),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 12,
+                                        vertical: 6,
+                                      ),
+                                      decoration: const BoxDecoration(
+                                        color: AppColors.lilac,
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(16),
+                                        ),
+                                      ),
+                                      child: Text(
+                                        bmi.toStringAsFixed(1),
                                         style: TextStyle(
-                                          fontFamily: 'Nunito',
+                                          fontFamily: 'Baloo 2',
                                           fontWeight: FontWeight.w700,
-                                          fontSize: 13,
+                                          fontSize: 16,
                                           color: context.appInk,
                                         ),
                                       ),
-                                      Text(
-                                        _getBmiCategory(bmi),
-                                        style: TextStyle(
-                                          fontFamily: 'Nunito',
-                                          fontSize: 11,
-                                          color: context.appSlate,
-                                        ),
+                                    ),
+                                    const SizedBox(width: AppSpacing.sm),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Estimated Body Mass Index (BMI)',
+                                            style: TextStyle(
+                                              fontFamily: 'Nunito',
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 13,
+                                              color: context.appInk,
+                                            ),
+                                          ),
+                                          Text(
+                                            _getBmiCategory(bmi),
+                                            style: TextStyle(
+                                              fontFamily: 'Nunito',
+                                              fontSize: 11,
+                                              color: context.appSlate,
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
+                              ),
+                              const SizedBox(height: AppSpacing.sm),
+                              PillButton(
+                                label: widget.isStandalone
+                                    ? 'Save Changes'
+                                    : 'Continue to Goals',
+                                icon: widget.isStandalone
+                                    ? CupertinoIcons.checkmark
+                                    : CupertinoIcons.arrow_right,
+                                isLoading: _isSavingStandalone,
+                                fullWidth: true,
+                                height: 52,
+                                onPressed: _handleContinue,
+                              ),
+                            ],
                           ),
-                          const SizedBox(height: AppSpacing.sm),
-
-                          // Pinned Action Button
-                          PillButton(
-                            label: widget.isStandalone
-                                ? 'Save Changes'
-                                : 'Continue to Goals',
-                            icon: widget.isStandalone
-                                ? CupertinoIcons.checkmark
-                                : CupertinoIcons.arrow_right,
-                            isLoading: _isSavingStandalone,
-                            fullWidth: true,
-                            height: 52,
-                            onPressed: _handleContinue,
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
+                ),
               ),
             ),
           ),
@@ -484,7 +467,7 @@ class _BodyMetricsPageState extends State<BodyMetricsPage> {
     required ValueChanged<String> onKeyboardChanged,
   }) {
     return Container(
-      padding: const EdgeInsets.all(AppSpacing.md),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: AppSpacing.md),
       decoration: BoxDecoration(
         color: context.appSurface,
         borderRadius: const BorderRadius.all(Radius.circular(AppSpacing.cardRadius)),
@@ -496,15 +479,20 @@ class _BodyMetricsPageState extends State<BodyMetricsPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                title,
-                style: TextStyle(
-                  fontFamily: 'Nunito',
-                  fontWeight: FontWeight.w700,
-                  fontSize: 15,
-                  color: context.appInk,
+              Expanded(
+                child: Text(
+                  title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontFamily: 'Nunito',
+                    fontWeight: FontWeight.w700,
+                    fontSize: 15,
+                    color: context.appInk,
+                  ),
                 ),
               ),
+              const SizedBox(width: AppSpacing.xs),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(
@@ -538,7 +526,7 @@ class _BodyMetricsPageState extends State<BodyMetricsPage> {
                   padding: const EdgeInsets.all(12),
                 ),
               ),
-              const SizedBox(width: AppSpacing.sm),
+              const SizedBox(width: 4),
 
               // Number Input Field
               Expanded(
@@ -552,6 +540,7 @@ class _BodyMetricsPageState extends State<BodyMetricsPage> {
                   child: Center(
                     child: TextField(
                       controller: controller,
+                      scrollPadding: const EdgeInsets.only(bottom: AppSpacing.lg),
                       keyboardType: TextInputType.numberWithOptions(
                         decimal: step < 1.0,
                         signed: false,
@@ -597,7 +586,7 @@ class _BodyMetricsPageState extends State<BodyMetricsPage> {
                   ),
                 ),
               ),
-              const SizedBox(width: AppSpacing.sm),
+              const SizedBox(width: 4),
 
               // Plus Button
               IconButton.filledTonal(

@@ -73,56 +73,62 @@ void main() {
       expect(target, 10000);
     });
 
-    test('Updating step target updates database and emits new value in stream', () async {
-      await repo.updateStepTarget(8500);
-      final updated = await repo.getStepTarget();
-      expect(updated, 8500);
+    test(
+      'Updating step target updates database and emits new value in stream',
+      () async {
+        await repo.updateStepTarget(8500);
+        final updated = await repo.getStepTarget();
+        expect(updated, 8500);
 
-      // Verify second update
-      await repo.updateStepTarget(12000);
-      final second = await repo.getStepTarget();
-      expect(second, 12000);
-    });
+        // Verify second update
+        await repo.updateStepTarget(12000);
+        final second = await repo.getStepTarget();
+        expect(second, 12000);
+      },
+    );
 
-    testWidgets('StepTargetSheet allows selecting preset and saving new target',
-        (WidgetTester tester) async {
-      int? savedTarget;
+    testWidgets(
+      'StepTargetSheet allows selecting preset and saving new target',
+      (WidgetTester tester) async {
+        int? savedTarget;
 
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: StepTargetSheet(
-              currentTarget: 10000,
-              onTargetSaved: (val) async {
-                savedTarget = val;
-              },
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: StepTargetSheet(
+                currentTarget: 10000,
+                onTargetSaved: (val) async {
+                  savedTarget = val;
+                },
+              ),
             ),
           ),
-        ),
-      );
+        );
 
-      // Initial value
-      expect(find.text('10000'), findsOneWidget);
+        // Initial value
+        expect(find.text('10000'), findsOneWidget);
 
-      // Tap on preset chip '8k steps'
-      final chip = find.text('8k steps');
-      expect(chip, findsOneWidget);
-      await tester.tap(chip);
-      await tester.pumpAndSettle();
+        // Tap on preset chip '8k steps'
+        final chip = find.text('8k steps');
+        expect(chip, findsOneWidget);
+        await tester.tap(chip);
+        await tester.pumpAndSettle();
 
-      expect(find.text('8000'), findsOneWidget);
+        expect(find.text('8000'), findsOneWidget);
 
-      // Tap 'Save Target'
-      final saveBtn = find.text('Save Target');
-      expect(saveBtn, findsOneWidget);
-      await tester.tap(saveBtn);
-      await tester.pumpAndSettle();
+        // Tap 'Save Target'
+        final saveBtn = find.text('Save Target');
+        expect(saveBtn, findsOneWidget);
+        await tester.tap(saveBtn);
+        await tester.pumpAndSettle();
 
-      expect(savedTarget, 8000);
-    });
+        expect(savedTarget, 8000);
+      },
+    );
 
-    testWidgets('StepTargetSheet stepper adjusts target by +/- 500',
-        (WidgetTester tester) async {
+    testWidgets('StepTargetSheet stepper adjusts target by +/- 500', (
+      WidgetTester tester,
+    ) async {
       int? savedTarget;
 
       await tester.pumpWidget(
@@ -152,6 +158,61 @@ void main() {
 
       expect(savedTarget, 10500);
     });
+
+    testWidgets(
+      'Step target input and save action stay reachable above keyboard',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(400, 800);
+        tester.view.devicePixelRatio = 1;
+        addTearDown(tester.view.resetPhysicalSize);
+        addTearDown(tester.view.resetDevicePixelRatio);
+
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Builder(
+              builder: (context) => Scaffold(
+                body: Center(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      showModalBottomSheet<void>(
+                        context: context,
+                        isScrollControlled: true,
+                        builder: (_) => StepTargetSheet(
+                          currentTarget: 10000,
+                          onTargetSaved: (_) async {},
+                        ),
+                      );
+                    },
+                    child: const Text('Edit steps'),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+        await tester.tap(find.text('Edit steps'));
+        await tester.pumpAndSettle();
+
+        tester.view.viewInsets = const FakeViewPadding(bottom: 300);
+        await tester.pumpAndSettle();
+        await tester.tap(find.byType(TextField));
+        await tester.pumpAndSettle();
+
+        final keyboardTop =
+            tester.view.physicalSize.height / tester.view.devicePixelRatio -
+            300;
+        expect(
+          tester.getRect(find.byType(TextField)).bottom,
+          lessThanOrEqualTo(keyboardTop),
+        );
+
+        await tester.ensureVisible(find.text('Save Target'));
+        await tester.pumpAndSettle();
+        expect(
+          tester.getRect(find.text('Save Target')).bottom,
+          lessThanOrEqualTo(keyboardTop),
+        );
+      },
+    );
   });
 }
-

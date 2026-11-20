@@ -53,7 +53,6 @@ import 'package:bloomi/core/theme/theme_cubit.dart';
 import 'package:bloomi/services/billing/billing_service.dart';
 import 'package:bloomi/services/food/barcode_service.dart';
 import 'package:bloomi/services/health/health_service.dart';
-import 'package:bloomi/services/notifications/notification_service.dart';
 import 'package:bloomi/services/widget/widget_sync_service.dart';
 import 'package:bloomi/services/widgets/widget_bridge_service.dart';
 import 'package:get_it/get_it.dart';
@@ -74,7 +73,6 @@ Future<void> setupServiceLocator() async {
   sl.registerLazySingleton<ApiClient>(() => ApiClient());
 
   // 2. Services
-  sl.registerLazySingleton<NotificationService>(() => NotificationService());
   sl.registerLazySingleton<BillingService>(() => BillingService());
   sl.registerLazySingleton<WidgetSyncService>(() => WidgetSyncService());
   sl.registerLazySingleton<WidgetBridgeService>(() => WidgetBridgeService());
@@ -83,202 +81,245 @@ Future<void> setupServiceLocator() async {
 
   // 3. Feature: Auth
   sl.registerLazySingleton<AuthLocalDataSource>(
-      () => AuthLocalDataSourceImpl(sl()));
-  sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(
-        localDataSource: sl(),
-        db: sl(),
-      ));
+    () => AuthLocalDataSourceImpl(sl()),
+  );
+  sl.registerLazySingleton<AuthRepository>(
+    () => AuthRepositoryImpl(localDataSource: sl(), db: sl()),
+  );
   sl.registerLazySingleton<CheckAuthSessionUseCase>(
-      () => CheckAuthSessionUseCase(sl()));
-  sl.registerLazySingleton<SignInUseCase>(
-      () => SignInUseCase(sl()));
+    () => CheckAuthSessionUseCase(sl()),
+  );
+  sl.registerLazySingleton<SignInUseCase>(() => SignInUseCase(sl()));
   sl.registerLazySingleton<SignOutUseCase>(() => SignOutUseCase(sl()));
   sl.registerLazySingleton<SetOnboardingCompletedUseCase>(
-      () => SetOnboardingCompletedUseCase(sl()));
+    () => SetOnboardingCompletedUseCase(sl()),
+  );
   sl.registerLazySingleton<SetUnder18UseCase>(() => SetUnder18UseCase(sl()));
-  sl.registerLazySingleton<AuthBloc>(() => AuthBloc(
-        checkAuthSession: sl(),
-        signIn: sl(),
-        signOut: sl(),
-        setOnboardingCompleted: sl(),
-        setUnder18: sl(),
-        authRepository: sl(),
-      ));
+  sl.registerLazySingleton<AuthBloc>(
+    () => AuthBloc(
+      checkAuthSession: sl(),
+      signIn: sl(),
+      signOut: sl(),
+      setOnboardingCompleted: sl(),
+      setUnder18: sl(),
+      authRepository: sl(),
+    ),
+  );
 
   // 4. Feature: Splash
   sl.registerFactory<SplashBloc>(() => SplashBloc(authRepository: sl()));
 
   // 5. Feature: Onboarding
   sl.registerLazySingleton<OnboardingLocalDataSource>(
-      () => OnboardingLocalDataSourceImpl(sl(), userIdProvider: () => sl<AuthRepository>().currentUserId));
+    () => OnboardingLocalDataSourceImpl(
+      sl(),
+      userIdProvider: () => sl<AuthRepository>().currentUserId,
+    ),
+  );
   sl.registerLazySingleton<OnboardingRepository>(
-      () => OnboardingRepositoryImpl(localDataSource: sl(), authRepository: sl()));
+    () => OnboardingRepositoryImpl(localDataSource: sl(), authRepository: sl()),
+  );
   sl.registerLazySingleton<SaveOnboardingProfileUseCase>(
-      () => SaveOnboardingProfileUseCase(sl()));
-  sl.registerFactory<OnboardingBloc>(() => OnboardingBloc(
-        onboardingRepository: sl(),
-      ));
+    () => SaveOnboardingProfileUseCase(sl()),
+  );
+  sl.registerFactory<OnboardingBloc>(
+    () => OnboardingBloc(onboardingRepository: sl()),
+  );
 
   // 6. Feature: Home
   sl.registerLazySingleton<HomeLocalDataSource>(
-      () => HomeLocalDataSourceImpl(sl(), userIdProvider: () => sl<AuthRepository>().currentUserId));
+    () => HomeLocalDataSourceImpl(
+      sl(),
+      userIdProvider: () => sl<AuthRepository>().currentUserId,
+    ),
+  );
   sl.registerLazySingleton<HomeRepository>(
-      () => HomeRepositoryImpl(localDataSource: sl()));
+    () => HomeRepositoryImpl(localDataSource: sl()),
+  );
   sl.registerLazySingleton<WatchHomeDashboardUseCase>(
-      () => WatchHomeDashboardUseCase(sl()));
+    () => WatchHomeDashboardUseCase(sl()),
+  );
   sl.registerLazySingleton<LogQuickWaterUseCase>(
-      () => LogQuickWaterUseCase(sl()));
+    () => LogQuickWaterUseCase(sl()),
+  );
   sl.registerLazySingleton<LogQuickBodyEntryUseCase>(
-      () => LogQuickBodyEntryUseCase(sl()));
+    () => LogQuickBodyEntryUseCase(sl()),
+  );
   sl.registerLazySingleton<LogQuickWorkoutUseCase>(
-      () => LogQuickWorkoutUseCase(sl()));
-  sl.registerFactory<HomeDashboardBloc>(() => HomeDashboardBloc(
-        watchHomeDashboard: sl(),
-        logQuickWater: sl(),
-        logQuickBodyEntry: sl(),
-        logQuickWorkout: sl(),
-      ));
+    () => LogQuickWorkoutUseCase(sl()),
+  );
+  sl.registerFactory<HomeDashboardBloc>(
+    () => HomeDashboardBloc(
+      watchHomeDashboard: sl(),
+      logQuickWater: sl(),
+      logQuickBodyEntry: sl(),
+      logQuickWorkout: sl(),
+    ),
+  );
 
   // 7. Feature: Food
-  sl.registerLazySingleton<FoodLocalDataSource>(() => FoodLocalDataSourceImpl(
-        sl(),
-        prefs: sl(),
-        userIdProvider: () => sl<AuthRepository>().currentUserId,
-      ));
+  sl.registerLazySingleton<FoodLocalDataSource>(
+    () => FoodLocalDataSourceImpl(
+      sl(),
+      prefs: sl(),
+      userIdProvider: () => sl<AuthRepository>().currentUserId,
+    ),
+  );
   sl.registerLazySingleton<FoodRemoteDataSource>(
-      () => FoodRemoteDataSourceImpl(apiClient: sl()));
-  sl.registerLazySingleton<FoodRepository>(() => FoodRepositoryImpl(
-        localDataSource: sl(),
-        remoteDataSource: sl(),
-      ));
+    () => FoodRemoteDataSourceImpl(apiClient: sl()),
+  );
+  sl.registerLazySingleton<FoodRepository>(
+    () => FoodRepositoryImpl(localDataSource: sl(), remoteDataSource: sl()),
+  );
   sl.registerLazySingleton<WatchFoodDiaryUseCase>(
-      () => WatchFoodDiaryUseCase(sl()));
-  sl.registerLazySingleton<SearchFoodUseCase>(
-      () => SearchFoodUseCase(sl()));
-  sl.registerLazySingleton<LogMealUseCase>(
-      () => LogMealUseCase(sl()));
-  sl.registerLazySingleton<DeleteMealUseCase>(
-      () => DeleteMealUseCase(sl()));
-  sl.registerLazySingleton<RestoreMealUseCase>(
-      () => RestoreMealUseCase(sl()));
-  sl.registerLazySingleton<CopyMealUseCase>(
-      () => CopyMealUseCase(sl()));
+    () => WatchFoodDiaryUseCase(sl()),
+  );
+  sl.registerLazySingleton<SearchFoodUseCase>(() => SearchFoodUseCase(sl()));
+  sl.registerLazySingleton<LogMealUseCase>(() => LogMealUseCase(sl()));
+  sl.registerLazySingleton<DeleteMealUseCase>(() => DeleteMealUseCase(sl()));
+  sl.registerLazySingleton<RestoreMealUseCase>(() => RestoreMealUseCase(sl()));
+  sl.registerLazySingleton<CopyMealUseCase>(() => CopyMealUseCase(sl()));
   sl.registerLazySingleton<CreateCustomFoodUseCase>(
-      () => CreateCustomFoodUseCase(sl()));
+    () => CreateCustomFoodUseCase(sl()),
+  );
   sl.registerLazySingleton<EnsureFoodsSeededUseCase>(
-      () => EnsureFoodsSeededUseCase(sl()));
+    () => EnsureFoodsSeededUseCase(sl()),
+  );
   sl.registerLazySingleton<LookupBarcodeUseCase>(
-      () => LookupBarcodeUseCase(sl()));
+    () => LookupBarcodeUseCase(sl()),
+  );
   sl.registerLazySingleton<ScanFoodPhotoUseCase>(
-      () => ScanFoodPhotoUseCase(sl()));
-  sl.registerFactory<FoodBloc>(() => FoodBloc(
-        watchFoodDiary: sl(),
-        searchFood: sl(),
-        deleteMeal: sl(),
-        restoreMeal: sl(),
-        copyMeal: sl(),
-        foodRepository: sl(),
-      ));
+    () => ScanFoodPhotoUseCase(sl()),
+  );
+  sl.registerFactory<FoodBloc>(
+    () => FoodBloc(
+      watchFoodDiary: sl(),
+      searchFood: sl(),
+      deleteMeal: sl(),
+      restoreMeal: sl(),
+      copyMeal: sl(),
+      foodRepository: sl(),
+    ),
+  );
 
   // 8. Feature: Health
   sl.registerLazySingleton<HealthLocalDataSource>(
-      () => HealthLocalDataSourceImpl(sl(), userIdProvider: () => sl<AuthRepository>().currentUserId, prefs: sl()));
+    () => HealthLocalDataSourceImpl(
+      sl(),
+      userIdProvider: () => sl<AuthRepository>().currentUserId,
+      prefs: sl(),
+    ),
+  );
   sl.registerLazySingleton<HealthRemoteDataSource>(
-      () => HealthRemoteDataSourceImpl(sl()));
-  sl.registerLazySingleton<HealthRepository>(() => HealthRepositoryImpl(
-        localDataSource: sl(),
-        remoteDataSource: sl(),
-        userIdProvider: () => sl<AuthRepository>().currentUserId,
-      ));
+    () => HealthRemoteDataSourceImpl(sl()),
+  );
+  sl.registerLazySingleton<HealthRepository>(
+    () => HealthRepositoryImpl(
+      localDataSource: sl(),
+      remoteDataSource: sl(),
+      userIdProvider: () => sl<AuthRepository>().currentUserId,
+    ),
+  );
   sl.registerFactory<HealthBloc>(() => HealthBloc(repository: sl()));
 
   // 9. Feature: Plan
   sl.registerLazySingleton<PlanLocalDataSource>(
-      () => PlanLocalDataSourceImpl(sl(), userIdProvider: () => sl<AuthRepository>().currentUserId));
-  sl.registerLazySingleton<PlanRepository>(
-      () => PlanRepositoryImpl(sl()));
+    () => PlanLocalDataSourceImpl(
+      sl(),
+      userIdProvider: () => sl<AuthRepository>().currentUserId,
+    ),
+  );
+  sl.registerLazySingleton<PlanRepository>(() => PlanRepositoryImpl(sl()));
   sl.registerFactory<PlanBloc>(() => PlanBloc(repository: sl()));
 
   // 10. Feature: Insights
   sl.registerLazySingleton<InsightsLocalDataSource>(
-      () => InsightsLocalDataSourceImpl(sl(), userIdProvider: () => sl<AuthRepository>().currentUserId));
+    () => InsightsLocalDataSourceImpl(
+      sl(),
+      userIdProvider: () => sl<AuthRepository>().currentUserId,
+    ),
+  );
   sl.registerLazySingleton<InsightsRepository>(
-      () => InsightsRepositoryImpl(localDataSource: sl(), planRepo: sl()));
+    () => InsightsRepositoryImpl(localDataSource: sl(), planRepo: sl()),
+  );
   sl.registerFactory<InsightsBloc>(() => InsightsBloc(repository: sl()));
 
   // 11. Feature: Surroundings
   sl.registerLazySingleton<SurroundingsLocalDataSource>(
-      () => SurroundingsLocalDataSourceImpl(sl()));
+    () => SurroundingsLocalDataSourceImpl(sl()),
+  );
   sl.registerLazySingleton<SurroundingsRemoteDataSource>(
-      () => SurroundingsRemoteDataSourceImpl(sl()));
+    () => SurroundingsRemoteDataSourceImpl(sl()),
+  );
   sl.registerLazySingleton<SurroundingsRepository>(
-      () => SurroundingsRepositoryImpl(
-            localDataSource: sl(),
-            remoteDataSource: sl(),
-            prefs: sl(),
-          ));
+    () => SurroundingsRepositoryImpl(
+      localDataSource: sl(),
+      remoteDataSource: sl(),
+      prefs: sl(),
+    ),
+  );
   sl.registerFactory<SurroundingsBloc>(
-      () => SurroundingsBloc(repository: sl()));
+    () => SurroundingsBloc(repository: sl()),
+  );
 
   // 12. Feature: Profile
   sl.registerLazySingleton<ProfileLocalDataSource>(
-      () => ProfileLocalDataSourceImpl(sl(), userIdProvider: () => sl<AuthRepository>().currentUserId));
+    () => ProfileLocalDataSourceImpl(
+      sl(),
+      userIdProvider: () => sl<AuthRepository>().currentUserId,
+    ),
+  );
   sl.registerLazySingleton<ProfileRepository>(
-      () => ProfileRepositoryImpl(sl()));
+    () => ProfileRepositoryImpl(sl()),
+  );
   sl.registerFactory<ProfileBloc>(() => ProfileBloc(repository: sl()));
 
   // 13. Feature: Settings
   sl.registerLazySingleton<SettingsLocalDataSource>(
-      () => SettingsLocalDataSourceImpl(
-            db: sl(),
-            notificationService: sl(),
-            widgetBridgeService: sl(),
-            billingService: sl(),
-            authRepository: sl(),
-            userIdProvider: () => sl<AuthRepository>().currentUserId,
-            prefs: sl<SharedPreferences>(),
-          ));
+    () => SettingsLocalDataSourceImpl(
+      db: sl(),
+      widgetBridgeService: sl(),
+      billingService: sl(),
+      authRepository: sl(),
+      userIdProvider: () => sl<AuthRepository>().currentUserId,
+      prefs: sl<SharedPreferences>(),
+    ),
+  );
   sl.registerLazySingleton<SettingsRepository>(
-      () => SettingsRepositoryImpl(localDataSource: sl()));
-  sl.registerLazySingleton<GetRemindersUseCase>(
-      () => GetRemindersUseCase(sl()));
-  sl.registerLazySingleton<WatchRemindersUseCase>(
-      () => WatchRemindersUseCase(sl()));
-  sl.registerLazySingleton<ToggleReminderUseCase>(
-      () => ToggleReminderUseCase(sl()));
-  sl.registerLazySingleton<UpdateReminderTimeUseCase>(
-      () => UpdateReminderTimeUseCase(sl()));
-  sl.registerLazySingleton<SeedDefaultRemindersUseCase>(
-      () => SeedDefaultRemindersUseCase(sl()));
+    () => SettingsRepositoryImpl(localDataSource: sl()),
+  );
   sl.registerLazySingleton<GetUnitsAndLanguageUseCase>(
-      () => GetUnitsAndLanguageUseCase(sl()));
+    () => GetUnitsAndLanguageUseCase(sl()),
+  );
   sl.registerLazySingleton<UpdateUnitsUseCase>(() => UpdateUnitsUseCase(sl()));
   sl.registerLazySingleton<UpdateLanguageUseCase>(
-      () => UpdateLanguageUseCase(sl()));
+    () => UpdateLanguageUseCase(sl()),
+  );
   sl.registerLazySingleton<ExportDataUseCase>(() => ExportDataUseCase(sl()));
   sl.registerLazySingleton<DeleteAccountUseCase>(
-      () => DeleteAccountUseCase(sl()));
+    () => DeleteAccountUseCase(sl()),
+  );
   sl.registerLazySingleton<CheckPremiumUseCase>(
-      () => CheckPremiumUseCase(sl()));
+    () => CheckPremiumUseCase(sl()),
+  );
   sl.registerLazySingleton<PurchasePlanUseCase>(
-      () => PurchasePlanUseCase(sl()));
+    () => PurchasePlanUseCase(sl()),
+  );
   sl.registerLazySingleton<RestorePurchasesUseCase>(
-      () => RestorePurchasesUseCase(sl()));
+    () => RestorePurchasesUseCase(sl()),
+  );
   sl.registerLazySingleton<SyncWidgetsUseCase>(() => SyncWidgetsUseCase(sl()));
-  sl.registerFactory<SettingsBloc>(() => SettingsBloc(
-        getRemindersUseCase: sl(),
-        watchRemindersUseCase: sl(),
-        toggleReminderUseCase: sl(),
-        updateReminderTimeUseCase: sl(),
-        seedDefaultRemindersUseCase: sl(),
-        getUnitsAndLanguageUseCase: sl(),
-        updateUnitsUseCase: sl(),
-        updateLanguageUseCase: sl(),
-        exportDataUseCase: sl(),
-        deleteAccountUseCase: sl(),
-        checkPremiumUseCase: sl(),
-        purchasePlanUseCase: sl(),
-        restorePurchasesUseCase: sl(),
-        syncWidgetsUseCase: sl(),
-      ));
+  sl.registerFactory<SettingsBloc>(
+    () => SettingsBloc(
+      getUnitsAndLanguageUseCase: sl(),
+      updateUnitsUseCase: sl(),
+      updateLanguageUseCase: sl(),
+      exportDataUseCase: sl(),
+      deleteAccountUseCase: sl(),
+      checkPremiumUseCase: sl(),
+      purchasePlanUseCase: sl(),
+      restorePurchasesUseCase: sl(),
+      syncWidgetsUseCase: sl(),
+    ),
+  );
 }

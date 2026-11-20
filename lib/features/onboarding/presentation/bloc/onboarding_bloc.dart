@@ -19,6 +19,7 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
     on<OnboardingHeightUpdated>(_onHeightUpdated);
     on<OnboardingWeightUpdated>(_onWeightUpdated);
     on<OnboardingTargetWeightUpdated>(_onTargetWeightUpdated);
+    on<OnboardingStepTargetUpdated>(_onStepTargetUpdated);
     on<OnboardingUnitsUpdated>(_onUnitsUpdated);
     on<OnboardingGoalUpdated>(_onGoalUpdated);
     on<OnboardingActivityUpdated>(_onActivityUpdated);
@@ -69,6 +70,10 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
 
   void _onTargetWeightUpdated(OnboardingTargetWeightUpdated event, Emitter<OnboardingState> emit) {
     emit(OnboardingLoadedState(state.profile.copyWith(targetWeightKg: event.targetWeightKg)));
+  }
+
+  void _onStepTargetUpdated(OnboardingStepTargetUpdated event, Emitter<OnboardingState> emit) {
+    emit(OnboardingLoadedState(state.profile.copyWith(stepTarget: event.stepTarget)));
   }
 
   void _onUnitsUpdated(OnboardingUnitsUpdated event, Emitter<OnboardingState> emit) {

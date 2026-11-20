@@ -1,40 +1,4 @@
-import '../entities/reminder_entity.dart';
 import '../repositories/settings_repository.dart';
-
-class GetRemindersUseCase {
-  final SettingsRepository repository;
-  GetRemindersUseCase(this.repository);
-
-  Future<List<ReminderEntity>> call() => repository.getReminders();
-}
-
-class WatchRemindersUseCase {
-  final SettingsRepository repository;
-  WatchRemindersUseCase(this.repository);
-
-  Stream<List<ReminderEntity>> call() => repository.watchReminders();
-}
-
-class ToggleReminderUseCase {
-  final SettingsRepository repository;
-  ToggleReminderUseCase(this.repository);
-
-  Future<void> call(String id, bool enabled) => repository.toggleReminder(id, enabled);
-}
-
-class UpdateReminderTimeUseCase {
-  final SettingsRepository repository;
-  UpdateReminderTimeUseCase(this.repository);
-
-  Future<void> call(String id, String newTime) => repository.updateReminderTime(id, newTime);
-}
-
-class SeedDefaultRemindersUseCase {
-  final SettingsRepository repository;
-  SeedDefaultRemindersUseCase(this.repository);
-
-  Future<void> call() => repository.seedDefaultReminders();
-}
 
 class GetUnitsAndLanguageUseCase {
   final SettingsRepository repository;
@@ -98,4 +62,3 @@ class SyncWidgetsUseCase {
 
   Future<void> call() => repository.syncWidgets();
 }
-

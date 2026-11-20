@@ -3,6 +3,7 @@ import 'package:bloomi/app/di/injection.dart';
 import 'package:bloomi/core/constants/app_colors.dart';
 import 'package:bloomi/core/constants/app_spacing.dart';
 import 'package:bloomi/core/database/app_database.dart';
+import 'package:bloomi/core/utils/health_calculators.dart';
 import 'package:bloomi/core/widgets/pill_button.dart';
 import 'package:bloomi/features/health/domain/repositories/health_repository.dart';
 import 'package:bloomi/features/health/presentation/pages/workout_editor_page.dart';
@@ -148,7 +149,7 @@ class _WorkoutLogPageState extends State<WorkoutLogPage> {
                           ),
                           const SizedBox(height: 2),
                           Text(
-                            '$totalMinutes mins · ${totalCalories.toInt()} kcal',
+                            '$totalMinutes mins · ${HealthCalculators.formatCalories(totalCalories)} kcal',
                             style: TextStyle(
                               fontFamily: 'Baloo 2',
                               fontWeight: FontWeight.w800,
@@ -240,7 +241,7 @@ class _WorkoutLogPageState extends State<WorkoutLogPage> {
                         w.type,
                         style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15, color: context.appInk),
                       ),
-                      subtitle: Text('${w.durationMinutes} mins · ${w.calories.toInt()} kcal · $dateStr', style: TextStyle(color: context.appSlate)),
+                      subtitle: Text('${w.durationMinutes} mins · ${HealthCalculators.formatCalories(w.calories)} kcal · $dateStr', style: TextStyle(color: context.appSlate)),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [

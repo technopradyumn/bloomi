@@ -1,17 +1,11 @@
 import 'package:bloomi/core/database/app_database.dart';
 import 'package:bloomi/core/localization/app_localizations.dart';
 import 'package:bloomi/features/settings/data/local/settings_local_data_source.dart';
-import 'package:bloomi/services/notifications/notification_service.dart';
 import 'package:bloomi/services/widgets/widget_bridge_service.dart';
 import 'package:drift/native.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-class _FakeNotificationService implements NotificationService {
-  @override
-  dynamic noSuchMethod(Invocation invocation) => null;
-}
 
 class _FakeWidgetBridgeService implements WidgetBridgeService {
   @override
@@ -42,7 +36,10 @@ void main() {
       expect(l10n.translate('settings'), equals('Settings'));
       expect(l10n.translate('save'), equals('Save'));
       expect(l10n.translate('cancel'), equals('Cancel'));
-      expect(l10n.translate('plan_calorie_budget_label'), equals('Daily Calorie Budget'));
+      expect(
+        l10n.translate('plan_calorie_budget_label'),
+        equals('Daily Calorie Budget'),
+      );
       expect(l10n.isRTL, isFalse);
     });
 
@@ -68,7 +65,10 @@ void main() {
         equals('450 kcal remaining'),
       );
       expect(
-        l10n.text('home_water_goal', args: {'current': '1200', 'target': '2500'}),
+        l10n.text(
+          'home_water_goal',
+          args: {'current': '1200', 'target': '2500'},
+        ),
         equals('1200 / 2500 ml'),
       );
     });
@@ -102,31 +102,40 @@ void main() {
     ];
 
     for (final code in testLanguages) {
-      test('Language [$code] loads translations without missing key errors', () async {
-        final locale = Locale(code);
-        final l10n = await BloomiLocalizations.load(locale);
+      test(
+        'Language [$code] loads translations without missing key errors',
+        () async {
+          final locale = Locale(code);
+          final l10n = await BloomiLocalizations.load(locale);
 
-        // Every language must provide settings, save, cancel
-        expect(l10n.translate('settings').isNotEmpty, isTrue);
-        expect(l10n.translate('save').isNotEmpty, isTrue);
-        expect(l10n.translate('cancel').isNotEmpty, isTrue);
-        expect(l10n.translate('plan_calorie_budget_label').isNotEmpty, isTrue);
+          // Every language must provide settings, save, cancel
+          expect(l10n.translate('settings').isNotEmpty, isTrue);
+          expect(l10n.translate('save').isNotEmpty, isTrue);
+          expect(l10n.translate('cancel').isNotEmpty, isTrue);
+          expect(
+            l10n.translate('plan_calorie_budget_label').isNotEmpty,
+            isTrue,
+          );
 
-        // Verify fallback works if a non-existent key is queried
-        expect(
-          l10n.translate('non_existent_key_xyz'),
-          equals('non_existent_key_xyz'),
-        );
-      });
+          // Verify fallback works if a non-existent key is queried
+          expect(
+            l10n.translate('non_existent_key_xyz'),
+            equals('non_existent_key_xyz'),
+          );
+        },
+      );
     }
 
-    test('Arabic translates key UI strings and sets RTL text direction', () async {
-      final l10n = await BloomiLocalizations.load(const Locale('ar'));
-      expect(l10n.isRTL, isTrue);
-      expect(l10n.translate('settings'), equals('الإعدادات'));
-      expect(l10n.translate('save'), equals('حفظ'));
-      expect(l10n.translate('cancel'), equals('إلغاء'));
-    });
+    test(
+      'Arabic translates key UI strings and sets RTL text direction',
+      () async {
+        final l10n = await BloomiLocalizations.load(const Locale('ar'));
+        expect(l10n.isRTL, isTrue);
+        expect(l10n.translate('settings'), equals('الإعدادات'));
+        expect(l10n.translate('save'), equals('حفظ'));
+        expect(l10n.translate('cancel'), equals('إلغاء'));
+      },
+    );
 
     test('Hindi translates key UI strings', () async {
       final l10n = await BloomiLocalizations.load(const Locale('hi'));
@@ -196,30 +205,32 @@ void main() {
   });
 
   group('Persistence & Immediate Switching Verification', () {
-    testWidgets('Selecting language persists to SharedPreferences and applies to Intl', (tester) async {
-      final prefs = await SharedPreferences.getInstance();
-      final dataSource = SettingsLocalDataSourceImpl(
-        db: db,
-        notificationService: _FakeNotificationService(),
-        widgetBridgeService: _FakeWidgetBridgeService(),
-        prefs: prefs,
-      );
+    testWidgets(
+      'Selecting language persists to SharedPreferences and applies to Intl',
+      (tester) async {
+        final prefs = await SharedPreferences.getInstance();
+        final dataSource = SettingsLocalDataSourceImpl(
+          db: db,
+          widgetBridgeService: _FakeWidgetBridgeService(),
+          prefs: prefs,
+        );
 
-      // Default is English if unset
-      final initialData = await dataSource.getUnitsAndLanguage();
-      expect(initialData['language'], isNotEmpty);
+        // Default is English if unset
+        final initialData = await dataSource.getUnitsAndLanguage();
+        expect(initialData['language'], isNotEmpty);
 
-      // Save Hindi
-      await dataSource.updateLanguage('hi');
-      final updatedData = await dataSource.getUnitsAndLanguage();
-      expect(updatedData['language'], equals('hi'));
-      expect(prefs.getString('selected_language_code'), equals('hi'));
+        // Save Hindi
+        await dataSource.updateLanguage('hi');
+        final updatedData = await dataSource.getUnitsAndLanguage();
+        expect(updatedData['language'], equals('hi'));
+        expect(prefs.getString('selected_language_code'), equals('hi'));
 
-      // Save Arabic
-      await dataSource.updateLanguage('ar');
-      final arData = await dataSource.getUnitsAndLanguage();
-      expect(arData['language'], equals('ar'));
-      expect(prefs.getString('selected_language_code'), equals('ar'));
-    });
+        // Save Arabic
+        await dataSource.updateLanguage('ar');
+        final arData = await dataSource.getUnitsAndLanguage();
+        expect(arData['language'], equals('ar'));
+        expect(prefs.getString('selected_language_code'), equals('ar'));
+      },
+    );
   });
 }

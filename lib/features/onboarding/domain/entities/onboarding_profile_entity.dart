@@ -9,6 +9,7 @@ class OnboardingProfileEntity extends Equatable {
     this.heightCm = 165.0,
     this.weightKg = 65.0,
     this.targetWeightKg = 60.0,
+    this.stepTarget = 8000,
     this.isMetric = true,
     this.goal = HealthGoal.maintain,
     this.activityLevel = ActivityLevel.light,
@@ -23,6 +24,7 @@ class OnboardingProfileEntity extends Equatable {
   final double heightCm;
   final double weightKg;
   final double targetWeightKg;
+  final int stepTarget;
   final bool isMetric;
   final HealthGoal goal;
   final ActivityLevel activityLevel;
@@ -39,6 +41,7 @@ class OnboardingProfileEntity extends Equatable {
         gender: gender,
         activityLevel: activityLevel,
         goal: goal,
+        stepTarget: stepTarget,
       );
 
   OnboardingProfileEntity copyWith({
@@ -48,6 +51,7 @@ class OnboardingProfileEntity extends Equatable {
     double? heightCm,
     double? weightKg,
     double? targetWeightKg,
+    int? stepTarget,
     bool? isMetric,
     HealthGoal? goal,
     ActivityLevel? activityLevel,
@@ -62,6 +66,7 @@ class OnboardingProfileEntity extends Equatable {
       heightCm: heightCm ?? this.heightCm,
       weightKg: weightKg ?? this.weightKg,
       targetWeightKg: targetWeightKg ?? this.targetWeightKg,
+      stepTarget: stepTarget ?? this.stepTarget,
       isMetric: isMetric ?? this.isMetric,
       goal: goal ?? this.goal,
       activityLevel: activityLevel ?? this.activityLevel,
@@ -79,6 +84,7 @@ class OnboardingProfileEntity extends Equatable {
         heightCm,
         weightKg,
         targetWeightKg,
+        stepTarget,
         isMetric,
         goal,
         activityLevel,

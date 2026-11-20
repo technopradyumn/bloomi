@@ -1,10 +1,6 @@
 import 'dart:math' as math;
 
-enum Gender {
-  male,
-  female,
-  other,
-}
+enum Gender { male, female, other }
 
 enum ActivityLevel {
   sedentary(1.2, 'Sedentary (desk job, little exercise)'),
@@ -155,7 +151,10 @@ abstract final class HealthCalculators {
     final fatGrams = fatCalories / 9.0;
 
     // 3. Carbohydrates (remainder of calories)
-    final carbsCalories = math.max(0.0, targetCalories - proteinCalories - fatCalories);
+    final carbsCalories = math.max(
+      0.0,
+      targetCalories - proteinCalories - fatCalories,
+    );
     final carbsGrams = carbsCalories / 4.0;
 
     // 4. Dietary Fibre (14g per 1000 kcal)
@@ -197,6 +196,7 @@ abstract final class HealthCalculators {
     required Gender gender,
     required ActivityLevel activityLevel,
     required HealthGoal goal,
+    int stepTarget = 10000,
   }) {
     final bmr = calculateBMR(
       weightKg: weightKg,
@@ -223,7 +223,7 @@ abstract final class HealthCalculators {
       tdee: tdee,
       macros: macros,
       waterMl: waterMl,
-      steps: 10000,
+      steps: stepTarget,
       sleepHours: 8.0,
       bmi: bmi,
     );
@@ -276,6 +276,8 @@ abstract final class HealthCalculators {
     }
   }
 
+  static String formatCalories(double calories) => calories.round().toString();
+
   /// Returns unit ('m' or 'km') and numeric value string for distance
   static ({String value, String unit}) getDistanceComponents(double meters) {
     if (meters < 1000.0) {
@@ -286,4 +288,3 @@ abstract final class HealthCalculators {
     }
   }
 }
-

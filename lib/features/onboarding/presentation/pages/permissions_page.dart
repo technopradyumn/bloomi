@@ -36,12 +36,12 @@ class _PermissionsPageState extends State<PermissionsPage>
   bool _cameraAllowed = false;
   bool _locationAllowed = false;
   bool _microphoneAllowed = false;
-  bool _notificationsAllowed = false;
   bool _activityRecognitionAllowed = false;
   bool _isRequestingHealth = false;
   bool _isRequestingAll = false;
   HealthConnectAvailability _healthAvailability =
       HealthConnectAvailability.available;
+  static const int _visiblePermissionCount = 5;
 
   int get _grantedCount {
     int count = 0;
@@ -49,7 +49,6 @@ class _PermissionsPageState extends State<PermissionsPage>
     if (_cameraAllowed) count++;
     if (_locationAllowed) count++;
     if (_microphoneAllowed) count++;
-    if (_notificationsAllowed) count++;
     if (_activityRecognitionAllowed) count++;
     return count;
   }
@@ -80,7 +79,6 @@ class _PermissionsPageState extends State<PermissionsPage>
     bool isCamGranted = _cameraAllowed;
     bool isLocGranted = _locationAllowed;
     bool isMicGranted = _microphoneAllowed;
-    bool isNotifGranted = _notificationsAllowed;
     bool isActGranted = _activityRecognitionAllowed;
 
     try {
@@ -107,11 +105,6 @@ class _PermissionsPageState extends State<PermissionsPage>
     } catch (_) {}
 
     try {
-      final notifStatus = await Permission.notification.status;
-      isNotifGranted = notifStatus.isGranted;
-    } catch (_) {}
-
-    try {
       final actStatus = await Permission.activityRecognition.status;
       isActGranted = actStatus.isGranted;
     } catch (_) {}
@@ -123,7 +116,6 @@ class _PermissionsPageState extends State<PermissionsPage>
         _cameraAllowed = isCamGranted;
         _locationAllowed = isLocGranted;
         _microphoneAllowed = isMicGranted;
-        _notificationsAllowed = isNotifGranted;
         _activityRecognitionAllowed = isActGranted;
       });
 
@@ -153,10 +145,12 @@ class _PermissionsPageState extends State<PermissionsPage>
   }
 
   void _handleContinue() async {
-    if (!_healthConnectAllowed && _healthAvailability != HealthConnectAvailability.unsupportedPlatform) {
+    if (!_healthConnectAllowed &&
+        _healthAvailability != HealthConnectAvailability.unsupportedPlatform) {
       BloomiToast.show(
         context,
-        message: 'Google Health Connect permission is mandatory to continue onboarding.',
+        message:
+            'Google Health Connect permission is mandatory to continue onboarding.',
         icon: CupertinoIcons.lock_fill,
       );
       await _toggleHealthConnect(true);
@@ -178,15 +172,16 @@ class _PermissionsPageState extends State<PermissionsPage>
     if (!val) {
       BloomiToast.show(
         context,
-        message: 'Google Health Connect is mandatory to track real health data and sync widgets.',
+        message:
+            'Google Health Connect is mandatory to track real health data and sync widgets.',
         icon: CupertinoIcons.lock_fill,
       );
       return;
     }
     setState(() => _isRequestingHealth = true);
     try {
-      final availability =
-          await sl<HealthService>().checkHealthConnectAvailability();
+      final availability = await sl<HealthService>()
+          .checkHealthConnectAvailability();
       _healthAvailability = availability;
 
       if (availability == HealthConnectAvailability.unsupportedPlatform) {
@@ -262,7 +257,10 @@ class _PermissionsPageState extends State<PermissionsPage>
     if (mounted) {
       setState(() => _microphoneAllowed = status.isGranted);
       if (status.isGranted) {
-        BloomiToast.show(context, message: 'Microphone enabled for voice meal logging! 🎙️');
+        BloomiToast.show(
+          context,
+          message: 'Microphone enabled for voice meal logging! 🎙️',
+        );
       } else if (status.isPermanentlyDenied) {
         await BloomiDialog.show<void>(
           context,
@@ -286,9 +284,6 @@ class _PermissionsPageState extends State<PermissionsPage>
         await sl<HealthService>().requestPermissions();
       } catch (_) {}
       try {
-        await Permission.sensors.request();
-      } catch (_) {}
-      try {
         await Permission.camera.request();
       } catch (_) {}
       try {
@@ -296,9 +291,6 @@ class _PermissionsPageState extends State<PermissionsPage>
       } catch (_) {}
       try {
         await Permission.microphone.request();
-      } catch (_) {}
-      try {
-        await Permission.notification.request();
       } catch (_) {}
       try {
         await Permission.activityRecognition.request();
@@ -322,7 +314,10 @@ class _PermissionsPageState extends State<PermissionsPage>
     if (mounted) {
       setState(() => _activityRecognitionAllowed = status.isGranted);
       if (status.isGranted) {
-        BloomiToast.show(context, message: 'Motion sensor step counting enabled! 🚶');
+        BloomiToast.show(
+          context,
+          message: 'Motion sensor step counting enabled! 🚶',
+        );
       } else if (status.isPermanentlyDenied) {
         await BloomiDialog.show<void>(
           context,
@@ -348,7 +343,10 @@ class _PermissionsPageState extends State<PermissionsPage>
     if (mounted) {
       setState(() => _locationAllowed = status.isGranted);
       if (status.isGranted) {
-        BloomiToast.show(context, message: 'Live surroundings & location enabled! 🌤️');
+        BloomiToast.show(
+          context,
+          message: 'Live surroundings & location enabled! 🌤️',
+        );
       } else if (status.isPermanentlyDenied) {
         await BloomiDialog.show<void>(
           context,
@@ -359,32 +357,6 @@ class _PermissionsPageState extends State<PermissionsPage>
           cancelLabel: 'Cancel',
           onConfirm: () async {
             await AppSettingsHelper.openLocationSettings();
-          },
-        );
-      }
-    }
-  }
-
-  Future<void> _toggleNotifications(bool val) async {
-    if (!val) {
-      setState(() => _notificationsAllowed = false);
-      return;
-    }
-    final status = await Permission.notification.request();
-    if (mounted) {
-      setState(() => _notificationsAllowed = status.isGranted);
-      if (status.isGranted) {
-        BloomiToast.show(context, message: 'Gentle reminders enabled! 🔔');
-      } else if (status.isPermanentlyDenied) {
-        await BloomiDialog.show<void>(
-          context,
-          title: 'Notification Settings',
-          content:
-              'Notifications are disabled. Would you like to open system notification settings to enable gentle reminders?',
-          confirmLabel: 'Open Notification Settings',
-          cancelLabel: 'Cancel',
-          onConfirm: () async {
-            await AppSettingsHelper.openNotificationSettings();
           },
         );
       }
@@ -520,15 +492,23 @@ class _PermissionsPageState extends State<PermissionsPage>
                           Container(
                             padding: const EdgeInsets.all(AppSpacing.md),
                             decoration: BoxDecoration(
-                              color: AppColors.mint.withAlpha(context.isDarkMode ? 60 : 40),
-                              borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
-                              border: Border.all(color: AppColors.mint.withAlpha(100)),
+                              color: AppColors.mint.withAlpha(
+                                context.isDarkMode ? 60 : 40,
+                              ),
+                              borderRadius: BorderRadius.circular(
+                                AppSpacing.cardRadius,
+                              ),
+                              border: Border.all(
+                                color: AppColors.mint.withAlpha(100),
+                              ),
                             ),
                             child: Row(
                               children: [
                                 Icon(
                                   CupertinoIcons.shield_fill,
-                                  color: context.isDarkMode ? const Color(0xFF14B8A6) : const Color(0xFF0F766E),
+                                  color: context.isDarkMode
+                                      ? const Color(0xFF14B8A6)
+                                      : const Color(0xFF0F766E),
                                   size: 22,
                                 ),
                                 const SizedBox(width: 10),
@@ -539,7 +519,9 @@ class _PermissionsPageState extends State<PermissionsPage>
                                       fontFamily: 'Nunito',
                                       fontSize: 12,
                                       fontWeight: FontWeight.w600,
-                                      color: context.isDarkMode ? const Color(0xFF99F6E4) : const Color(0xFF134E4A),
+                                      color: context.isDarkMode
+                                          ? const Color(0xFF99F6E4)
+                                          : const Color(0xFF134E4A),
                                       height: 1.35,
                                     ),
                                   ),
@@ -552,10 +534,15 @@ class _PermissionsPageState extends State<PermissionsPage>
 
                         // Status & Quick Action Row
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 14,
+                            vertical: 12,
+                          ),
                           decoration: BoxDecoration(
                             color: context.appSurface,
-                            borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
+                            borderRadius: BorderRadius.circular(
+                              AppSpacing.cardRadius,
+                            ),
                             boxShadow: context.appCardShadow,
                           ),
                           child: Row(
@@ -565,7 +552,7 @@ class _PermissionsPageState extends State<PermissionsPage>
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      '$_grantedCount of 7 Allowed',
+                                      '$_grantedCount of $_visiblePermissionCount Allowed',
                                       style: TextStyle(
                                         fontFamily: 'Baloo 2',
                                         fontWeight: FontWeight.w700,
@@ -590,11 +577,20 @@ class _PermissionsPageState extends State<PermissionsPage>
                                     ? SizedBox(
                                         width: 14,
                                         height: 14,
-                                        child: CircularProgressIndicator(strokeWidth: 2, color: context.appInk),
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          color: context.appInk,
+                                        ),
                                       )
-                                    : Icon(CupertinoIcons.checkmark_seal_fill, size: 16, color: context.appInk),
+                                    : Icon(
+                                        CupertinoIcons.checkmark_seal_fill,
+                                        size: 16,
+                                        color: context.appInk,
+                                      ),
                                 label: Text(
-                                  _grantedCount == 7 ? 'All Set' : 'Allow All',
+                                  _grantedCount == _visiblePermissionCount
+                                      ? 'All Set'
+                                      : 'Allow All',
                                   style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w700,
@@ -604,10 +600,19 @@ class _PermissionsPageState extends State<PermissionsPage>
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: AppColors.mint,
                                   elevation: 0,
-                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 12,
+                                    vertical: 8,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(14),
+                                  ),
                                 ),
-                                onPressed: _grantedCount == 7 || _isRequestingAll ? null : _grantAllPermissions,
+                                onPressed:
+                                    _grantedCount == _visiblePermissionCount ||
+                                        _isRequestingAll
+                                    ? null
+                                    : _grantAllPermissions,
                               ),
                             ],
                           ),
@@ -619,16 +624,18 @@ class _PermissionsPageState extends State<PermissionsPage>
                           icon: CupertinoIcons.shield_fill,
                           color: AppColors.mint,
                           title: 'Google Health Connect (Mandatory)',
-                          subtitle: _healthAvailability ==
+                          subtitle:
+                              _healthAvailability ==
                                   HealthConnectAvailability.unsupportedPlatform
                               ? 'Unsupported on this device version. Bloomi automatically tracks your steps using the built-in motion sensor below.'
                               : 'Mandatory requirement: Syncs real steps, heart rate, sleep stages, and active workouts seamlessly with the app and mobile home screen widgets.',
                           statusBadge: _healthConnectAllowed
                               ? 'Connected'
                               : (_healthAvailability ==
-                                      HealthConnectAvailability.unsupportedPlatform
-                                  ? 'Unsupported'
-                                  : 'Mandatory'),
+                                        HealthConnectAvailability
+                                            .unsupportedPlatform
+                                    ? 'Unsupported'
+                                    : 'Mandatory'),
                           isAllowed: _healthConnectAllowed,
                           isLoading: _isRequestingHealth,
                           onChanged: _toggleHealthConnect,
@@ -642,7 +649,9 @@ class _PermissionsPageState extends State<PermissionsPage>
                           title: 'Camera & Food Scanner',
                           subtitle:
                               'Take photos of your meals for instant AI nutrient analysis and scan grocery barcodes.',
-                          statusBadge: _cameraAllowed ? 'Allowed' : 'Not Allowed',
+                          statusBadge: _cameraAllowed
+                              ? 'Allowed'
+                              : 'Not Allowed',
                           isAllowed: _cameraAllowed,
                           onChanged: _toggleCamera,
                         ),
@@ -655,8 +664,9 @@ class _PermissionsPageState extends State<PermissionsPage>
                           title: 'Live Location & Weather',
                           subtitle:
                               'Required to display real-time air quality (AQI), weather, and seasonal hydration guidance for your village or city.',
-                          statusBadge:
-                              _locationAllowed ? 'Granted' : 'Not Granted',
+                          statusBadge: _locationAllowed
+                              ? 'Granted'
+                              : 'Not Granted',
                           isAllowed: _locationAllowed,
                           onChanged: _toggleLocation,
                         ),
@@ -669,27 +679,15 @@ class _PermissionsPageState extends State<PermissionsPage>
                           title: 'Microphone & Voice Input',
                           subtitle:
                               'Speak naturally to log food items, meals, water, and notes with fast hands-free voice input.',
-                          statusBadge: _microphoneAllowed ? 'Allowed' : 'Not Allowed',
+                          statusBadge: _microphoneAllowed
+                              ? 'Allowed'
+                              : 'Not Allowed',
                           isAllowed: _microphoneAllowed,
                           onChanged: _toggleMicrophone,
                         ),
                         const SizedBox(height: AppSpacing.md),
 
-                        // 5. Notifications Card
-                        _buildPermissionCard(
-                          icon: CupertinoIcons.bell_fill,
-                          color: AppColors.peach,
-                          title: 'Gentle Reminders',
-                          subtitle:
-                              'Timely, kind nudges for meals, hydration, and wind-down time without annoying alerts.',
-                          statusBadge:
-                              _notificationsAllowed ? 'Enabled' : 'Disabled',
-                          isAllowed: _notificationsAllowed,
-                          onChanged: _toggleNotifications,
-                        ),
-                        const SizedBox(height: AppSpacing.md),
-
-                        // 6. Physical Activity & Hardware Step Counter
+                        // 5. Physical Activity & Hardware Step Counter
                         _buildPermissionCard(
                           icon: CupertinoIcons.compass,
                           color: AppColors.mint,
@@ -757,7 +755,9 @@ class _PermissionsPageState extends State<PermissionsPage>
       padding: const EdgeInsets.all(AppSpacing.md),
       decoration: BoxDecoration(
         color: context.appSurface,
-        borderRadius: const BorderRadius.all(Radius.circular(AppSpacing.cardRadius)),
+        borderRadius: const BorderRadius.all(
+          Radius.circular(AppSpacing.cardRadius),
+        ),
         boxShadow: context.appCardShadow,
       ),
       child: Column(
@@ -768,10 +768,7 @@ class _PermissionsPageState extends State<PermissionsPage>
             children: [
               Container(
                 padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: color,
-                  shape: BoxShape.circle,
-                ),
+                decoration: BoxDecoration(color: color, shape: BoxShape.circle),
                 child: Icon(icon, color: context.appInk, size: 22),
               ),
               const SizedBox(width: AppSpacing.md),
@@ -799,13 +796,21 @@ class _PermissionsPageState extends State<PermissionsPage>
                           ),
                           decoration: BoxDecoration(
                             color: isAllowed
-                                ? (context.isDarkMode ? const Color(0xFF064E3B) : const Color(0xFFDCFCE7))
-                                : (context.isDarkMode ? const Color(0xFF334155) : const Color(0xFFF3F4F6)),
+                                ? (context.isDarkMode
+                                      ? const Color(0xFF064E3B)
+                                      : const Color(0xFFDCFCE7))
+                                : (context.isDarkMode
+                                      ? const Color(0xFF334155)
+                                      : const Color(0xFFF3F4F6)),
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(
                               color: isAllowed
-                                  ? (context.isDarkMode ? const Color(0xFF059669) : const Color(0xFF86EFAC))
-                                  : (context.isDarkMode ? const Color(0xFF475569) : const Color(0xFFE5E7EB)),
+                                  ? (context.isDarkMode
+                                        ? const Color(0xFF059669)
+                                        : const Color(0xFF86EFAC))
+                                  : (context.isDarkMode
+                                        ? const Color(0xFF475569)
+                                        : const Color(0xFFE5E7EB)),
                             ),
                           ),
                           child: Text(
@@ -814,7 +819,9 @@ class _PermissionsPageState extends State<PermissionsPage>
                               fontSize: 11,
                               fontWeight: FontWeight.w700,
                               color: isAllowed
-                                  ? (context.isDarkMode ? const Color(0xFF6EE7B7) : const Color(0xFF166534))
+                                  ? (context.isDarkMode
+                                        ? const Color(0xFF6EE7B7)
+                                        : const Color(0xFF166534))
                                   : context.appSlate,
                             ),
                           ),

@@ -38,7 +38,10 @@ class SettingsPage extends StatelessWidget {
         padding: const EdgeInsets.all(AppSpacing.md),
         children: [
           // 1. Preferences & App Appearance
-          _buildSectionHeader(context.tr('preferences_habits'), secondaryTextColor),
+          _buildSectionHeader(
+            context.tr('preferences_habits'),
+            secondaryTextColor,
+          ),
           _buildSettingsTile(
             context: context,
             icon: CupertinoIcons.paintbrush_fill,
@@ -54,14 +57,6 @@ class SettingsPage extends StatelessWidget {
             subtitle: context.tr('permissions_sub'),
             color: AppColors.mint,
             onTap: () => context.push('/settings/permissions'),
-          ),
-          _buildSettingsTile(
-            context: context,
-            icon: CupertinoIcons.alarm,
-            title: context.tr('reminders_notifications'),
-            subtitle: context.tr('reminders_sub'),
-            color: AppColors.lilac,
-            onTap: () => context.push('/settings/reminders'),
           ),
           _buildSettingsTile(
             context: context,
@@ -128,7 +123,10 @@ class SettingsPage extends StatelessWidget {
           const SizedBox(height: AppSpacing.md),
 
           // 3. Connected Devices & Ecosystem
-          _buildSectionHeader(context.tr('connected_devices'), secondaryTextColor),
+          _buildSectionHeader(
+            context.tr('connected_devices'),
+            secondaryTextColor,
+          ),
           _buildSettingsTile(
             context: context,
             icon: CupertinoIcons.device_desktop,
@@ -242,7 +240,11 @@ class SettingsPage extends StatelessWidget {
         ),
         subtitle: Text(
           subtitle,
-          style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: secondaryTextColor),
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+            color: secondaryTextColor,
+          ),
         ),
         trailing: Icon(CupertinoIcons.chevron_right, color: secondaryTextColor),
         onTap: onTap,

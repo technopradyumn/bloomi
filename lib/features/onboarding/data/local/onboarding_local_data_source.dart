@@ -176,6 +176,8 @@ class OnboardingLocalDataSourceImpl implements OnboardingLocalDataSource {
 
     final currentWeight = weightEntry?.value ?? 65.0;
     final targetWeight = target?.targetWeightKg ?? 60.0;
+    final storedStepTarget = target?.steps;
+    final stepTarget = storedStepTarget != null && storedStepTarget > 0 ? storedStepTarget : 8000;
 
     // 5. Restore Goal and Activity Level
     HealthGoal resolvedGoal = HealthGoal.loseStandard;
@@ -215,6 +217,7 @@ class OnboardingLocalDataSourceImpl implements OnboardingLocalDataSource {
       heightCm: userProfile?.heightCm ?? 165.0,
       weightKg: currentWeight,
       targetWeightKg: targetWeight,
+      stepTarget: stepTarget,
       isMetric: userProfile == null || userProfile.units == 'metric',
       goal: resolvedGoal,
       activityLevel: resolvedActivity,
