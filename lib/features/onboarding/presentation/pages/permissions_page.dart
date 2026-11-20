@@ -427,6 +427,7 @@ class _PermissionsPageState extends State<PermissionsPage>
       },
       child: Scaffold(
         backgroundColor: context.appBackground,
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,

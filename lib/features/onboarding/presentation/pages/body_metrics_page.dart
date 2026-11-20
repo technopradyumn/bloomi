@@ -198,6 +198,7 @@ class _BodyMetricsPageState extends State<BodyMetricsPage> {
           },
           child: Scaffold(
             backgroundColor: context.appBackground,
+            resizeToAvoidBottomInset: false,
             appBar: AppBar(
               backgroundColor: Colors.transparent,
               elevation: 0,
@@ -249,6 +250,7 @@ class _BodyMetricsPageState extends State<BodyMetricsPage> {
                   Expanded(
                     child: SingleChildScrollView(
                       physics: const BouncingScrollPhysics(),
+                      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                       padding: const EdgeInsets.symmetric(
                         horizontal: AppSpacing.screenSide,
                         vertical: AppSpacing.xs,

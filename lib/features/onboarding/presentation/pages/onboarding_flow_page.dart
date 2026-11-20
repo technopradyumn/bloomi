@@ -120,7 +120,11 @@ class _OnboardingFlowPageState extends State<OnboardingFlowPage> {
         },
         child: Scaffold(
           backgroundColor: context.appBackground,
-          body: Column(
+          resizeToAvoidBottomInset: false,
+          body: GestureDetector(
+            onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+            behavior: HitTestBehavior.translucent,
+            child: Column(
             children: [
               if (_currentIndex > 0 && _currentIndex < _maxPageCount - 1)
                 SafeArea(
@@ -216,6 +220,7 @@ class _OnboardingFlowPageState extends State<OnboardingFlowPage> {
               ),
             ),
             ]
+          ),
           ),
         ),
       ),

@@ -421,6 +421,7 @@ class _OnboardingLanguagePageState extends State<OnboardingLanguagePage> {
           },
           child: Scaffold(
             backgroundColor: context.appBackground,
+            resizeToAvoidBottomInset: false,
             appBar: widget.isBottomSheet
                 ? null
                 : AppBar(

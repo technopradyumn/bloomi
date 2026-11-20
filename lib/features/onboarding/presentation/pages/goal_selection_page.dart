@@ -143,6 +143,7 @@ class _GoalSelectionPageState extends State<GoalSelectionPage> {
           },
           child: Scaffold(
             backgroundColor: context.appBackground,
+            resizeToAvoidBottomInset: false,
             appBar: AppBar(
               backgroundColor: Colors.transparent,
               elevation: 0,

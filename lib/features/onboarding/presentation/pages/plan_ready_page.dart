@@ -117,6 +117,7 @@ class _PlanReadyPageState extends State<PlanReadyPage> {
           },
           child: Scaffold(
             backgroundColor: context.appBackground,
+            resizeToAvoidBottomInset: false,
             appBar: AppBar(
               backgroundColor: Colors.transparent,
               elevation: 0,
@@ -130,6 +131,7 @@ class _PlanReadyPageState extends State<PlanReadyPage> {
                 children: [
                   Expanded(
                     child: SingleChildScrollView(
+                      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                       padding: const EdgeInsets.symmetric(
                         horizontal: AppSpacing.screenSide,
                         vertical: AppSpacing.md,

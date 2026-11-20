@@ -174,6 +174,7 @@ class _AboutYouPageState extends State<AboutYouPage> {
           },
           child: Scaffold(
             backgroundColor: context.appBackground,
+            resizeToAvoidBottomInset: false,
             appBar: AppBar(
               backgroundColor: Colors.transparent,
               elevation: 0,
@@ -202,6 +203,7 @@ class _AboutYouPageState extends State<AboutYouPage> {
                   Expanded(
                     child: SingleChildScrollView(
                       physics: const BouncingScrollPhysics(),
+                      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                       padding: const EdgeInsets.symmetric(
                         horizontal: AppSpacing.screenSide,
                         vertical: AppSpacing.xs,
@@ -267,6 +269,8 @@ class _AboutYouPageState extends State<AboutYouPage> {
                             TextField(
                               controller: _nameController,
                               textCapitalization: TextCapitalization.words,
+                              textInputAction: TextInputAction.done,
+                              onSubmitted: (_) => FocusManager.instance.primaryFocus?.unfocus(),
                               style: TextStyle(
                                 fontFamily: 'Nunito',
                                 fontWeight: FontWeight.w600,
